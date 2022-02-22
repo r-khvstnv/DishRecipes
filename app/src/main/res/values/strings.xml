@@ -3,4 +3,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="st_new">New</string>
+    <string name="st_all_dishes">All Dishes</string>
+    <string name="st_favorite">Favorite</string>
+    <string name="st_random_dish">Random Dish</string>
 </resources>

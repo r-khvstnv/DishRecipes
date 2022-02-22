@@ -1,10 +1,10 @@
-package com.rkhvstnv.dishrecipes.ui.dashboard
+package com.rkhvstnv.dishrecipes.ui.fragments.favorite
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class FavoriteViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is dashboard Fragment"

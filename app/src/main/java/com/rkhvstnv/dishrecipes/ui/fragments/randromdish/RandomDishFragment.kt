@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.ui.home
+package com.rkhvstnv.dishrecipes.ui.fragments.randromdish
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.rkhvstnv.dishrecipes.databinding.FragmentHomeBinding
+import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
 
-class HomeFragment : Fragment() {
+class RandomDishFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentRandomDishBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        val notificationsViewModel =
+            ViewModelProvider(this).get(RandomDishViewModel::class.java)
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentRandomDishBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textNotifications
+        notificationsViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root
