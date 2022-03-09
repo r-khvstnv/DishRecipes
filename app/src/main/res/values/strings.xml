@@ -7,4 +7,15 @@
     <string name="st_all_dishes">All Dishes</string>
     <string name="st_favorite">Favorite</string>
     <string name="st_random_dish">Random Dish</string>
+    <string name="st_permission_error">Permission is Not Granted</string>
+    <string name="st_settings">Settings</string>
+
+    <!--AddUpdateDish-->
+    <string name="st_label">Label</string>
+    <string name="st_type">Type</string>
+    <string name="st_category">Category</string>
+    <string name="st_ingredients">Ingredients</string>
+    <string name="st_cooking_time">Cooking Time (In Minutes)</string>
+    <string name="st_steps">Steps</string>
+    <string name="st_add_dish">Add Dish</string>
 </resources>

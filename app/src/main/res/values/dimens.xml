@@ -2,4 +2,12 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+
+    <!--AddUpdateDish-->
+    <dimen name="dim_image_frame_height">200dp</dimen>
+    <dimen name="dim_camera_icon_on_frame_margin">20dp</dimen>
+    <dimen name="dim_til_margin">16dp</dimen>
+
+
 </resources>
