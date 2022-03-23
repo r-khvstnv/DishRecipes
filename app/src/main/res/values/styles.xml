@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AddUpdateDishTextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="android:layout_marginStart">@dimen/dim_til_margin</item>
+        <item name="android:layout_marginTop">@dimen/dim_til_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dim_til_margin</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="errorEnabled">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="AddUpdateDishTextInputLayoutDropDownMenu"
+        parent="Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:layout_marginStart">@dimen/dim_til_margin</item>
+        <item name="android:layout_marginTop">@dimen/dim_til_margin</item>
+        <item name="android:layout_marginEnd">@dimen/dim_til_margin</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="errorEnabled">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+</resources>

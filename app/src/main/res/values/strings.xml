@@ -9,6 +9,7 @@
     <string name="st_random_dish">Random Dish</string>
     <string name="st_permission_error">Permission is Not Granted</string>
     <string name="st_settings">Settings</string>
+    <string name="st_fill_field">Fill the field</string>
 
     <!--AddUpdateDish-->
     <string name="st_label">Label</string>
@@ -18,4 +19,31 @@
     <string name="st_cooking_time">Cooking Time (In Minutes)</string>
     <string name="st_steps">Steps</string>
     <string name="st_add_dish">Add Dish</string>
+    <string name="st_image_not_selected">Image Is Not Selected</string>
+    <string-array name="dish_types">
+        <item>Breakfast</item>
+        <item>Dessert</item>
+        <item>Dinner</item>
+        <item>Lunch</item>
+        <item>Snacks</item>
+        <item>Salad</item>
+        <item>Side Dish</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="dish_category">
+        <item>Bakery</item>
+        <item>BBQ</item>
+        <item>Burger</item>
+        <item>Cafe</item>
+        <item>Chicken</item>
+        <item>Desert</item>
+        <item>Drinks</item>
+        <item>Hot Dogs</item>
+        <item>Juices</item>
+        <item>Pizza</item>
+        <item>Sandwich</item>
+        <item>Tea/Coffee</item>
+        <item>Wraps</item>
+        <item>Other</item>
+    </string-array>
 </resources>
