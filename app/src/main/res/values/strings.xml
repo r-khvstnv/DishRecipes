@@ -20,6 +20,7 @@
     <string name="st_steps">Steps</string>
     <string name="st_add_dish">Add Dish</string>
     <string name="st_image_not_selected">Image Is Not Selected</string>
+    <string name="st_dish_saved">Dish Saved Successfully</string>
     <string-array name="dish_types">
         <item>Breakfast</item>
         <item>Dessert</item>

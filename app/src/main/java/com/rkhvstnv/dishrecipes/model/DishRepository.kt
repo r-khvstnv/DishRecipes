@@ -8,7 +8,7 @@ class DishRepository(private val dishDao: DishDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertDihData(dish: Dish){
+    suspend fun insertDishData(dish: Dish){
         dishDao.insertDishDetails(dish = dish)
     }
 }

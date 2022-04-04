@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
@@ -23,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -31,8 +31,13 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
+import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
+import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment
+import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,19 +45,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-//todo add label error
-class AddUpdateDishFragment : Fragment() {
+
+class AddUpdateDishFragment : BaseFragment() {
     private var _binding: FragmentAddUpdateDishBinding? = null
     private val binding get() = _binding!!
-    var path: String = "" //todo change
-    private var dishBitmap: Bitmap? = null
 
-    companion object {
-        fun newInstance() = AddUpdateDishFragment()
-        const val IMAGE_DIRECTORY = "DishImageDir"
+    private val viewModel: AddUpdateDishViewModel by viewModels {
+        AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
     }
-
-    private lateinit var viewModel: AddUpdateDishViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,22 +71,11 @@ class AddUpdateDishFragment : Fragment() {
             checkStoragePermission()
         }
         binding.btnAddDish.setOnClickListener {
-            /*if (dishBitmap != null){
-                lifecycleScope.launch(Dispatchers.IO){
-                    saveImageToInternalStorage(dishBitmap!!)
-                    Log.i("Glide", path) //todo log
-                }
-            }*/
-            validateUserInput()
+            addDish()
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[AddUpdateDishViewModel::class.java]
-        // TODO: Use the ViewModel
-    }
-
+    //prepare adapters for dropdown menus
     private fun prepareUI(){
         val dishTypes = resources.getStringArray(R.array.dish_types)
         val dtAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, dishTypes)
@@ -97,26 +86,24 @@ class AddUpdateDishFragment : Fragment() {
         binding.etCategory.setAdapter(dcAdapter)
     }
 
+
     private val requestStoragePermissionLauncher =
         registerForActivityResult(RequestPermission()
         ){ isGranted: Boolean ->
         if (isGranted){
-            pickImageFromGallery()
+            galleryLauncher()
         } else{
             showSnackBarPermissionError()
         }
 
     }
-
-
-
     private fun checkStoragePermission(){
         when{
             ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             ) == PackageManager.PERMISSION_GRANTED -> {
-                pickImageFromGallery()
+                galleryLauncher()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 showSnackBarPermissionError()
@@ -127,22 +114,12 @@ class AddUpdateDishFragment : Fragment() {
         }
     }
 
-    private fun showSnackBarPermissionError(){
-        val sb = Snackbar.make(
-            activity?.findViewById(android.R.id.content)!!,
-            resources.getString(R.string.st_permission_error),
-            Snackbar.LENGTH_LONG
-        )
-        sb.setAction(resources.getString(R.string.st_settings)){
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", activity?.packageName, null)
-            intent.data = uri
-            startActivity(intent)
-        }
-        sb.show()
+
+
+    private fun galleryLauncher(){
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        galleryResultLauncher.launch(intent)
     }
-
-
     private val galleryResultLauncher =
         registerForActivityResult(StartActivityForResult()
         ){ it ->
@@ -169,8 +146,9 @@ class AddUpdateDishFragment : Fragment() {
                                 dataSource: DataSource?,
                                 isFirstResource: Boolean
                             ): Boolean {
+                                //save bitmap in variable
                                 resource?.let {
-                                    dishBitmap = resource.toBitmap()
+                                    viewModel.dishBitmap = resource.toBitmap()
                                 }
                                 return false
                             }
@@ -182,16 +160,11 @@ class AddUpdateDishFragment : Fragment() {
 
     }
 
-    private fun pickImageFromGallery(){
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryResultLauncher.launch(intent)
-    }
 
-    //todo implement image saving
-    private suspend fun saveImageToInternalStorage(bitmap: Bitmap){
+    private fun saveImageToInternalStorage(bitmap: Bitmap){
         val wrapper = ContextWrapper(context?.applicationContext)
 
-        var file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
+        var file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)
         file = File(file, "${UUID.randomUUID()}.jpg")
         runCatching {
             val stream = FileOutputStream(file)
@@ -201,18 +174,47 @@ class AddUpdateDishFragment : Fragment() {
         }.onFailure {
             it.printStackTrace()
         }
-        path = file.absolutePath
-    }
-
-    //todo for test deleting
-    private fun delDir(){
-        val wrapper = ContextWrapper(context?.applicationContext)
-        val file = wrapper.getDir(IMAGE_DIRECTORY, Context.MODE_PRIVATE)
-        file.deleteRecursively()
+        viewModel.imagePath = file.absolutePath
     }
 
 
-    private fun validateUserInput(): Boolean{
+    private fun addDish(){
+        if (isUserInputIsValid()){
+            //show progress bar
+            binding.pbIndicator.visibility = View.VISIBLE
+            //save image in package internal storage
+            lifecycleScope.launch(Dispatchers.IO){
+                saveImageToInternalStorage(viewModel.dishBitmap!!)
+
+                //prepare entity of dish
+                with(binding){
+                    val dish = Dish(
+                        viewModel.imagePath,
+                        Constants.IMAGE_SOURCE_INTERNAL,
+                        etLabel.text.toString(),
+                        etType.text.toString(),
+                        etCategory.text.toString(),
+                        etIngredients.text.toString(),
+                        etCookingTime.text.toString().toInt(),
+                        etSteps.toString(),
+                        false
+                    )
+
+                    //insert new dish in local database
+                    viewModel.insert(dish = dish)
+
+                    withContext(Dispatchers.Main){
+                        //hide progress bar
+                        pbIndicator.visibility = View.VISIBLE
+                        showSnackBarPositiveMessage("Saved")
+                        navigateToFragment(R.id.navigation_all_dishes)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun isUserInputIsValid(): Boolean{
         var result = false
         val errorMessage = resources.getString(R.string.st_fill_field)
         with(binding){

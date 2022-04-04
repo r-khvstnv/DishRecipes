@@ -7,6 +7,9 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Dish::class], version = 1)
 abstract class DishRoomDatabase : RoomDatabase(){
+
+    abstract fun dishDao(): DishDao
+
     companion object{
         @Volatile
         private var INSTANCE: DishRoomDatabase? = null
@@ -25,6 +28,5 @@ abstract class DishRoomDatabase : RoomDatabase(){
                 instance
             }
         }
-
     }
 }
