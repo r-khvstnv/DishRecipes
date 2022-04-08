@@ -13,7 +13,7 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 }
 
 class AllDishesViewModel(private val repository: DishRepository) : ViewModel() {
-    val allDishesList: LiveData<List<Dish>> = repository.allDishesList.asLiveData()
+    val allDishesList: LiveData<List<Dish>> = repository.allDishesList
     var isGridStyle: MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun flipStyleState(){

@@ -1,6 +1,7 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -39,6 +40,14 @@ class DishDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dishId = args.dishId
+        viewModel.getTmpDish(dishId = dishId)
+
+        viewModel.tmpDish.observe(viewLifecycleOwner){
+            dish ->
+            dish.let {
+                Log.i("Test_getTmpDish", "$it")
+            }
+        }
     }
 
     override fun onDestroyView() {

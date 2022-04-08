@@ -1,5 +1,7 @@
 package com.rkhvstnv.dishrecipes.model
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -12,5 +14,8 @@ interface DishDao {
     suspend fun insertDishDetails(dish: Dish)
 
     @Query("SELECT * FROM DISHES_TABLE ORDER BY ID")
-    fun getAllDishList(): Flow<List<Dish>>
+    fun getAllDishList(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM DISHES_TABLE WHERE ID = :dishId")
+    fun getDishById(dishId: Int): LiveData<Dish>
 }
