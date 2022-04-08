@@ -4,7 +4,7 @@ import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 
 class DishRepository(private val dishDao: DishDao) {
-    //todo val allDishes: Flow<List<Dish>> = dishDao
+    val allDishes: Flow<List<Dish>> = dishDao.getAllDishList()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread

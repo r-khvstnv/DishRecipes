@@ -6,33 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 
 class AllDishesFragment : Fragment() {
 
     private var _binding: FragmentAllDishesBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: AllDishesViewModel by viewModels {
+        AllDishViewModelFactory((activity?.application as DishApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(AllDishesViewModel::class.java)
-
         _binding = FragmentAllDishesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {
