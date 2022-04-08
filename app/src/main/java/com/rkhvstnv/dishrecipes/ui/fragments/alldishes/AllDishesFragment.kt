@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,8 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
+import com.rkhvstnv.dishrecipes.utils.ItemClickListener
+
 //todo visibility sort - linear/grid
 class AllDishesFragment : BaseFragment() {
 
@@ -41,7 +44,12 @@ class AllDishesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = AllDishAdapter(this.requireContext())
+        val adapter = AllDishAdapter(this.requireContext(), object : ItemClickListener{
+            override fun onItemClick(itemId: Int) {
+                navigateToDishDetails(itemId)
+            }
+
+        })
         binding.rvDishList.adapter = adapter
 
         viewModel.isGridStyle.observe(viewLifecycleOwner){
@@ -67,7 +75,7 @@ class AllDishesFragment : BaseFragment() {
             dishList ->
             dishList.let {
                 if (it.isNotEmpty()){
-                    adapter.updateDishesList(it)
+                    adapter.updateDishesList(it.reversed())
                 } else{
                     showSnackBarErrorMessage(getString(R.string.st_no_dishes))
                 }
@@ -91,6 +99,10 @@ class AllDishesFragment : BaseFragment() {
                 else -> false
             }
         }
+    }
+
+    private fun navigateToDishDetails(dishId: Int){
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToDishDetailsFragment(dishId))
     }
 
 

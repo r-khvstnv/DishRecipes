@@ -18,9 +18,14 @@ class AddUpdateDishViewModelFactory(private val repository: DishRepository): Vie
 class AddUpdateDishViewModel(private val repository: DishRepository) : ViewModel() {
     var dishBitmap: Bitmap? = null
     var imagePath: String = ""
+    var tmpDish: MutableLiveData<Dish>? = null
 
     fun insert(dish: Dish) = viewModelScope.launch {
         repository.insertDishData(dish = dish)
+    }
+
+    fun getTmpDish(dishId: Int){
+        //tmpDish = repository.getDishById(dishId) as MutableLiveData<Dish>
     }
 
 }

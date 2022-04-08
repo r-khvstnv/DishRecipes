@@ -22,6 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -207,6 +208,12 @@ class AddUpdateDishFragment : BaseFragment() {
                         //hide progress bar
                         pbIndicator.visibility = View.VISIBLE
                         showSnackBarPositiveMessage("Saved")
+
+                        parentFragmentManager
+                            .beginTransaction()
+                            .remove(this@AddUpdateDishFragment)
+                            .commit()
+
                         navigateToFragment(R.id.navigation_all_dishes)
                     }
                 }
