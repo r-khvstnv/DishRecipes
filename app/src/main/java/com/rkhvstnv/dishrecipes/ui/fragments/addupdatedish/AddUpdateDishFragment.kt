@@ -196,7 +196,7 @@ class AddUpdateDishFragment : BaseFragment() {
                         etCategory.text.toString(),
                         etIngredients.text.toString(),
                         etCookingTime.text.toString().toInt(),
-                        etSteps.toString(),
+                        etSteps.text.toString(),
                         false
                     )
 
