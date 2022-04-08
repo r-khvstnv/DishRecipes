@@ -1,5 +1,6 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,13 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModelFactory
-
+//todo implement favorite state changing
 /**In this fragment is used AddUpdateViewModel.
  * It conditioned to minimal logic functionality of this fragment and
  * primary continuation to AddUpdateFragment from there*/
@@ -37,6 +39,7 @@ class DishDetailsFragment : BaseFragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dishId = args.dishId
@@ -45,7 +48,26 @@ class DishDetailsFragment : BaseFragment() {
         viewModel.tmpDish.observe(viewLifecycleOwner){
             dish ->
             dish.let {
-                Log.i("Test_getTmpDish", "$it")
+                with(binding){
+                    Glide
+                        .with(this@DishDetailsFragment)
+                        .load(it.image)
+                        .into(ivImage)
+
+                    tvType.text = getString(R.string.st_type) + ": " + it.type
+                    tvCategory.text = getString(R.string.st_category) + ": " + it.category
+                    tvTime.text = it.cookingTime.toString()
+
+                    tvLabel.text = it.label
+                    tvIngredients.text = it.ingredients
+                    tvSteps.text = it.ingredients
+
+                    if (it.isFavoriteDish){
+                        fabFavorite.setImageResource(R.drawable.ic_favorite)
+                    } else{
+                        fabFavorite.setImageResource(R.drawable.ic_favorite_border_24)
+                    }
+                }
             }
         }
     }

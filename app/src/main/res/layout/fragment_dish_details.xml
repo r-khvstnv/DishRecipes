@@ -1,14 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.dishdetails.DishDetailsFragment">
+    android:orientation="vertical"
+    tools:context=".ui.fragments.dishdetails.DishDetailsFragment"
+    tools:ignore="ContentDescription">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_details_image_height"
+                android:scaleType="centerCrop"
+                android:src="@color/primaryColor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dim_details_type_margin_vertical"
+                android:layout_marginEnd="@dimen/dim_details_type_margin_horizontal"
+                tools:text="Type: Breakfast"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/dim_details_type_text_details_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_image" />
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dim_details_type_margin_vertical"
+                android:layout_marginEnd="@dimen/dim_details_type_margin_horizontal"
+                tools:text="Category: Sandwich"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/dim_details_type_text_details_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_type" />
+
+            <ImageView
+                android:id="@+id/iv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dim_details_type_margin_horizontal"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic__time_24"
+                app:layout_constraintBottom_toBottomOf="@id/tv_category"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_type" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dim_details_type_margin_vertical"
+                android:layout_marginStart="@dimen/dim_details_cooking_time_margin_start"
+                android:layout_marginEnd="@dimen/dim_details_type_margin_horizontal"
+                tools:text="00:45"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/dim_details_type_text_details_small"
+                app:layout_constraintBottom_toBottomOf="@id/iv_time"
+                app:layout_constraintStart_toEndOf="@id/iv_time"
+                app:layout_constraintTop_toTopOf="@id/iv_time" />
+
+
+            <TextView
+                android:id="@+id/tv_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_details_label_margin_general"
+                tools:text="Dish Label"
+                android:textSize="@dimen/dim_details_label_text_size"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_category" />
+
+            <TextView
+                android:id="@+id/ingredients_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_details_label_margin_general"
+                android:layout_marginTop="@dimen/dim_details_titles_margin_top"
+                android:text="@string/st_ingredients"
+                android:textSize="@dimen/dim_details_titles_text_size"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_label" />
+
+            <TextView
+                android:id="@+id/tv_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_details_body_margin_h"
+                android:layout_marginTop="@dimen/dim_details_body_margin_top"
+                android:minLines="5"
+                tools:text="Ingredients\nIngredients\nIngredients\nIngredients\nIngredients\n"
+                android:textSize="@dimen/dim_details_body_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ingredients_title" />
+
+            <TextView
+                android:id="@+id/steps_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_details_label_margin_general"
+                android:layout_marginTop="@dimen/dim_details_titles_margin_top"
+                android:text="@string/st_steps"
+                android:textSize="@dimen/dim_details_titles_text_size"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_ingredients" />
+
+            <TextView
+                android:id="@+id/tv_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/dim_details_body_margin_h"
+                android:layout_marginTop="@dimen/dim_details_body_margin_top"
+                android:layout_marginBottom="80dp"
+                android:minLines="5"
+                tools:text="Ingredients\nIngredients\nIngredients\nIngredients\nIngredients\n"
+                android:textSize="@dimen/dim_details_body_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/steps_title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_favorite_border_24"
+        app:tint="?attr/colorPrimary" />
 </FrameLayout>

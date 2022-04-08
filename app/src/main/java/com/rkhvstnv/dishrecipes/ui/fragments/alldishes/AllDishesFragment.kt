@@ -22,7 +22,7 @@ import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.ItemClickListener
 
-//todo visibility sort - linear/grid
+
 class AllDishesFragment : BaseFragment() {
 
     private var _binding: FragmentAllDishesBinding? = null
