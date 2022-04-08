@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">Dish Recipes</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="st_new">New</string>
     <string name="st_all_dishes">All Dishes</string>
     <string name="st_favorite">Favorite</string>
@@ -47,4 +44,7 @@
         <item>Wraps</item>
         <item>Other</item>
     </string-array>
+
+    <!--AllDishes-->
+    <string name="st_no_dishes">No Dishes Added Yet</string>
 </resources>

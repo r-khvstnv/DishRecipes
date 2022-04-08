@@ -1,9 +1,7 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.DishRepository
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
@@ -15,5 +13,12 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 }
 
 class AllDishesViewModel(private val repository: DishRepository) : ViewModel() {
+    val allDishesList: LiveData<List<Dish>> = repository.allDishesList.asLiveData()
+    var isGridStyle: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    fun flipStyleState(){
+        isGridStyle.value?.let {
+            isGridStyle.value = !it
+        }
+    }
 }

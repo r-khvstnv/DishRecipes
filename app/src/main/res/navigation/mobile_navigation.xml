@@ -8,25 +8,25 @@
     <fragment
         android:id="@+id/navigation_all_dishes"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment"
-        android:label="@string/title_home"
+        android:label="@string/st_all_dishes"
         tools:layout="@layout/fragment_all_dishes" />
 
     <fragment
         android:id="@+id/navigation_favorite"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteFragment"
-        android:label="@string/title_dashboard"
+        android:label="@string/st_favorite"
         tools:layout="@layout/fragment_favorite" />
 
     <fragment
         android:id="@+id/navigation_random_dish"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.randromdish.RandomDishFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/st_random_dish"
         tools:layout="@layout/fragment_random_dish" />
 
     <fragment
         android:id="@+id/navigation_add_update_dish"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishFragment"
-        android:label="@string/app_name"
+        android:label="@string/st_new"
         tools:layout="@layout/fragment_add_update_dish"
         />
 </navigation>
