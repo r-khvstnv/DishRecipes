@@ -8,10 +8,28 @@
         app:showAsAction="always"
         />
 
-    <item
+   <!-- <item
         android:id="@+id/m_filter"
         android:icon="@drawable/ic_filter_24"
         android:title="@string/st_favorite"
         app:showAsAction="ifRoom"
-        />
+        >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/m_all"
+                    android:title="@string/st_all"
+                    android:icon="@drawable/ic_view_linear_24"
+                    android:checked="true"
+                    app:iconTint="?attr/colorPrimary"
+                    />
+                <item
+                    android:id="@+id/m_favorite"
+                    android:icon="@drawable/ic_favorite"
+                    android:title="@string/st_favorite"
+                    app:iconTint="?attr/colorPrimary"
+                    />
+            </group>
+        </menu>
+    </item>-->
 </menu>

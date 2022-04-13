@@ -4,35 +4,99 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.rkhvstnv.dishrecipes.DishApplication
+import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
+import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
+import com.rkhvstnv.dishrecipes.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.utils.ItemClickListener
 
-class FavoriteFragment : Fragment() {
-
+class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: FavoriteViewModel by viewModels{
+        FavoriteViewModelFactory((activity?.application as DishApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(FavoriteViewModel::class.java)
-
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = AllDishAdapter(this.requireContext(), object : ItemClickListener {
+            override fun onItemClick(itemId: Int) {
+                navigateToDishDetails(itemId)
+            }
+
+            override fun onItemFavoriteStateClick(dish: Dish) {
+                val tmpDish = viewModel.flipDishFavouriteState(dish = dish)
+                viewModel.updateDishModel(tmpDish)
+            }
+
+        })
+        binding.rvDishList.adapter = adapter
+
+        viewModel.isGridStyle.observe(viewLifecycleOwner){
+                isGrid ->
+            isGrid.let {
+                //assign imageView from Top toolBar for recyclerView style
+                val stateImageView = binding.mToolBar.menu.findItem(R.id.m_view_style)
+                //change icon and layoutManager depending on received data
+                if (isGrid){
+                    binding.rvDishList.layoutManager =
+                        GridLayoutManager(this.requireContext(), 2)
+                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
+                } else{
+                    binding.rvDishList.layoutManager =
+                        LinearLayoutManager(
+                            this.requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false)
+                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
+                }
+            }
         }
-        return root
+
+        viewModel.allFavDishesList.observe(viewLifecycleOwner){
+                dishList ->
+            dishList.let {
+                if (it.isNotEmpty()){
+                    adapter.updateDishesList(it.reversed())
+                }
+            }
+        }
+
+        setupToolBarListener()
+    }
+
+    private fun setupToolBarListener(){
+        binding.mToolBar.setOnMenuItemClickListener{
+            if (it.itemId == R.id.m_view_style){
+                viewModel.flipStyleState()
+                return@setOnMenuItemClickListener true
+            } else{
+                return@setOnMenuItemClickListener false
+            }
+        }
+    }
+
+    private fun navigateToDishDetails(dishId: Int){
+        findNavController().navigate(
+            FavoriteFragmentDirections.actionNavigationFavoriteToNavigationDishDetails(dishId = dishId)
+        )
     }
 
     override fun onDestroyView() {

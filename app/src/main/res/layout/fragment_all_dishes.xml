@@ -19,6 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/all_dish_top_bar_menu"
+            app:navigationIconTint="@color/primaryColor"
             app:title="@string/st_all_dishes" />
     </com.google.android.material.appbar.AppBarLayout>
 

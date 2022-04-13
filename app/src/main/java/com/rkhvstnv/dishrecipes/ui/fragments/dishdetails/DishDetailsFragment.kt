@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
-import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
+import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModelFactory
 

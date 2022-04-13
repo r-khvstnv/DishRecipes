@@ -48,6 +48,7 @@
 
     <!--AllDishes-->
     <string name="st_no_dishes">No Dishes Added Yet</string>
+    <string name="st_all">All</string>
 
     <!--Dish Details-->
     <string name="st_edit">Edit</string>

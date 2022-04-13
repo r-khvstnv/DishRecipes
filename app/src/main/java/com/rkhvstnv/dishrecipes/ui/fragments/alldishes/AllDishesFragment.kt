@@ -11,7 +11,7 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
-import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
+import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.ItemClickListener
 
 
@@ -42,7 +42,8 @@ class AllDishesFragment : BaseFragment() {
             }
 
             override fun onItemFavoriteStateClick(dish: Dish) {
-                viewModel.flipAndUpdateDishFavouriteState(dish = dish)
+                val tmpDish = viewModel.flipDishFavouriteState(dish = dish)
+                viewModel.updateDishModel(tmpDish)
             }
 
         })
@@ -70,12 +71,10 @@ class AllDishesFragment : BaseFragment() {
         }
 
         viewModel.allDishesList.observe(viewLifecycleOwner){
-            dishList ->
+                dishList ->
             dishList.let {
                 if (it.isNotEmpty()){
                     adapter.updateDishesList(it.reversed())
-                } else{
-                    showSnackBarErrorMessage(getString(R.string.st_no_dishes))
                 }
             }
         }
@@ -86,16 +85,11 @@ class AllDishesFragment : BaseFragment() {
 
     private fun setupToolBarListener(){
         binding.mToolBar.setOnMenuItemClickListener{
-            when(it.itemId){
-                R.id.m_view_style ->{
-                    viewModel.flipStyleState()
-                    true
-                }
-                R.id.m_filter ->{
-                    //todo some filter
-                    true
-                }
-                else -> false
+            if (it.itemId == R.id.m_view_style){
+                viewModel.flipStyleState()
+                return@setOnMenuItemClickListener true
+            } else{
+                return@setOnMenuItemClickListener false
             }
         }
     }

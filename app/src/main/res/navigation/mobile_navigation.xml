@@ -20,7 +20,11 @@
         android:id="@+id/navigation_favorite"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_navigation_favorite_to_navigation_dish_details"
+            app:destination="@id/navigation_dish_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_random_dish"

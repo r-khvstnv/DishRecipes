@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.ui.fragments
+package com.rkhvstnv.dishrecipes.bases
 
 import android.content.Intent
 import android.net.Uri

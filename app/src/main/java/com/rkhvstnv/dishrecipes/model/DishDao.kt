@@ -22,4 +22,7 @@ interface DishDao {
 
     @Update
     fun updateDish(dish: Dish)
+
+    @Query("SELECT * FROM DISHES_TABLE WHERE isFavoriteDish = 1")
+    fun getAllFavDishesList(): LiveData<List<Dish>>
 }

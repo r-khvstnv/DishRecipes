@@ -32,7 +32,7 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
-import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
+import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

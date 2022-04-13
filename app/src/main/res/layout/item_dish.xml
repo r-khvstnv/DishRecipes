@@ -32,6 +32,7 @@
             android:layout_margin="@dimen/dim_item_label_margin"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="?attr/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_dish_image"
@@ -43,8 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dim_item_label_margin"
             android:src="@drawable/ic_favorite_border_24"
+            app:tint="?attr/colorSecondary"
             app:layout_constraintBottom_toBottomOf="@id/tv_dish_label"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_dish_label" />
+            app:layout_constraintTop_toTopOf="@id/tv_dish_label"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

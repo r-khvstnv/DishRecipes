@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class DishRepository(private val dishDao: DishDao) {
     val allDishesList: LiveData<List<Dish>> = dishDao.getAllDishList()
+    val allFavDishesList: LiveData<List<Dish>> = dishDao.getAllFavDishesList()
 
     fun getDishById(id: Int): LiveData<Dish>{
         return dishDao.getDishById(id)
