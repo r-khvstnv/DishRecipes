@@ -12,9 +12,9 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
+import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
-import com.rkhvstnv.dishrecipes.utils.ItemClickListener
+import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
 
 class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
@@ -36,7 +36,9 @@ class FavoriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = AllDishAdapter(this.requireContext(), object : ItemClickListener {
+        binding.mToolBar.menu.findItem(R.id.m_filter).isVisible = false
+
+        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener {
             override fun onItemClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }

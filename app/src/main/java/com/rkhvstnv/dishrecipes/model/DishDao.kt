@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DishDao {
     @Insert
-    suspend fun insertDishDetails(dish: Dish)
+    suspend fun insertDishDetails(mDish: Dish)
 
     @Query("SELECT * FROM DISHES_TABLE ORDER BY ID")
     fun getAllDishList(): LiveData<List<Dish>>
@@ -21,8 +21,14 @@ interface DishDao {
     fun getDishById(dishId: Int): LiveData<Dish>
 
     @Update
-    fun updateDish(dish: Dish)
+    fun updateDish(mDish: Dish)
 
     @Query("SELECT * FROM DISHES_TABLE WHERE isFavoriteDish = 1")
     fun getAllFavDishesList(): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM DISHES_TABLE WHERE type = :mType")
+    fun queryDishesListByType(mType: String): LiveData<List<Dish>>
+
+    @Query("SELECT * FROM DISHES_TABLE WHERE category = :mCategory")
+    fun queryDishesListByCategory(mCategory: String): LiveData<List<Dish>>
 }

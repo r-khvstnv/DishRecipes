@@ -5,31 +5,29 @@
         android:id="@+id/m_view_style"
         android:icon="@drawable/ic_view_linear_24"
         android:title="@string/st_all_dishes"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
 
-   <!-- <item
+    <item
         android:id="@+id/m_filter"
         android:icon="@drawable/ic_filter_24"
         android:title="@string/st_favorite"
-        app:showAsAction="ifRoom"
-        >
+        app:showAsAction="ifRoom">
         <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/m_all"
-                    android:title="@string/st_all"
-                    android:icon="@drawable/ic_view_linear_24"
-                    android:checked="true"
-                    app:iconTint="?attr/colorPrimary"
-                    />
-                <item
-                    android:id="@+id/m_favorite"
-                    android:icon="@drawable/ic_favorite"
-                    android:title="@string/st_favorite"
-                    app:iconTint="?attr/colorPrimary"
-                    />
-            </group>
+            <item
+                android:id="@+id/m_all"
+                android:checked="true"
+                android:title="@string/st_all_dishes"
+                />
+            <item
+                android:id="@+id/m_type"
+                android:checked="true"
+                android:title="@string/st_type"
+                />
+            <item
+                android:id="@+id/m_category"
+                android:title="@string/st_category"
+                />
+
         </menu>
-    </item>-->
+    </item>
 </menu>

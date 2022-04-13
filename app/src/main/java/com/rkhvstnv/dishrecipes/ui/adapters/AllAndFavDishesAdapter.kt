@@ -9,12 +9,12 @@ import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.utils.ItemClickListener
+import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
 
-class AllDishAdapter(
+class AllAndFavDishesAdapter(
     private val context: Context,
-    private val itemClickListener: ItemClickListener):
-    RecyclerView.Adapter<AllDishAdapter.ViewHolder>() {
+    private val itemClickListener: ItemDishClickListener):
+    RecyclerView.Adapter<AllAndFavDishesAdapter.ViewHolder>() {
 
     private var dishesList: List<Dish> = listOf()
 

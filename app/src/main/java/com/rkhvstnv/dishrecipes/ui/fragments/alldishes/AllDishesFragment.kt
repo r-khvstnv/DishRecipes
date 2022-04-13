@@ -1,5 +1,8 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
@@ -10,15 +13,19 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
+import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
-import com.rkhvstnv.dishrecipes.utils.ItemClickListener
+import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
+import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
+import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
+import com.rkhvstnv.dishrecipes.utils.ItemFilterClickListener
 
 
 class AllDishesFragment : BaseFragment() {
 
     private var _binding: FragmentAllDishesBinding? = null
     private val binding get() = _binding!!
+    private lateinit var allDishAdapter: AllAndFavDishesAdapter
 
     private val viewModel: AllDishesViewModel by viewModels {
         AllDishViewModelFactory((activity?.application as DishApplication).repository)
@@ -36,7 +43,7 @@ class AllDishesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = AllDishAdapter(this.requireContext(), object : ItemClickListener{
+        allDishAdapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener{
             override fun onItemClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }
@@ -47,7 +54,7 @@ class AllDishesFragment : BaseFragment() {
             }
 
         })
-        binding.rvDishList.adapter = adapter
+        binding.rvDishList.adapter = allDishAdapter
 
         viewModel.isGridStyle.observe(viewLifecycleOwner){
                 isGrid ->
@@ -70,26 +77,43 @@ class AllDishesFragment : BaseFragment() {
             }
         }
 
+        observeAllDishes()
+
+        setupToolBarListener()
+    }
+
+    private fun observeAllDishes(){
         viewModel.allDishesList.observe(viewLifecycleOwner){
                 dishList ->
             dishList.let {
                 if (it.isNotEmpty()){
-                    adapter.updateDishesList(it.reversed())
+                    allDishAdapter.updateDishesList(it.reversed())
                 }
             }
         }
-
-        setupToolBarListener()
     }
 
 
     private fun setupToolBarListener(){
         binding.mToolBar.setOnMenuItemClickListener{
-            if (it.itemId == R.id.m_view_style){
-                viewModel.flipStyleState()
-                return@setOnMenuItemClickListener true
-            } else{
-                return@setOnMenuItemClickListener false
+            when(it.itemId){
+                R.id.m_view_style ->{
+                    viewModel.flipStyleState()
+                    true
+                }
+                R.id.m_all ->{
+                    observeAllDishes()
+                    true
+                }
+                R.id.m_type ->{
+                    setupFilterDialog(getString(R.string.st_type))
+                    true
+                }
+                R.id.m_category ->{
+                    setupFilterDialog(getString(R.string.st_category))
+                    true
+                }
+                else -> false
             }
         }
     }
@@ -98,6 +122,59 @@ class AllDishesFragment : BaseFragment() {
         findNavController().navigate(
             AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(dishId)
         )
+    }
+
+    private fun setupFilterDialog(filter: String){
+        //prepare all data for rv
+        val paramsList: List<String> =
+            if (filter == getString(R.string.st_category)){
+                resources.getStringArray(R.array.dish_category).toList()
+            } else{
+            resources.getStringArray(R.array.dish_types).toList()
+            }
+
+        val dialog = Dialog(requireContext())
+        val dBinding: FilterDialogBinding = FilterDialogBinding.inflate(LayoutInflater.from(this.context))
+        dialog.setContentView(dBinding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dBinding.tvFilterType.text = filter
+
+        val adapter = FilterAdapter(
+            requireContext(),
+            filterType = filter,
+            paramsList = paramsList,
+            object : ItemFilterClickListener{
+                override fun onClick(filterType: String, params: String) {
+
+                    dialog.dismiss()
+
+                    if (filterType == getString(R.string.st_type)){
+                        viewModel.getFilteredDishesListByType(params = params).observe(viewLifecycleOwner){
+                            dishesList ->
+                            dishesList.let {
+                                allDishAdapter.updateDishesList(dishesList)
+                            }
+                        }
+                    } else{
+                        viewModel.getFilteredDishesListByCategory(params = params).observe(viewLifecycleOwner){
+                                dishesList ->
+                            dishesList.let {
+                                allDishAdapter.updateDishesList(dishesList)
+                            }
+                        }
+                    }
+                }
+            })
+
+        dBinding.rvFilter.adapter = adapter
+        dBinding.rvFilter.layoutManager =
+            LinearLayoutManager(
+                this.requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+        dialog.show()
     }
 
     override fun onDestroyView() {

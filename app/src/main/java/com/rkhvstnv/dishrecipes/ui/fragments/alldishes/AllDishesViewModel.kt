@@ -14,4 +14,7 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 
 class AllDishesViewModel(repository: DishRepository) : BaseViewModel(repository = repository) {
     val allDishesList: LiveData<List<Dish>> = repository.allDishesList
+
+    fun getFilteredDishesListByType(params: String) = repository.getDishesListByType(params)
+    fun getFilteredDishesListByCategory(params: String) = repository.getDishesListByCategory(params)
 }

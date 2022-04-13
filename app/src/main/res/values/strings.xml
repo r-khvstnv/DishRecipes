@@ -8,6 +8,26 @@
     <string name="st_settings">Settings</string>
     <string name="st_fill_field">Fill the field</string>
 
+    <!--Types and Categories-->
+    <string name="st_breakfast">Breakfast</string>
+    <string name="st_dessert">Dessert</string>
+    <string name="st_dinner">Dinner</string>
+    <string name="st_lunch">Lunch</string>
+    <string name="st_snacks">Snacks</string>
+    <string name="st_salad">Salad</string>
+    <string name="st_side_dish">Side Dish</string>
+    <string name="st_other">Other</string>
+    <string-array name="dish_types">
+        <item>@string/st_breakfast</item>
+        <item>@string/st_dessert</item>
+        <item>@string/st_dinner</item>
+        <item>@string/st_lunch</item>
+        <item>@string/st_snacks</item>
+        <item>@string/st_salad</item>
+        <item>@string/st_side_dish</item>
+        <item>@string/st_other</item>
+    </string-array>
+
     <!--AddUpdateDish-->
     <string name="st_label">Label</string>
     <string name="st_type">Type</string>
@@ -19,16 +39,7 @@
     <string name="st_image_not_selected">Image Is Not Selected</string>
     <string name="st_dish_saved">Dish Saved Successfully</string>
     <string name="st_apply_changes">Apply Changes</string>
-    <string-array name="dish_types">
-        <item>Breakfast</item>
-        <item>Dessert</item>
-        <item>Dinner</item>
-        <item>Lunch</item>
-        <item>Snacks</item>
-        <item>Salad</item>
-        <item>Side Dish</item>
-        <item>Other</item>
-    </string-array>
+
     <string-array name="dish_category">
         <item>Bakery</item>
         <item>BBQ</item>
