@@ -1,25 +1,20 @@
 package com.rkhvstnv.dishrecipes.ui.fragments
 
-import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment
-import com.rkhvstnv.dishrecipes.utils.Constants
 
 open class BaseFragment: Fragment() {
+
     fun navigateToFragment(navFragmentId: Int){
         val navHost = findNavController()
         navHost.navigate(navFragmentId)
     }
-
-
 
     fun showSnackBarPermissionError(){
         val sb = Snackbar.make(
@@ -40,8 +35,7 @@ open class BaseFragment: Fragment() {
         val sb = Snackbar.make(
             activity?.findViewById(android.R.id.content)!!,
             message,
-            Snackbar.LENGTH_LONG
-        )
+            Snackbar.LENGTH_LONG)
 
         sb.show()
     }

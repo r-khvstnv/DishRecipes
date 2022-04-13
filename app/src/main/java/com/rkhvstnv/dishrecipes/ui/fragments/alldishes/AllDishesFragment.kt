@@ -1,20 +1,11 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import android.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
@@ -51,7 +42,7 @@ class AllDishesFragment : BaseFragment() {
             }
 
             override fun onItemFavoriteStateClick(dish: Dish) {
-                viewModel.updateDishFavouriteState(dish = dish)
+                viewModel.flipAndUpdateDishFavouriteState(dish = dish)
             }
 
         })
@@ -60,7 +51,9 @@ class AllDishesFragment : BaseFragment() {
         viewModel.isGridStyle.observe(viewLifecycleOwner){
                 isGrid ->
             isGrid.let {
+                //assign imageView from Top toolBar for recyclerView style
                 val stateImageView = binding.mToolBar.menu.findItem(R.id.m_view_style)
+                //change icon and layoutManager depending on received data
                 if (isGrid){
                     binding.rvDishList.layoutManager =
                         GridLayoutManager(this.requireContext(), 2)
@@ -90,6 +83,7 @@ class AllDishesFragment : BaseFragment() {
         setupToolBarListener()
     }
 
+
     private fun setupToolBarListener(){
         binding.mToolBar.setOnMenuItemClickListener{
             when(it.itemId){
@@ -107,11 +101,10 @@ class AllDishesFragment : BaseFragment() {
     }
 
     private fun navigateToDishDetails(dishId: Int){
-        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(dishId))
+        findNavController().navigate(
+            AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(dishId)
+        )
     }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

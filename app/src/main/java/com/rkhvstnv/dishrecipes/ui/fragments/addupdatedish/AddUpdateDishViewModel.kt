@@ -1,8 +1,6 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish
 
 import android.graphics.Bitmap
-import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.DishRepository
@@ -14,30 +12,30 @@ class AddUpdateDishViewModelFactory(private val repository: DishRepository): Vie
         @Suppress("UNCHECKED_CAST")
         return AddUpdateDishViewModel(repository = repository) as T
     }
-
 }
 
 class AddUpdateDishViewModel(private val repository: DishRepository) : ViewModel() {
+    //Bitmap received after user add it from gallery
     var dishBitmap: Bitmap? = null
+    //Value assigned only after new bitmap was saved
     var imagePath: String = ""
+    //Received using dishId from DishDetailsFragment
     var tmpDish: LiveData<Dish>? = null
 
     fun insert(dish: Dish) = viewModelScope.launch {
         repository.insertDishData(dish = dish)
     }
 
-    fun getTmpDish(dishId: Int){
+    fun assignTmpDish(dishId: Int){
         tmpDish = repository.getDishById(dishId)
     }
 
-    fun updateDishFavouriteStateLocally(): Dish{
-        val dish = tmpDish?.value
-        dish?.isFavoriteDish = !dish?.isFavoriteDish!!
+    fun flipDishFavouriteState(dish: Dish): Dish{
+        dish.isFavoriteDish = !dish.isFavoriteDish
         return dish
     }
 
     fun updateDishModel(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateDishData(dish = dish)
     }
-
 }

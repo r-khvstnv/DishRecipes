@@ -18,23 +18,23 @@
             android:id="@+id/fl_select_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_image_frame_height"
+            android:background="?attr/colorSurfaceVariant"
+            android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="?attr/colorSurfaceVariant"
-            android:elevation="4dp"
             tools:ignore="PrivateResource">
+
             <TextView
                 android:id="@+id/tv_image_error"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/st_image_not_selected"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
                 android:textColor="?attr/colorError"
                 android:visibility="gone"
-                tools:visibility="visible"
-                />
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/iv_dish_image"
@@ -53,7 +53,6 @@
                 android:src="@drawable/ic_camera_24dp"
                 app:tint="?attr/colorSecondary" />
         </FrameLayout>
-
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -161,28 +160,26 @@
             android:id="@+id/btn_add_dish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dim_til_margin"
             android:layout_marginStart="@dimen/dim_til_margin"
+            android:layout_marginTop="@dimen/dim_til_margin"
             android:layout_marginEnd="@dimen/dim_til_margin"
             android:text="@string/st_add_dish"
             android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@id/pb_indicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_steps"
-            app:layout_constraintBottom_toTopOf="@id/pb_indicator"
-            />
+            app:layout_constraintTop_toBottomOf="@id/til_steps" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/pb_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_dish"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:indeterminate="true"
             android:visibility="invisible"
-            tools:visibility="visible"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_add_dish"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

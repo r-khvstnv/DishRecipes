@@ -16,15 +16,18 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 
 class AllDishesViewModel(private val repository: DishRepository) : ViewModel() {
     val allDishesList: LiveData<List<Dish>> = repository.allDishesList
+    //style for recyclerView
     var isGridStyle: MutableLiveData<Boolean> = MutableLiveData(false)
 
+    /**Flip recyclerView style state*/
     fun flipStyleState(){
         isGridStyle.value?.let {
             isGridStyle.value = !it
         }
     }
 
-    fun updateDishFavouriteState(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
+    /**Flip favorite state of Dish and Send updated data to Room DB*/
+    fun flipAndUpdateDishFavouriteState(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
         dish.isFavoriteDish = !dish.isFavoriteDish
         repository.updateDishData(dish = dish)
     }

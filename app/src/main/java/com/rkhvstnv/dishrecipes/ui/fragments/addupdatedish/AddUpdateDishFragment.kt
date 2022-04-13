@@ -64,17 +64,17 @@ class AddUpdateDishFragment : BaseFragment() {
 
         prepareUI()
 
+        observeTmpDishDataIfExist()
+
         binding.flSelectImage.setOnClickListener {
             checkStoragePermission()
         }
         binding.btnAddDish.setOnClickListener {
             saveOrUpdateDish()
         }
-
-        observeDishData()
     }
 
-    //prepare adapters for dropdown menus
+    /** Prepare adapters for dropdown menus*/
     private fun prepareUI(){
         val dishTypes = resources.getStringArray(R.array.dish_types)
         val dtAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, dishTypes)
@@ -114,7 +114,6 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
 
-
     private fun galleryLauncher(){
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         galleryResultLauncher.launch(intent)
@@ -122,14 +121,14 @@ class AddUpdateDishFragment : BaseFragment() {
     private val galleryResultLauncher =
         registerForActivityResult(StartActivityForResult()
         ){ it ->
-            if (it.resultCode == Activity.RESULT_OK){
+            if (it.resultCode == Activity.RESULT_OK) {
                 it.data?.data?.let {
                     Glide
                         .with(this)
                         .load(it)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .listener(object : RequestListener<Drawable>{
+                        .listener(object : RequestListener<Drawable> {
                             override fun onLoadFailed(
                                 e: GlideException?,
                                 model: Any?,
@@ -139,6 +138,7 @@ class AddUpdateDishFragment : BaseFragment() {
                                 Log.e("Glide", "Image loading", e)
                                 return false
                             }
+
                             override fun onResourceReady(
                                 resource: Drawable?,
                                 model: Any?,
@@ -146,7 +146,7 @@ class AddUpdateDishFragment : BaseFragment() {
                                 dataSource: DataSource?,
                                 isFirstResource: Boolean
                             ): Boolean {
-                                //save bitmap in variable
+                                //save image bitmap
                                 resource?.let {
                                     viewModel.dishBitmap = resource.toBitmap()
                                 }
@@ -157,10 +157,9 @@ class AddUpdateDishFragment : BaseFragment() {
                         .into(binding.ivDishImage)
                 }
             }
-
     }
 
-
+    /**Method save image to internal package storage and assign it's imagePath*/
     private fun saveImageToInternalStorage(bitmap: Bitmap){
         val wrapper = ContextWrapper(context?.applicationContext)
 
@@ -177,8 +176,9 @@ class AddUpdateDishFragment : BaseFragment() {
         viewModel.imagePath = file.absolutePath
     }
 
+    /**Method check user input and show error message to him, if some fields didn't filled*/
     private fun isUserInputIsValid(): Boolean{
-        var result = false
+        var result: Boolean
         val errorMessage = resources.getString(R.string.st_fill_field)
         with(binding){
             when{
@@ -200,10 +200,10 @@ class AddUpdateDishFragment : BaseFragment() {
             }
         }
 
-
         return result
     }
 
+    /**Return dishEntity using user inputs. Can be called Only after Input Validation*/
     private fun getDishEntity(): Dish{
         with(binding) {
             return Dish(
@@ -220,6 +220,14 @@ class AddUpdateDishFragment : BaseFragment() {
         }
     }
 
+    /**Method responsible for all process corresponding to saving/updating dish data
+     * Steps:
+     * - check validity of user inputs
+     * - show UI progress
+     * - choose way to save new or update existing dish based on tmpDish State
+     * - prepare dish entity using user inputs
+     * - insert/update dish
+     * - hide UI progress and navigate to AllDishesFragment*/
     private fun saveOrUpdateDish(){
         if (isUserInputIsValid()){
             binding.pbIndicator.visibility = View.VISIBLE
@@ -232,7 +240,6 @@ class AddUpdateDishFragment : BaseFragment() {
                         deleteFile(viewModel.imagePath)
                         saveImageToInternalStorage(viewModel.dishBitmap!!)
                     }
-
 
                     //get dish data
                     val dish = getDishEntity()
@@ -256,7 +263,7 @@ class AddUpdateDishFragment : BaseFragment() {
         }
     }
 
-
+    /**Delete dishImage from internal storage*/
     private fun deleteFile(path: String){
         /*val wrapper = ContextWrapper(context?.applicationContext)
         val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
@@ -268,7 +275,8 @@ class AddUpdateDishFragment : BaseFragment() {
         }
     }
 
-    private fun observeDishData(){
+    /** Observe dishData which was shown in dishDetails*/
+    private fun observeTmpDishDataIfExist(){
         viewModel.tmpDish?.observe(viewLifecycleOwner){
             dish ->
             dish.let {
@@ -290,11 +298,14 @@ class AddUpdateDishFragment : BaseFragment() {
                     btnAddDish.text = getString(R.string.st_apply_changes)
                 }
 
+                /*Hiding bottomNavView prevents wrong navigation.
+                Otherwise user will see old dishData, when he want to create new dish */
                 (activity as MainActivity).hideNavView()
             }
         }
     }
 
+    /**Navigate to AllDishesFragment destroying This Fragment*/
     private fun navigateToAllDishes(){
         parentFragmentManager
             .beginTransaction()

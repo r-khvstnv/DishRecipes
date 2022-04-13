@@ -6,25 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.fragments.alldishes.AllDishesFragment">
-        <com.google.android.material.appbar.AppBarLayout
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/m_tool_bar"
+            style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:liftOnScroll="true"
-            >
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/m_tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="@string/st_all_dishes"
-                app:menu="@menu/all_dish_top_bar_menu"
-                app:layout_scrollFlags="scroll|enterAlways"
-                style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"
-                />
-        </com.google.android.material.appbar.AppBarLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_dish_list"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/all_dish_top_bar_menu"
+            app:title="@string/st_all_dishes" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_dish_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,7 +2,6 @@ package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +33,11 @@ class DishDetailsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*Due to DishDetailsFragment and AddUpdateDishFragment use common ViewModel,
+        handles backPressed event manually. Assign temporaryDishData to Null
+        It prevents to show old dish data, when user navigates to
+        AddUpdateDishFragment from BottomNavView
+        */
         requireActivity().onBackPressedDispatcher.addCallback(this){
             viewModel.tmpDish = null
             findNavController().navigateUp()
@@ -52,9 +56,12 @@ class DishDetailsFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dishId = args.dishId
-        viewModel.getTmpDish(dishId = dishId)
 
+        //receive dish ID
+        val dishId = args.dishId
+        viewModel.assignTmpDish(dishId = dishId)
+
+        //observe data of dish
         viewModel.tmpDish?.observe(viewLifecycleOwner){
             dish ->
             dish.let {
@@ -89,18 +96,21 @@ class DishDetailsFragment : BaseFragment() {
         }
 
         binding.fabFavorite.setOnClickListener {
-            val dish = viewModel.updateDishFavouriteStateLocally()
+            val dish = viewModel.flipDishFavouriteState(viewModel.tmpDish!!.value!!)
             viewModel.updateDishModel(dish = dish)
         }
     }
 
+    /** Navigates to fragment where user can update dish data.
+     * Additional parameters is not needed, due to This and Next Fragment use Common ViewModel*/
     private fun navigateToAddUpdateFragment(){
-        findNavController().navigate(DishDetailsFragmentDirections.actionNavigationDishDetailsToNavigationAddUpdateDish())
+        findNavController().navigate(
+            DishDetailsFragmentDirections.actionNavigationDishDetailsToNavigationAddUpdateDish()
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-
     }
 }

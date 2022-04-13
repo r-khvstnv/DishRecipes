@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.animate().translationY(0f).duration = 300
     }
 
+    //Must be public, due to it's used in AddUpdateDishFragment
     fun hideNavView(){
         binding.navView.clearAnimation()
         binding.navView.animate().translationY(binding.navView.height.toFloat()).duration = 300
