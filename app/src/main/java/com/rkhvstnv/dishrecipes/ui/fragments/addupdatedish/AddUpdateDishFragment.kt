@@ -236,6 +236,8 @@ class AddUpdateDishFragment : BaseFragment() {
                 //update
                 if (viewModel.tmpDish != null){
 
+                    /*Save new image, if user decided to change existing
+                    * dishBitmap is always Null, if galleryResultLauncher has not been called*/
                     if (viewModel.dishBitmap != null){
                         deleteFile(viewModel.imagePath)
                         saveImageToInternalStorage(viewModel.dishBitmap!!)
@@ -244,6 +246,7 @@ class AddUpdateDishFragment : BaseFragment() {
                     //get dish data
                     val dish = getDishEntity()
                     dish.id = viewModel.tmpDish!!.value!!.id
+                    dish.isFavoriteDish = viewModel.tmpDish!!.value!!.isFavoriteDish
                     viewModel.updateDishModel(dish = dish)
                 }
                 //add
@@ -320,5 +323,6 @@ class AddUpdateDishFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
         viewModel.tmpDish = null
+        viewModel.dishBitmap = null
     }
 }

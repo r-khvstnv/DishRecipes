@@ -15,11 +15,11 @@ class AddUpdateDishViewModelFactory(private val repository: DishRepository): Vie
 }
 
 class AddUpdateDishViewModel(private val repository: DishRepository) : ViewModel() {
-    //Bitmap received after user add it from gallery
+    //Bitmap received after user add it from gallery. Should be assign to Null in onDestroyView
     var dishBitmap: Bitmap? = null
     //Value assigned only after new bitmap was saved
     var imagePath: String = ""
-    //Received using dishId from DishDetailsFragment
+    //Received using dishId from DishDetailsFragment. Should be assign to Null in onDestroyView
     var tmpDish: LiveData<Dish>? = null
 
     fun insert(dish: Dish) = viewModelScope.launch {
