@@ -1,12 +1,9 @@
 package com.rkhvstnv.dishrecipes.ui.activities.main
 
 import android.os.Bundle
-import android.view.View
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ActivityMainBinding
@@ -29,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener{
                 _, destination, _ ->
 
-                if (destination.id == R.id.dish_details_fragment){
+                if (destination.id == R.id.navigation_dish_details || destination.id == R.id.navigation_add_update_dish){
                     hideNavView()
                 } else{
                     showNavView()

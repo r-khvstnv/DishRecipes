@@ -10,9 +10,10 @@
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment"
         android:label="fragment_all_dishes"
         tools:layout="@layout/fragment_all_dishes" >
+
         <action
-            android:id="@+id/action_navigation_all_dishes_to_dish_details_fragment"
-            app:destination="@id/dish_details_fragment" />
+            android:id="@+id/action_navigation_all_dishes_to_navigation_dish_details"
+            app:destination="@id/navigation_dish_details" />
     </fragment>
 
     <fragment
@@ -34,7 +35,7 @@
         tools:layout="@layout/fragment_add_update_dish"
         />
     <fragment
-        android:id="@+id/dish_details_fragment"
+        android:id="@+id/navigation_dish_details"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsFragment"
         android:label="fragment_dish_details"
         tools:layout="@layout/fragment_dish_details">
@@ -43,5 +44,9 @@
             app:argType="integer"
             android:defaultValue="-5"
             />
+        <action
+            android:id="@+id/action_navigation_dish_details_to_navigation_add_update_dish"
+            app:destination="@id/navigation_add_update_dish" />
+
     </fragment>
 </navigation>

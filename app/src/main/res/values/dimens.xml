@@ -31,6 +31,8 @@
     <dimen name="dim_details_body_text_size">16sp</dimen>
     <dimen name="dim_details_body_margin_h">16dp</dimen>
     <dimen name="dim_details_body_margin_top">5dp</dimen>
+    <dimen name="dim_fab_margin_end">20dp</dimen>
+    <dimen name="dim_fab_margin_vertical">10dp</dimen>
 
 
 </resources>

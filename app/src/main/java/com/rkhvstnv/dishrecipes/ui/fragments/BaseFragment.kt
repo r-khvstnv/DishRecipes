@@ -19,6 +19,8 @@ open class BaseFragment: Fragment() {
         navHost.navigate(navFragmentId)
     }
 
+
+
     fun showSnackBarPermissionError(){
         val sb = Snackbar.make(
             activity?.findViewById(android.R.id.content)!!,
@@ -51,12 +53,5 @@ open class BaseFragment: Fragment() {
             Snackbar.LENGTH_LONG
         )
         sb.show()
-    }
-
-    //todo for test deleting
-    private fun delDir(){
-        val wrapper = ContextWrapper(context?.applicationContext)
-        val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)
-        file.deleteRecursively()
     }
 }

@@ -40,7 +40,7 @@
                 android:id="@+id/iv_dish_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 tools:ignore="ContentDescription" />
 
             <com.google.android.material.imageview.ShapeableImageView
@@ -137,7 +137,7 @@
                 android:id="@+id/et_cooking_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="time" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

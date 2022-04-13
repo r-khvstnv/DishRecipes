@@ -8,10 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,9 +19,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -31,19 +27,18 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.util.*
 
 
@@ -51,7 +46,7 @@ class AddUpdateDishFragment : BaseFragment() {
     private var _binding: FragmentAddUpdateDishBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AddUpdateDishViewModel by viewModels {
+    private val viewModel: AddUpdateDishViewModel by activityViewModels {
         AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
     }
 
@@ -72,8 +67,10 @@ class AddUpdateDishFragment : BaseFragment() {
             checkStoragePermission()
         }
         binding.btnAddDish.setOnClickListener {
-            addDish()
+            saveOrUpdateDish()
         }
+
+        observeDishData()
     }
 
     //prepare adapters for dropdown menus
@@ -129,6 +126,7 @@ class AddUpdateDishFragment : BaseFragment() {
                     Glide
                         .with(this)
                         .load(it)
+                        .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .listener(object : RequestListener<Drawable>{
                             override fun onLoadFailed(
@@ -178,49 +176,6 @@ class AddUpdateDishFragment : BaseFragment() {
         viewModel.imagePath = file.absolutePath
     }
 
-
-    private fun addDish(){
-        if (isUserInputIsValid()){
-            //show progress bar
-            binding.pbIndicator.visibility = View.VISIBLE
-            //save image in package internal storage
-            lifecycleScope.launch(Dispatchers.IO){
-                saveImageToInternalStorage(viewModel.dishBitmap!!)
-
-                //prepare entity of dish
-                with(binding){
-                    val dish = Dish(
-                        viewModel.imagePath,
-                        Constants.IMAGE_SOURCE_INTERNAL,
-                        etLabel.text.toString(),
-                        etType.text.toString(),
-                        etCategory.text.toString(),
-                        etIngredients.text.toString(),
-                        etCookingTime.text.toString().toInt(),
-                        etSteps.text.toString(),
-                        false
-                    )
-
-                    //insert new dish in local database
-                    viewModel.insert(dish = dish)
-
-                    withContext(Dispatchers.Main){
-                        //hide progress bar
-                        pbIndicator.visibility = View.VISIBLE
-                        showSnackBarPositiveMessage("Saved")
-
-                        parentFragmentManager
-                            .beginTransaction()
-                            .remove(this@AddUpdateDishFragment)
-                            .commit()
-
-                        navigateToFragment(R.id.navigation_all_dishes)
-                    }
-                }
-            }
-        }
-    }
-
     private fun isUserInputIsValid(): Boolean{
         var result = false
         val errorMessage = resources.getString(R.string.st_fill_field)
@@ -248,8 +203,108 @@ class AddUpdateDishFragment : BaseFragment() {
         return result
     }
 
+    private fun getDishEntity(): Dish{
+        with(binding) {
+            return Dish(
+                viewModel.imagePath,
+                Constants.IMAGE_SOURCE_INTERNAL,
+                etLabel.text.toString(),
+                etType.text.toString(),
+                etCategory.text.toString(),
+                etIngredients.text.toString(),
+                etCookingTime.text.toString().toInt(),
+                etSteps.text.toString(),
+                false
+            )
+        }
+    }
+
+    private fun saveOrUpdateDish(){
+        if (isUserInputIsValid()){
+            binding.pbIndicator.visibility = View.VISIBLE
+
+            lifecycleScope.launch(Dispatchers.IO){
+                //update
+                if (viewModel.tmpDish != null){
+
+                    if (viewModel.dishBitmap != null){
+                        deleteFile(viewModel.imagePath)
+                        saveImageToInternalStorage(viewModel.dishBitmap!!)
+                    }
+
+
+                    //get dish data
+                    val dish = getDishEntity()
+                    dish.id = viewModel.tmpDish!!.value!!.id
+                    viewModel.updateDishModel(dish = dish)
+                }
+                //add
+                else{
+                    saveImageToInternalStorage(viewModel.dishBitmap!!)
+                    val dish = getDishEntity()
+                    viewModel.insert(dish = dish)
+                }
+
+                withContext(Dispatchers.Main){
+                    //hide progress bar
+                    binding.pbIndicator.visibility = View.GONE
+                    showSnackBarPositiveMessage("Done")
+                    navigateToAllDishes()
+                }
+            }
+        }
+    }
+
+
+    fun deleteFile(path: String){
+        /*val wrapper = ContextWrapper(context?.applicationContext)
+        val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
+        val file = File(path)
+        try {
+            file.delete()
+        } catch (e: IOException){
+            e.printStackTrace()
+        }
+    }
+
+    private fun observeDishData(){
+        viewModel.tmpDish?.observe(viewLifecycleOwner){
+            dish ->
+            dish.let {
+                with(binding){
+                    Glide
+                        .with(this@AddUpdateDishFragment)
+                        .load(it.image)
+                        .centerCrop()
+                        .into(ivDishImage)
+
+                    viewModel.imagePath = it.image
+
+                    etLabel.setText(it.label)
+                    etType.setText(it.type)
+                    etCategory.setText(it.category)
+                    etIngredients.setText(it.ingredients)
+                    etCookingTime.setText(it.cookingTime.toString())
+                    etSteps.setText(it.steps)
+                    btnAddDish.text = getString(R.string.st_apply_changes)
+                }
+            }
+        }
+    }
+
+    private fun navigateToAllDishes(){
+        parentFragmentManager
+            .beginTransaction()
+            .remove(this@AddUpdateDishFragment)
+            .commit()
+        navigateToFragment(R.id.navigation_all_dishes)
+    }
+
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.tmpDish = null
     }
 }

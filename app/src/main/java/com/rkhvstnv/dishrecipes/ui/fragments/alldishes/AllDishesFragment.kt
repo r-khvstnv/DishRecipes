@@ -102,7 +102,7 @@ class AllDishesFragment : BaseFragment() {
     }
 
     private fun navigateToDishDetails(dishId: Int){
-        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToDishDetailsFragment(dishId))
+        findNavController().navigate(AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(dishId))
     }
 
 
