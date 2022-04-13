@@ -3,6 +3,8 @@ package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.DishRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -20,5 +22,10 @@ class AllDishesViewModel(private val repository: DishRepository) : ViewModel() {
         isGridStyle.value?.let {
             isGridStyle.value = !it
         }
+    }
+
+    fun updateDishFavouriteState(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
+        dish.isFavoriteDish = !dish.isFavoriteDish
+        repository.updateDishData(dish = dish)
     }
 }

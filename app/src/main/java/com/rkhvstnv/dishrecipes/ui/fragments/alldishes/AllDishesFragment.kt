@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllDishAdapter
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.ItemClickListener
@@ -47,6 +48,10 @@ class AllDishesFragment : BaseFragment() {
         val adapter = AllDishAdapter(this.requireContext(), object : ItemClickListener{
             override fun onItemClick(itemId: Int) {
                 navigateToDishDetails(itemId)
+            }
+
+            override fun onItemFavoriteStateClick(dish: Dish) {
+                viewModel.updateDishFavouriteState(dish = dish)
             }
 
         })

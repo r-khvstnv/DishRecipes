@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.utils.ItemClickListener
@@ -32,6 +33,16 @@ class AllDishAdapter(
                 .load(dish.image)
                 .into(ivDishImage)
             tvDishLabel.text = dish.label
+
+            if (dish.isFavoriteDish){
+                ivFavoriteState.setImageResource(R.drawable.ic_favorite)
+            } else{
+                ivFavoriteState.setImageResource(R.drawable.ic_favorite_border_24)
+            }
+
+            ivFavoriteState.setOnClickListener {
+                itemClickListener.onItemFavoriteStateClick(dish = dish)
+            }
         }
 
         holder.itemView.setOnClickListener {
