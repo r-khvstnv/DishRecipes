@@ -31,6 +31,7 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.ui.fragments.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
@@ -256,7 +257,7 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
 
-    fun deleteFile(path: String){
+    private fun deleteFile(path: String){
         /*val wrapper = ContextWrapper(context?.applicationContext)
         val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
         val file = File(path)
@@ -288,6 +289,8 @@ class AddUpdateDishFragment : BaseFragment() {
                     etSteps.setText(it.steps)
                     btnAddDish.text = getString(R.string.st_apply_changes)
                 }
+
+                (activity as MainActivity).hideNavView()
             }
         }
     }

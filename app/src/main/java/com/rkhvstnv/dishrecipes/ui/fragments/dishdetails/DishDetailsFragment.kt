@@ -2,9 +2,11 @@ package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,6 +29,15 @@ class DishDetailsFragment : BaseFragment() {
 
     private val viewModel: AddUpdateDishViewModel by activityViewModels {
         AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(this){
+            viewModel.tmpDish = null
+            findNavController().navigateUp()
+        }
     }
 
 

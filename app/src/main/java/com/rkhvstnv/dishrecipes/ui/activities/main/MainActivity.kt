@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener{
                 _, destination, _ ->
 
-                if (destination.id == R.id.navigation_dish_details || destination.id == R.id.navigation_add_update_dish){
+                if (destination.id == R.id.navigation_dish_details){
                     hideNavView()
                 } else{
                     showNavView()
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.animate().translationY(0f).duration = 300
     }
 
-    private fun hideNavView(){
+    fun hideNavView(){
         binding.navView.clearAnimation()
         binding.navView.animate().translationY(binding.navView.height.toFloat()).duration = 300
     }
