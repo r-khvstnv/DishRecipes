@@ -3,7 +3,7 @@ package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.model.DishRepository
+import com.rkhvstnv.dishrecipes.model.room.DishRepository
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

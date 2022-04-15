@@ -1,10 +1,10 @@
-package com.rkhvstnv.dishrecipes.ui.fragments.randromdish
+package com.rkhvstnv.dishrecipes.ui.fragments.communitydishes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class RandomDishViewModel : ViewModel() {
+class CommunityDishesViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is notifications Fragment"

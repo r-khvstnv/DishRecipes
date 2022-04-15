@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.ui.fragments.randromdish
+package com.rkhvstnv.dishrecipes.ui.fragments.communitydishes
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
+import com.rkhvstnv.dishrecipes.databinding.FragmentCommunityDishesBinding
 
-class RandomDishFragment : Fragment() {
+class CommunityDishesFragment : Fragment() {
 
-    private var _binding: FragmentRandomDishBinding? = null
+    private var _binding: FragmentCommunityDishesBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,9 +23,9 @@ class RandomDishFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val notificationsViewModel =
-            ViewModelProvider(this).get(RandomDishViewModel::class.java)
+            ViewModelProvider(this).get(CommunityDishesViewModel::class.java)
 
-        _binding = FragmentRandomDishBinding.inflate(inflater, container, false)
+        _binding = FragmentCommunityDishesBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textNotifications

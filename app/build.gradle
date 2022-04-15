@@ -38,7 +38,8 @@ android {
 }
 
 dependencies {
-    def roomVersion = "2.4.2"
+    def roomVer = "2.4.2"
+    def retrofit2Ver = "2.9.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -58,6 +59,10 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 
     //room
-    implementation "androidx.room:room-ktx:$roomVersion"
-    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVer"
+    kapt "androidx.room:room-compiler:$roomVer"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2Ver"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2Ver"
 }

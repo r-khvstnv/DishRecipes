@@ -56,30 +56,11 @@ class AllDishesFragment : BaseFragment() {
         })
         binding.rvDishList.adapter = allDishAdapter
 
-        viewModel.isGridStyle.observe(viewLifecycleOwner){
-                isGrid ->
-            isGrid.let {
-                //assign imageView from Top toolBar for recyclerView style
-                val stateImageView = binding.mToolBar.menu.findItem(R.id.m_view_style)
-                //change icon and layoutManager depending on received data
-                if (isGrid){
-                    binding.rvDishList.layoutManager =
-                        GridLayoutManager(this.requireContext(), 2)
-                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
-                } else{
-                    binding.rvDishList.layoutManager =
-                        LinearLayoutManager(
-                            this.requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false)
-                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
-                }
-            }
-        }
+
 
         observeAllDishes()
 
-        setupToolBarListener()
+        setupToolBar()
     }
 
     private fun observeAllDishes(){
@@ -94,8 +75,10 @@ class AllDishesFragment : BaseFragment() {
     }
 
 
-    private fun setupToolBarListener(){
-        binding.mToolBar.setOnMenuItemClickListener{
+    private fun setupToolBar(){
+        binding.includedMToolBar.mToolBar.setTitle(R.string.st_all_dishes)
+
+        binding.includedMToolBar.mToolBar.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.m_view_style ->{
                     viewModel.flipStyleState()
@@ -114,6 +97,27 @@ class AllDishesFragment : BaseFragment() {
                     true
                 }
                 else -> false
+            }
+        }
+
+        viewModel.isGridStyle.observe(viewLifecycleOwner){
+                isGrid ->
+            isGrid.let {
+                //assign imageView from Top toolBar for recyclerView style
+                val stateImageView = binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
+                //change icon and layoutManager depending on received data
+                if (isGrid){
+                    binding.rvDishList.layoutManager =
+                        GridLayoutManager(this.requireContext(), 2)
+                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
+                } else{
+                    binding.rvDishList.layoutManager =
+                        LinearLayoutManager(
+                            this.requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false)
+                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
+                }
             }
         }
     }

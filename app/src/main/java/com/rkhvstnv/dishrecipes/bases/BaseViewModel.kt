@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.model.DishRepository
+import com.rkhvstnv.dishrecipes.model.room.DishRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

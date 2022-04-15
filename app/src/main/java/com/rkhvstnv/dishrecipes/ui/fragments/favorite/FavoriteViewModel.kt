@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.model.DishRepository
+import com.rkhvstnv.dishrecipes.model.room.DishRepository
 
 class FavoriteViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -16,6 +16,7 @@ import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModelFactory
+import com.rkhvstnv.dishrecipes.utils.Constants
 
 /**In this fragment is used AddUpdateViewModel.
  * It conditioned to minimal logic functionality of this fragment and
@@ -85,6 +86,10 @@ class DishDetailsFragment : BaseFragment() {
                         fabFavorite.setImageResource(R.drawable.ic_favorite)
                     } else{
                         fabFavorite.setImageResource(R.drawable.ic_favorite_border_24)
+                    }
+
+                    if (it.imageSource == Constants.IMAGE_SOURCE_NETWORK){
+                        fabEditDish.visibility = View.GONE
                     }
                 }
             }

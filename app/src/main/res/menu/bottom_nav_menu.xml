@@ -17,7 +17,7 @@
         android:title="@string/st_new" />
 
     <item
-        android:id="@+id/navigation_random_dish"
+        android:id="@+id/navigation_community_dishes"
         android:icon="@drawable/ic_tray_24dp"
-        android:title="@string/st_random_dish" />
+        android:title="@string/st_community_dishes" />
 </menu>

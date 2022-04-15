@@ -3,7 +3,7 @@
     <string name="st_new">New</string>
     <string name="st_all_dishes">All Dishes</string>
     <string name="st_favorite">Favorite</string>
-    <string name="st_random_dish">Random Dish</string>
+    <string name="st_community_dishes">Community Dishes</string>
     <string name="st_permission_error">Permission is Not Granted</string>
     <string name="st_settings">Settings</string>
     <string name="st_fill_field">Fill the field</string>

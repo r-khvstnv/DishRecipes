@@ -36,7 +36,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_dish_image"
-            tools:text="@string/st_random_dish" />
+            tools:text="@string/st_community_dishes" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_favorite_state"

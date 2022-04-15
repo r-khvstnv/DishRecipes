@@ -1,8 +1,8 @@
-package com.rkhvstnv.dishrecipes.model
+package com.rkhvstnv.dishrecipes.model.room
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.flow.Flow
+import com.rkhvstnv.dishrecipes.model.Dish
 
 class DishRepository(private val dishDao: DishDao) {
     val allDishesList: LiveData<List<Dish>> = dishDao.getAllDishList()

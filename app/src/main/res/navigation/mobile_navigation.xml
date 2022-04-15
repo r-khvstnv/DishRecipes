@@ -27,10 +27,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_random_dish"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.randromdish.RandomDishFragment"
+        android:id="@+id/navigation_community_dishes"
+        android:name="com.rkhvstnv.dishrecipes.ui.fragments.communitydishes.CommunityDishesFragment"
         android:label="fragment_random_dish"
-        tools:layout="@layout/fragment_random_dish" />
+        tools:layout="@layout/fragment_community_dishes" />
 
     <fragment
         android:id="@+id/navigation_add_update_dish"

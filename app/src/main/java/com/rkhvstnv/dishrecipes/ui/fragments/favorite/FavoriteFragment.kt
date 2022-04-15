@@ -36,7 +36,7 @@ class FavoriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.mToolBar.menu.findItem(R.id.m_filter).isVisible = false
+        binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_filter).isVisible = false
 
         val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener {
             override fun onItemClick(itemId: Int) {
@@ -51,11 +51,37 @@ class FavoriteFragment : BaseFragment() {
         })
         binding.rvDishList.adapter = adapter
 
+
+
+        viewModel.allFavDishesList.observe(viewLifecycleOwner){
+                dishList ->
+            dishList.let {
+                if (it.isNotEmpty()){
+                    adapter.updateDishesList(it.reversed())
+                }
+            }
+        }
+
+        setupToolBar()
+    }
+
+    private fun setupToolBar(){
+        binding.includedMToolBar.mToolBar.setTitle(R.string.st_favorite)
+
+        binding.includedMToolBar.mToolBar.setOnMenuItemClickListener{
+            if (it.itemId == R.id.m_view_style){
+                viewModel.flipStyleState()
+                return@setOnMenuItemClickListener true
+            } else{
+                return@setOnMenuItemClickListener false
+            }
+        }
+
         viewModel.isGridStyle.observe(viewLifecycleOwner){
                 isGrid ->
             isGrid.let {
                 //assign imageView from Top toolBar for recyclerView style
-                val stateImageView = binding.mToolBar.menu.findItem(R.id.m_view_style)
+                val stateImageView = binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
                 //change icon and layoutManager depending on received data
                 if (isGrid){
                     binding.rvDishList.layoutManager =
@@ -69,28 +95,6 @@ class FavoriteFragment : BaseFragment() {
                             false)
                     stateImageView.setIcon(R.drawable.ic_view_linear_24)
                 }
-            }
-        }
-
-        viewModel.allFavDishesList.observe(viewLifecycleOwner){
-                dishList ->
-            dishList.let {
-                if (it.isNotEmpty()){
-                    adapter.updateDishesList(it.reversed())
-                }
-            }
-        }
-
-        setupToolBarListener()
-    }
-
-    private fun setupToolBarListener(){
-        binding.mToolBar.setOnMenuItemClickListener{
-            if (it.itemId == R.id.m_view_style){
-                viewModel.flipStyleState()
-                return@setOnMenuItemClickListener true
-            } else{
-                return@setOnMenuItemClickListener false
             }
         }
     }
