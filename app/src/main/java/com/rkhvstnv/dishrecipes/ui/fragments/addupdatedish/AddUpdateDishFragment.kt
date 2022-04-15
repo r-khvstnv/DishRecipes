@@ -31,7 +31,7 @@ import com.bumptech.glide.request.target.Target
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.Constants
@@ -40,7 +40,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.util.*
 
 
@@ -213,7 +212,7 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
     /**Return dishEntity using user inputs. Can be called Only after Input Validation*/
-    private fun getDishEntity(): Dish{
+    private fun getDishEntity(): Dish {
         with(binding) {
             return Dish(
                 viewModel.imagePath,

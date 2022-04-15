@@ -60,6 +60,7 @@ class DishDetailsFragment : BaseFragment() {
                     Glide
                         .with(this@DishDetailsFragment)
                         .load(it.image)
+                        .centerCrop()
                         .into(ivImage)
 
                     tvType.text = getString(R.string.st_type) + ": " + it.type
@@ -91,6 +92,11 @@ class DishDetailsFragment : BaseFragment() {
         binding.fabFavorite.setOnClickListener {
             val dish = viewModel.flipDishFavouriteState(viewModel.tmpDish!!.value!!)
             viewModel.updateDishModel(dish = dish)
+        }
+
+        binding.fabDeleteDish.setOnClickListener {
+            deleteFile(viewModel.tmpDish!!.value!!.image)
+            viewModel.deleteDishData(viewModel.tmpDish!!.value!!)
         }
     }
 

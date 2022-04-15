@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
 import com.rkhvstnv.dishrecipes.model.room.DishRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ open class BaseViewModel(val repository: DishRepository): ViewModel() {
         }
     }
 
-    fun flipDishFavouriteState(dish: Dish): Dish{
+    fun flipDishFavouriteState(dish: Dish): Dish {
         dish.isFavoriteDish = !dish.isFavoriteDish
         return dish
     }

@@ -2,18 +2,19 @@ package com.rkhvstnv.dishrecipes.model.room
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
+import kotlinx.coroutines.flow.Flow
 
 class DishRepository(private val dishDao: DishDao) {
-    val allDishesList: LiveData<List<Dish>> = dishDao.getAllDishList()
-    val allFavDishesList: LiveData<List<Dish>> = dishDao.getAllFavDishesList()
+    val allDishesList: Flow<List<Dish>> = dishDao.getAllDishList()
+    val allFavDishesList: Flow<List<Dish>> = dishDao.getAllFavDishesList()
 
-    fun getDishById(id: Int): LiveData<Dish> = dishDao.getDishDetailsById(id)
+    fun getDishById(id: Int): Flow<Dish> = dishDao.getDishDetailsById(id)
 
-    fun getDishesListByType(type: String): LiveData<List<Dish>> =
+    fun getDishesListByType(type: String): Flow<List<Dish>> =
         dishDao.queryDishesListByType(type)
 
-    fun getDishesListByCategory(category: String): LiveData<List<Dish>> =
+    fun getDishesListByCategory(category: String): Flow<List<Dish>> =
         dishDao.queryDishesListByCategory(category)
 
     fun deleteDish(dish: Dish) = dishDao.deleteDishDetails(dish = dish)

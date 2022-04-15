@@ -3,7 +3,7 @@ package com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish
 import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
 import com.rkhvstnv.dishrecipes.model.room.DishRepository
 import kotlinx.coroutines.launch
 
@@ -27,7 +27,7 @@ class AddUpdateDishViewModel(repository: DishRepository) : BaseViewModel(reposit
     }
 
     fun assignTmpDish(dishId: Int){
-        tmpDish = repository.getDishById(dishId)
+        tmpDish = repository.getDishById(dishId).asLiveData()
     }
 
 

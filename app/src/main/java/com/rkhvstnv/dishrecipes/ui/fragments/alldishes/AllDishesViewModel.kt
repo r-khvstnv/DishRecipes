@@ -2,7 +2,7 @@ package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
 import com.rkhvstnv.dishrecipes.model.room.DishRepository
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
@@ -13,8 +13,12 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 }
 
 class AllDishesViewModel(repository: DishRepository) : BaseViewModel(repository = repository) {
-    val allDishesList: LiveData<List<Dish>> = repository.allDishesList
+    val allDishesList: LiveData<List<Dish>> = repository.allDishesList.asLiveData()
 
-    fun getFilteredDishesListByType(params: String) = repository.getDishesListByType(params)
-    fun getFilteredDishesListByCategory(params: String) = repository.getDishesListByCategory(params)
+    fun getFilteredDishesListByType(params: String): LiveData<List<Dish>>{
+        return repository.getDishesListByType(params).asLiveData()
+    }
+    fun getFilteredDishesListByCategory(params: String): LiveData<List<Dish>>{
+        return repository.getDishesListByCategory(params).asLiveData()
+    }
 }

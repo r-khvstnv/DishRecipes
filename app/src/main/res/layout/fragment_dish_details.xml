@@ -8,7 +8,7 @@
     tools:context=".ui.fragments.dishdetails.DishDetailsFragment"
     tools:ignore="ContentDescription">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -159,7 +159,7 @@
                 app:layout_constraintTop_toBottomOf="@id/steps_title"
                 tools:text="Ingredients\nIngredients\nIngredients\nIngredients\nIngredients\n" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <LinearLayout

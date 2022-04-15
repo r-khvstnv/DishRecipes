@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
-import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.entities.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding

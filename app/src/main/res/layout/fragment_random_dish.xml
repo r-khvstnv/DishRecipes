@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/swipe_refresh_layout"
     tools:context=".ui.fragments.randomdish.RandomDishFragment">
-    <include
-        android:id="@+id/included_dish_details"
-        layout="@layout/fragment_dish_details"
-        />
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <include
+            android:id="@+id/included_dish_details"
+            layout="@layout/fragment_dish_details"
+            />
+    </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

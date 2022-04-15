@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.model
+package com.rkhvstnv.dishrecipes.model.entities
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
