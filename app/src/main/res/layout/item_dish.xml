@@ -9,45 +9,55 @@
     app:cardElevation="@dimen/dim_elevation_def"
     app:strokeWidth="0dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_dish_image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_item_image_height"
+            android:layout_height="@dimen/dim_item_dish_image_height"
             android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
             tools:src="@color/primaryLightColor" />
 
-        <TextView
-            android:id="@+id/tv_dish_label"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dim_item_label_margin"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_dish_image"
-            tools:text="@string/st_community_dishes" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_favorite_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dim_item_label_margin"
-            android:src="@drawable/ic_favorite_border_24"
-            app:tint="?attr/colorSecondary"
-            app:layout_constraintBottom_toBottomOf="@id/tv_dish_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_dish_label"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_item_dish_elements_margin"
+                android:src="@drawable/ic_more_vert_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnPrimarySurface" />
+
+            <TextView
+                android:id="@+id/tv_dish_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dim_item_dish_elements_margin"
+                android:textColor="?attr/colorOnPrimarySurface"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="@string/st_community_dishes" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_favorite_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dim_item_dish_elements_margin"
+                android:src="@drawable/ic_favorite_border_24"
+                app:layout_constraintBottom_toBottomOf="@id/tv_dish_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_dish_label"
+                app:tint="?attr/colorOnPrimarySurface" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </com.google.android.material.card.MaterialCardView>

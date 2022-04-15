@@ -1,10 +1,7 @@
 package com.rkhvstnv.dishrecipes.model.room
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.rkhvstnv.dishrecipes.model.Dish
 
 
@@ -17,10 +14,10 @@ interface DishDao {
     fun getAllDishList(): LiveData<List<Dish>>
 
     @Query("SELECT * FROM DISHES_TABLE WHERE ID = :dishId")
-    fun getDishById(dishId: Int): LiveData<Dish>
+    fun getDishDetailsById(dishId: Int): LiveData<Dish>
 
     @Update
-    fun updateDish(mDish: Dish)
+    fun updateDishDetails(mDish: Dish)
 
     @Query("SELECT * FROM DISHES_TABLE WHERE isFavoriteDish = 1")
     fun getAllFavDishesList(): LiveData<List<Dish>>
@@ -30,4 +27,7 @@ interface DishDao {
 
     @Query("SELECT * FROM DISHES_TABLE WHERE category = :mCategory")
     fun queryDishesListByCategory(mCategory: String): LiveData<List<Dish>>
+
+    @Delete
+    fun deleteDishDetails(dish: Dish)
 }

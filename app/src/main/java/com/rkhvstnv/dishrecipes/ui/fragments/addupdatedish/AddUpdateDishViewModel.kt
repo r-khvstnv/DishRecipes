@@ -23,7 +23,7 @@ class AddUpdateDishViewModel(repository: DishRepository) : BaseViewModel(reposit
     var tmpDish: LiveData<Dish>? = null
 
     fun insert(dish: Dish) = viewModelScope.launch {
-        repository.insertDishData(dish = dish)
+        repository.insertDish(dish = dish)
     }
 
     fun assignTmpDish(dishId: Int){

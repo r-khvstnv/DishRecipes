@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -51,6 +52,8 @@ class AddUpdateDishFragment : BaseFragment() {
         AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
     }
 
+    private val args: AddUpdateDishFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,6 +66,12 @@ class AddUpdateDishFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         prepareUI()
+
+        args.let {
+            if (args.dishId != Constants.DEF_ARGS_INT){
+                viewModel.assignTmpDish(it.dishId)
+            }
+        }
 
         observeTmpDishDataIfExist()
 
@@ -266,17 +275,6 @@ class AddUpdateDishFragment : BaseFragment() {
         }
     }
 
-    /**Delete dishImage from internal storage*/
-    private fun deleteFile(path: String){
-        /*val wrapper = ContextWrapper(context?.applicationContext)
-        val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
-        val file = File(path)
-        try {
-            file.delete()
-        } catch (e: IOException){
-            e.printStackTrace()
-        }
-    }
 
     /** Observe dishData which was shown in dishDetails*/
     private fun observeTmpDishDataIfExist(){

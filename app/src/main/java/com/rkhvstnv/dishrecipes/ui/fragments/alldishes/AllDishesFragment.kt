@@ -44,15 +44,27 @@ class AllDishesFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         allDishAdapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener{
-            override fun onItemClick(itemId: Int) {
+            override fun onViewClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }
 
-            override fun onItemFavoriteStateClick(dish: Dish) {
+            override fun onFavoriteStateClick(dish: Dish) {
                 val tmpDish = viewModel.flipDishFavouriteState(dish = dish)
                 viewModel.updateDishModel(tmpDish)
             }
 
+            override fun onEditClick(itemId: Int) {
+                navigateToUpdateDish(itemId)
+            }
+
+            override fun onDeleteClick(dish: Dish) {
+                deleteFile(dish.image)
+                viewModel.deleteDishData(dish = dish)
+            }
+
+            override fun showOwnerError() {
+                showSnackBarErrorMessage(getString(R.string.st_you_are_not_owner))
+            }
         })
         binding.rvDishList.adapter = allDishAdapter
 
@@ -124,7 +136,15 @@ class AllDishesFragment : BaseFragment() {
 
     private fun navigateToDishDetails(dishId: Int){
         findNavController().navigate(
-            AllDishesFragmentDirections.actionNavigationAllDishesToNavigationDishDetails(dishId)
+            AllDishesFragmentDirections
+                .actionNavigationAllDishesToNavigationDishDetails(dishId = dishId)
+        )
+    }
+
+    private fun navigateToUpdateDish(dishId: Int){
+        findNavController().navigate(
+            AllDishesFragmentDirections
+                .actionNavigationAllDishesToNavigationAddUpdateDish(dishId = dishId)
         )
     }
 

@@ -60,7 +60,9 @@
     <!--AllDishes-->
     <string name="st_no_dishes">No Dishes Added Yet</string>
     <string name="st_all">All</string>
+    <string name="st_you_are_not_owner">You are Not Owner of this Recipe</string>
 
     <!--Dish Details-->
     <string name="st_edit">Edit</string>
+    <string name="st_delete">Delete</string>
 </resources>

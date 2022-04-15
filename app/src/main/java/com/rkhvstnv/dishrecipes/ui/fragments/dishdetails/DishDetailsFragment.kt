@@ -31,21 +31,6 @@ class DishDetailsFragment : BaseFragment() {
         AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        /*Due to DishDetailsFragment and AddUpdateDishFragment use common ViewModel,
-        handles backPressed event manually. Assign temporaryDishData to Null
-        It prevents to show old dish data, when user navigates to
-        AddUpdateDishFragment from BottomNavView
-        */
-        requireActivity().onBackPressedDispatcher.addCallback(this){
-            viewModel.tmpDish = null
-            findNavController().navigateUp()
-        }
-    }
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,8 +44,11 @@ class DishDetailsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //receive dish ID
-        val dishId = args.dishId
-        viewModel.assignTmpDish(dishId = dishId)
+        args.let {
+            if (args.dishId != Constants.DEF_ARGS_INT){
+                viewModel.assignTmpDish(it.dishId)
+            }
+        }
 
         //observe data of dish
         viewModel.tmpDish?.observe(viewLifecycleOwner){
@@ -117,5 +105,6 @@ class DishDetailsFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewModel.tmpDish = null
     }
 }

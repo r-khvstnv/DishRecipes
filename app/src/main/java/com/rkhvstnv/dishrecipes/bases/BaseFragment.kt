@@ -5,9 +5,14 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.IOException
 
 open class BaseFragment: Fragment() {
 
@@ -48,4 +53,20 @@ open class BaseFragment: Fragment() {
         )
         sb.show()
     }
+
+    /**Delete dishImage from internal storage*/
+    fun deleteFile(path: String){
+        lifecycleScope.launch(Dispatchers.IO){
+            /*val wrapper = ContextWrapper(context?.applicationContext)
+        val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
+            val file = File(path)
+            try {
+                file.delete()
+            } catch (e: IOException){
+                e.printStackTrace()
+            }
+        }
+    }
+
+
 }

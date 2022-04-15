@@ -14,11 +14,12 @@
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/fragment_dish_details.xml" value="0.25" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/fragment_favorite.xml" value="0.25" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/fragment_random_dish.xml" value="0.25" />
-        <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/item_dish.xml" value="0.4" />
+        <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/item_dish.xml" value="0.264" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/item_dropdown.xml" value="0.25" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/layout/item_filter.xml" value="0.25" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/menu/all_dish_top_bar_menu.xml" value="0.25" />
         <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
+        <entry key="..\:/ProjectsFolder/DishRecipes/app/src/main/res/menu/menu_adapter_dropdown.xml" value="0.25" />
       </map>
     </option>
   </component>

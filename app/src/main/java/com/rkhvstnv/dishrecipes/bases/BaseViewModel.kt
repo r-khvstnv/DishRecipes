@@ -27,6 +27,10 @@ open class BaseViewModel(val repository: DishRepository): ViewModel() {
     }
 
     fun updateDishModel(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
-        repository.updateDishData(dish = dish)
+        repository.updateDish(dish = dish)
+    }
+
+    fun deleteDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO){
+        repository.deleteDish(dish = dish)
     }
 }

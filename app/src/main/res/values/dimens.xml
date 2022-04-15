@@ -14,9 +14,8 @@
     <dimen name="dim_til_margin">16dp</dimen>
 
     <!--ItemDish-->
-    <dimen name="dim_item_image_height">200dp</dimen>
-    <dimen name="dim_item_image_margin">2dp</dimen>
-    <dimen name="dim_item_label_margin">10dp</dimen>
+    <dimen name="dim_item_dish_image_height">200dp</dimen>
+    <dimen name="dim_item_dish_elements_margin">10dp</dimen>
 
     <!--DishDetails-->
     <dimen name="dim_details_image_height">240dp</dimen>

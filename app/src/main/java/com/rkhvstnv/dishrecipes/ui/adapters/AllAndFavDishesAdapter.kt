@@ -3,12 +3,16 @@ package com.rkhvstnv.dishrecipes.ui.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
 
 class AllAndFavDishesAdapter(
@@ -41,12 +45,21 @@ class AllAndFavDishesAdapter(
             }
 
             ivFavoriteState.setOnClickListener {
-                itemClickListener.onItemFavoriteStateClick(dish = dish)
+                itemClickListener.onFavoriteStateClick(dish = dish)
+            }
+
+            ivMore.setOnClickListener {
+                setupPopupMenu(it, dish = dish)
             }
         }
 
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(dish.id)
+            itemClickListener.onViewClick(dish.id)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            setupPopupMenu(holder.binding.ivMore, dish = dish)
+            true
         }
     }
 
@@ -58,5 +71,29 @@ class AllAndFavDishesAdapter(
     fun updateDishesList(list: List<Dish>){
         dishesList = list
         notifyDataSetChanged()
+    }
+
+    private fun setupPopupMenu(view: View, dish: Dish){
+        val popupMenu = PopupMenu(context, view)
+        popupMenu.menuInflater.inflate(R.menu.menu_adapter_dropdown, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.m_edit_dish ->{
+                    if (dish.imageSource != Constants.IMAGE_SOURCE_NETWORK){
+                        itemClickListener.onEditClick(dish.id)
+                    } else{
+                        itemClickListener.showOwnerError()
+                    }
+                    true
+                }
+                R.id.m_delete_dish ->{
+                    itemClickListener.onDeleteClick(dish)
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
     }
 }
