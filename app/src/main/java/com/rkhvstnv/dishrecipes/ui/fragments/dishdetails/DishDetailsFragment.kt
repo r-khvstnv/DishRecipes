@@ -56,7 +56,7 @@ class DishDetailsFragment : BaseFragment() {
             dish.let {
                 viewModel.imagePath = it.image
 
-                with(binding){
+                with(binding.iDishDetails){
                     Glide
                         .with(this@DishDetailsFragment)
                         .load(it.image)
@@ -78,7 +78,7 @@ class DishDetailsFragment : BaseFragment() {
                     }
 
                     if (it.imageSource == Constants.IMAGE_SOURCE_NETWORK){
-                        fabEditDish.visibility = View.GONE
+                        binding.fabEditDish.visibility = View.GONE
                     }
                 }
             }
@@ -89,7 +89,7 @@ class DishDetailsFragment : BaseFragment() {
             navigateToAddUpdateFragment()
         }
 
-        binding.fabFavorite.setOnClickListener {
+        binding.iDishDetails.fabFavorite.setOnClickListener {
             val dish = viewModel.flipDishFavouriteState(viewModel.tmpDish!!.value!!)
             viewModel.updateDishModel(dish = dish)
         }

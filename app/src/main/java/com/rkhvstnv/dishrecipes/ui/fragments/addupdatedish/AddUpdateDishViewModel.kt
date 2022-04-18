@@ -22,10 +22,6 @@ class AddUpdateDishViewModel(repository: DishRepository) : BaseViewModel(reposit
     //Received using dishId from DishDetailsFragment. Should be assign to Null in onDestroyView
     var tmpDish: LiveData<Dish>? = null
 
-    fun insert(dish: Dish) = viewModelScope.launch {
-        repository.insertDish(dish = dish)
-    }
-
     fun assignTmpDish(dishId: Int){
         tmpDish = repository.getDishById(dishId).asLiveData()
     }

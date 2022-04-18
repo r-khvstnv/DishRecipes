@@ -1,6 +1,8 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,8 +16,7 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
-//todo add source link
-//todo add saving for api recipes
+
 //todo implement dagger
 class RandomDishFragment : BaseFragment() {
     private var _binding: FragmentRandomDishBinding? = null
@@ -46,7 +47,13 @@ class RandomDishFragment : BaseFragment() {
             viewModel.refreshRandomDish()
         }
 
+        binding.inDishDetails.fabFavorite.setOnClickListener {
+            viewModel.changeFavoriteState()
+        }
 
+        binding.fabSource.setOnClickListener {
+            openDishSource()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -55,37 +62,32 @@ class RandomDishFragment : BaseFragment() {
             inLoading ->
             inLoading.let {
                 if (it){
-                    binding.llContainer.visibility = View.GONE
+                    binding.flContainer.visibility = View.GONE
                 } else{
-                    binding.llContainer.visibility = View.VISIBLE
+                    binding.flContainer.visibility = View.VISIBLE
                 }
                 binding.swipeRefreshLayout.isRefreshing = it
             }
         }
 
 
-        viewModel.randomDishResponse.observe(viewLifecycleOwner){
-                recipes ->
-            recipes.recipes[0].let {
-                with(binding.includedDishDetails){
+        viewModel.dish.observe(viewLifecycleOwner){
+                dish ->
+            dish.let {
+                with(binding.inDishDetails){
                     Glide
                         .with(this@RandomDishFragment)
                         .load(it.image)
                         .centerCrop()
                         .into(ivImage)
 
-                    tvType.text = getString(R.string.st_type) + ": " + it.dishTypes[0]
+                    tvType.text = getString(R.string.st_type) + ": " + it.type
                     tvCategory.text = getString(R.string.st_category) + ": " + getString(R.string.st_other)
-                    tvTime.text = it.readyInMinutes.toString()
+                    tvTime.text = it.cookingTime.toString()
 
-                    tvLabel.text = it.title
-                    tvSteps.text = it.instructions
-
-                    var ingredients: String = ""
-                    for (i in it.extendedIngredients){
-                        ingredients += "${i.original}\n"
-                    }
-                    tvIngredients.text = ingredients
+                    tvLabel.text = it.label
+                    tvSteps.text = it.steps
+                    tvIngredients.text = it.ingredients
                 }
             }
         }
@@ -95,6 +97,12 @@ class RandomDishFragment : BaseFragment() {
             showSnackBarErrorMessage(error)
         }
 
+    }
+
+    private fun openDishSource(){
+        val uri = viewModel.dishSourceUri.value
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

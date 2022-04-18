@@ -65,4 +65,7 @@
     <!--Dish Details-->
     <string name="st_edit">Edit</string>
     <string name="st_delete">Delete</string>
+
+    <!--RandomDish-->
+    <string name="st_source">Source</string>
 </resources>
