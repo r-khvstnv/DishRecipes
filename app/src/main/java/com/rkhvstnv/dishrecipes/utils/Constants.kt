@@ -2,13 +2,14 @@ package com.rkhvstnv.dishrecipes.utils
 
 object Constants {
 
-    //Internal image directory name
+    //Internal image directory
     const val IMAGE_DIRECTORY: String = "DishImageDir"
 
     //Types of image source
     const val IMAGE_SOURCE_INTERNAL: String  = "image_internal"
     const val IMAGE_SOURCE_NETWORK: String  = "image_network"
 
+    //Default value for navigation args
     const val DEF_ARGS_INT: Int = -5
 
     //Spoonacular API
@@ -18,7 +19,7 @@ object Constants {
     const val API_KEY: String  = "apiKey"
     const val NUMBER_VALUE: Int = 1
 
-    //room database
+    //Room database
     const val TN_DISHES_TABLE = "dishes_table"
     const val CI_IMAGE: String  = "image"
     const val CI_IMAGE_SOURCE: String  = "imageSource"

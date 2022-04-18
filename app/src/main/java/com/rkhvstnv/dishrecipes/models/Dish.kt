@@ -8,7 +8,7 @@ import com.rkhvstnv.dishrecipes.utils.Constants
 
 @Entity(tableName = Constants.TN_DISHES_TABLE)
 data class Dish (
-    @ColumnInfo(name = Constants.CI_IMAGE) val image: String,
+    @ColumnInfo(name = Constants.CI_IMAGE) val image: String = "",
     @ColumnInfo(name = Constants.CI_IMAGE_SOURCE) val imageSource: String = Constants.IMAGE_SOURCE_NETWORK,
     @ColumnInfo(name = Constants.CI_LABEL) val label: String,
     @ColumnInfo(name = Constants.CI_TYPE) val type: String,

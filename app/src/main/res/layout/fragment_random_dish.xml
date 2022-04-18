@@ -12,10 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <include
             android:id="@+id/in_dish_details"
-            layout="@layout/dish_details_layout"
-            />
+            layout="@layout/dish_details_layout" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fab_source"

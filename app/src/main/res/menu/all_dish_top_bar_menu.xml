@@ -16,18 +16,14 @@
             <item
                 android:id="@+id/m_all"
                 android:checked="true"
-                android:title="@string/st_all_dishes"
-                />
+                android:title="@string/st_all_dishes" />
             <item
                 android:id="@+id/m_type"
                 android:checked="true"
-                android:title="@string/st_type"
-                />
+                android:title="@string/st_type" />
             <item
                 android:id="@+id/m_category"
-                android:title="@string/st_category"
-                />
-
+                android:title="@string/st_category" />
         </menu>
     </item>
 </menu>

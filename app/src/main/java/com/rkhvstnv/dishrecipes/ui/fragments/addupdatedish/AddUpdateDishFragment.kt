@@ -33,7 +33,7 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
-import com.rkhvstnv.dishrecipes.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -112,11 +112,13 @@ class AddUpdateDishFragment : BaseFragment() {
             ) == PackageManager.PERMISSION_GRANTED -> {
                 galleryLauncher()
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+            shouldShowRequestPermissionRationale(
+                Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 showSnackBarPermissionError()
             }
             else -> {
-                requestStoragePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                requestStoragePermissionLauncher
+                    .launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
     }
@@ -167,24 +169,8 @@ class AddUpdateDishFragment : BaseFragment() {
             }
     }
 
-    /**Method save image to internal package storage and assign it's imagePath*/
-    private fun saveImageToInternalStorage(bitmap: Bitmap){
-        val wrapper = ContextWrapper(context?.applicationContext)
-
-        var file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)
-        file = File(file, "${UUID.randomUUID()}.jpg")
-        runCatching {
-            val stream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-            stream.flush()
-            stream.close()
-        }.onFailure {
-            it.printStackTrace()
-        }
-        viewModel.imagePath = file.absolutePath
-    }
-
-    /**Method check user input and show error message to him, if some fields didn't filled*/
+    /**Method checks user input and show error message to him,
+     * if some fields didn't filled*/
     private fun isUserInputIsValid(): Boolean{
         var result: Boolean
         val errorMessage = resources.getString(R.string.st_fill_field)
@@ -211,7 +197,25 @@ class AddUpdateDishFragment : BaseFragment() {
         return result
     }
 
-    /**Return dishEntity using user inputs. Can be called Only after Input Validation*/
+    /**Method saves image to internal package storage and assigns it's imagePath*/
+    private fun saveImageToInternalStorage(bitmap: Bitmap){
+        val wrapper = ContextWrapper(context?.applicationContext)
+
+        var file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)
+        file = File(file, "${UUID.randomUUID()}.jpg")
+        runCatching {
+            val stream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+        }.onFailure {
+            it.printStackTrace()
+        }
+        viewModel.imagePath = file.absolutePath
+    }
+
+    /**Returns dishEntity using user inputs.
+     * Can be called Only after Input Validation*/
     private fun getDishEntity(): Dish {
         with(binding) {
             return Dish(
@@ -238,6 +242,7 @@ class AddUpdateDishFragment : BaseFragment() {
      * - hide UI progress and navigate to AllDishesFragment*/
     private fun saveOrUpdateDish(){
         if (isUserInputIsValid()){
+            //show progressBar
             binding.pbIndicator.visibility = View.VISIBLE
 
             lifecycleScope.launch(Dispatchers.IO){
@@ -247,7 +252,7 @@ class AddUpdateDishFragment : BaseFragment() {
                     /*Save new image, if user decided to change existing
                     * dishBitmap is always Null, if galleryResultLauncher has not been called*/
                     if (viewModel.dishBitmap != null){
-                        deleteFile(viewModel.imagePath)
+                        deleteFile(viewModel.imagePath, viewModel.tmpDish!!.value!!.imageSource)
                         saveImageToInternalStorage(viewModel.dishBitmap!!)
                     }
 
@@ -255,20 +260,20 @@ class AddUpdateDishFragment : BaseFragment() {
                     val dish = getDishEntity()
                     dish.id = viewModel.tmpDish!!.value!!.id
                     dish.isFavoriteDish = viewModel.tmpDish!!.value!!.isFavoriteDish
-                    viewModel.updateDishModel(dish = dish)
+                    viewModel.updateDishData(dish = dish)
                 }
                 //add
                 else{
                     saveImageToInternalStorage(viewModel.dishBitmap!!)
                     val dish = getDishEntity()
-                    viewModel.insert(dish = dish)
+                    viewModel.insertDishData(dish = dish)
                 }
 
                 withContext(Dispatchers.Main){
                     //hide progress bar
                     binding.pbIndicator.visibility = View.GONE
                     showSnackBarPositiveMessage("Done")
-                    navigateToAllDishes()
+                    navigateToAllDishes(this@AddUpdateDishFragment)
                 }
             }
         }
@@ -304,17 +309,6 @@ class AddUpdateDishFragment : BaseFragment() {
             }
         }
     }
-
-    /**Navigate to AllDishesFragment destroying This Fragment*/
-    private fun navigateToAllDishes(){
-        parentFragmentManager
-            .beginTransaction()
-            .remove(this@AddUpdateDishFragment)
-            .commit()
-        navigateToFragment(R.id.navigation_all_dishes)
-    }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

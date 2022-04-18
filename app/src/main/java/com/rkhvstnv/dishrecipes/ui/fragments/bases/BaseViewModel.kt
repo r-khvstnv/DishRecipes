@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.bases
+package com.rkhvstnv.dishrecipes.ui.fragments.bases
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,24 +21,22 @@ open class BaseViewModel(private val repository: DishRepository): ViewModel() {
         }
     }
 
-    fun flipDishFavouriteState(dish: Dish): Dish {
+
+    fun flipDishFavoriteState(dish: Dish): Dish {
         dish.isFavoriteDish = !dish.isFavoriteDish
         return dish
     }
-
 
 
     fun deleteDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO){
         repository.deleteDish(dish = dish)
     }
 
-    fun updateDishModel(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
+    fun updateDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateDish(dish = dish)
     }
 
-    fun insert(dish: Dish) = viewModelScope.launch {
+    fun insertDishData(dish: Dish) = viewModelScope.launch {
         repository.insertDish(dish = dish)
     }
-
-
 }

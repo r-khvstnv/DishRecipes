@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -13,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
-import com.rkhvstnv.dishrecipes.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModelFactory
 import com.rkhvstnv.dishrecipes.utils.Constants
@@ -39,20 +38,34 @@ class DishDetailsFragment : BaseFragment() {
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //receive dish ID
         args.let {
             if (args.dishId != Constants.DEF_ARGS_INT){
                 viewModel.assignTmpDish(it.dishId)
             }
         }
 
-        //observe data of dish
+        observeDish()
+
+        binding.fabEditDish.setOnClickListener {
+            navigateToAddUpdateFragment()
+        }
+        binding.iDishDetails.fabFavorite.setOnClickListener {
+            val dish = viewModel.flipDishFavoriteState(viewModel.tmpDish!!.value!!)
+            viewModel.updateDishData(dish = dish)
+        }
+        binding.fabDeleteDish.setOnClickListener {
+            requestDishDeleting()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun observeDish(){
         viewModel.tmpDish?.observe(viewLifecycleOwner){
-            dish ->
+                dish ->
             dish.let {
                 viewModel.imagePath = it.image
 
@@ -77,26 +90,12 @@ class DishDetailsFragment : BaseFragment() {
                         fabFavorite.setImageResource(R.drawable.ic_favorite_border_24)
                     }
 
+                    //Only user dishes are available for editing
                     if (it.imageSource == Constants.IMAGE_SOURCE_NETWORK){
                         binding.fabEditDish.visibility = View.GONE
                     }
                 }
             }
-        }
-
-
-        binding.fabEditDish.setOnClickListener {
-            navigateToAddUpdateFragment()
-        }
-
-        binding.iDishDetails.fabFavorite.setOnClickListener {
-            val dish = viewModel.flipDishFavouriteState(viewModel.tmpDish!!.value!!)
-            viewModel.updateDishModel(dish = dish)
-        }
-
-        binding.fabDeleteDish.setOnClickListener {
-            deleteFile(viewModel.tmpDish!!.value!!.image)
-            viewModel.deleteDishData(viewModel.tmpDish!!.value!!)
         }
     }
 
@@ -106,6 +105,12 @@ class DishDetailsFragment : BaseFragment() {
         findNavController().navigate(
             DishDetailsFragmentDirections.actionNavigationDishDetailsToNavigationAddUpdateDish()
         )
+    }
+
+    private fun requestDishDeleting(){
+        deleteFile(viewModel.tmpDish!!.value!!.image, viewModel.tmpDish!!.value!!.imageSource)
+        viewModel.deleteDishData(viewModel.tmpDish!!.value!!)
+        navigateToAllDishes(this)
     }
 
     override fun onDestroyView() {

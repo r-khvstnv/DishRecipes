@@ -9,8 +9,7 @@
         android:id="@+id/navigation_all_dishes"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment"
         android:label="fragment_all_dishes"
-        tools:layout="@layout/fragment_all_dishes" >
-
+        tools:layout="@layout/fragment_all_dishes">
         <action
             android:id="@+id/action_navigation_all_dishes_to_navigation_dish_details"
             app:destination="@id/navigation_dish_details" />
@@ -23,7 +22,7 @@
         android:id="@+id/navigation_favorite"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
+        tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_navigation_favorite_to_navigation_dish_details"
             app:destination="@id/navigation_dish_details" />
@@ -42,14 +41,13 @@
         android:id="@+id/navigation_add_update_dish"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishFragment"
         android:label="fragment_add_update_dish"
-        tools:layout="@layout/fragment_add_update_dish"
-        >
+        tools:layout="@layout/fragment_add_update_dish">
         <argument
             android:name="dishId"
-            app:argType="integer"
             android:defaultValue="-5"
-            />
+            app:argType="integer" />
     </fragment>
+
     <fragment
         android:id="@+id/navigation_dish_details"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsFragment"
@@ -57,12 +55,10 @@
         tools:layout="@layout/fragment_dish_details">
         <argument
             android:name="dishId"
-            app:argType="integer"
             android:defaultValue="-5"
-            />
+            app:argType="integer" />
         <action
             android:id="@+id/action_navigation_dish_details_to_navigation_add_update_dish"
             app:destination="@id/navigation_add_update_dish" />
-
     </fragment>
 </navigation>

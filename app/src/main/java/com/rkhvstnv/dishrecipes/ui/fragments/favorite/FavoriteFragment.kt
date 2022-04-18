@@ -13,8 +13,8 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
 import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
-import com.rkhvstnv.dishrecipes.bases.BaseFragment
-import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishClickListener
 
 class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
@@ -36,46 +36,14 @@ class FavoriteFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //In this fragment, filter functionality is unnecessary
         binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_filter).isVisible = false
 
-        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener {
-            override fun onViewClick(itemId: Int) {
-                navigateToDishDetails(itemId)
-            }
-
-            override fun onFavoriteStateClick(dish: Dish) {
-                val tmpDish = viewModel.flipDishFavouriteState(dish = dish)
-                viewModel.updateDishModel(tmpDish)
-            }
-
-            override fun onEditClick(itemId: Int) {
-                navigateToUpdateDish(itemId)
-            }
-
-            override fun onDeleteClick(dish: Dish) {
-                deleteFile(dish.image)
-                viewModel.deleteDishData(dish = dish)
-            }
-
-            override fun showOwnerError() {
-                showSnackBarErrorMessage(getString(R.string.st_you_are_not_owner))
-            }
-
-        })
-        binding.rvDishList.adapter = adapter
-
-
-
-        viewModel.allFavDishesList.observe(viewLifecycleOwner){
-                dishList ->
-            dishList.let {
-                if (it.isNotEmpty()){
-                    adapter.updateDishesList(it.reversed())
-                }
-            }
-        }
-
         setupToolBar()
+
+        setupRecyclerViewAdapter()
+
+        setRecyclerViewStyle()
     }
 
     private fun setupToolBar(){
@@ -89,12 +57,56 @@ class FavoriteFragment : BaseFragment() {
                 return@setOnMenuItemClickListener false
             }
         }
+    }
 
+    /**Method prepare rv adapter with corresponding callbacks
+     * and also observe dishesList*/
+    private fun setupRecyclerViewAdapter(){
+        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener {
+            override fun onViewClick(itemId: Int) {
+                navigateToDishDetails(itemId)
+            }
+
+            override fun onFavoriteStateClick(dish: Dish) {
+                val tmpDish = viewModel.flipDishFavoriteState(dish = dish)
+                viewModel.updateDishData(tmpDish)
+            }
+
+            override fun onEditClick(itemId: Int) {
+                navigateToUpdateDish(itemId)
+            }
+
+            override fun onDeleteClick(dish: Dish) {
+                deleteFile(dish.image, dish.imageSource)
+                viewModel.deleteDishData(dish = dish)
+            }
+
+            override fun showOwnerError() {
+                showSnackBarErrorMessage(getString(R.string.st_you_are_not_owner))
+            }
+        })
+
+        binding.rvDishList.adapter = adapter
+
+        viewModel.allFavDishesList.observe(viewLifecycleOwner){
+                dishList ->
+            dishList.let {
+                if (it.isNotEmpty()){
+                    adapter.updateDishesList(it.reversed())
+                }
+            }
+        }
+    }
+
+    /**Method set preferable style by user.
+     * Also change corresponding icon on toolBar*/
+    private fun setRecyclerViewStyle(){
         viewModel.isGridStyle.observe(viewLifecycleOwner){
                 isGrid ->
             isGrid.let {
                 //assign imageView from Top toolBar for recyclerView style
-                val stateImageView = binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
+                val stateImageView =
+                    binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
                 //change icon and layoutManager depending on received data
                 if (isGrid){
                     binding.rvDishList.layoutManager =
@@ -112,20 +124,19 @@ class FavoriteFragment : BaseFragment() {
         }
     }
 
+    //Navigation
     private fun navigateToDishDetails(dishId: Int){
         findNavController().navigate(
             FavoriteFragmentDirections
                 .actionNavigationFavoriteToNavigationDishDetails(dishId = dishId)
         )
     }
-
     private fun navigateToUpdateDish(dishId: Int){
         findNavController().navigate(
             FavoriteFragmentDirections
                 .actionNavigationFavoriteToNavigationAddUpdateDish(dishId = dishId)
         )
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

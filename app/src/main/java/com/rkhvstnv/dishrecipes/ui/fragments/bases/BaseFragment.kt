@@ -1,14 +1,14 @@
-package com.rkhvstnv.dishrecipes.bases
+package com.rkhvstnv.dishrecipes.ui.fragments.bases
 
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.R
+import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -16,9 +16,18 @@ import java.io.IOException
 
 open class BaseFragment: Fragment() {
 
-    fun navigateToFragment(navFragmentId: Int){
+    private fun navigateToFragment(navFragmentId: Int){
         val navHost = findNavController()
         navHost.navigate(navFragmentId)
+    }
+
+    /**Navigate to AllDishesFragment destroying Fragment, which made call*/
+    fun navigateToAllDishes(fragment: Fragment){
+        parentFragmentManager
+            .beginTransaction()
+            .remove(fragment)
+            .commit()
+        navigateToFragment(R.id.navigation_all_dishes)
     }
 
     fun showSnackBarPermissionError(){
@@ -55,18 +64,16 @@ open class BaseFragment: Fragment() {
     }
 
     /**Delete dishImage from internal storage*/
-    fun deleteFile(path: String){
-        lifecycleScope.launch(Dispatchers.IO){
-            /*val wrapper = ContextWrapper(context?.applicationContext)
-        val file = wrapper.getDir(Constants.IMAGE_DIRECTORY, Context.MODE_PRIVATE)*/
-            val file = File(path)
-            try {
-                file.delete()
-            } catch (e: IOException){
-                e.printStackTrace()
+    fun deleteFile(path: String, source: String){
+        if (source != Constants.IMAGE_SOURCE_NETWORK){
+            lifecycleScope.launch(Dispatchers.IO){
+                val file = File(path)
+                try {
+                    file.delete()
+                } catch (e: IOException){
+                    e.printStackTrace()
+                }
             }
         }
     }
-
-
 }

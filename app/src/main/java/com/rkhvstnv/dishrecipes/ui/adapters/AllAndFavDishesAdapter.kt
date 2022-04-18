@@ -12,24 +12,26 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
 import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.utils.Constants
-import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishClickListener
 
 class AllAndFavDishesAdapter(
     private val context: Context,
-    private val itemClickListener: ItemDishClickListener):
-    RecyclerView.Adapter<AllAndFavDishesAdapter.ViewHolder>() {
+    private val itemClickListener: ItemDishClickListener
+): RecyclerView.Adapter<AllAndFavDishesAdapter.ViewHolder>() {
 
     private var dishesList: List<Dish> = listOf()
 
     inner class ViewHolder(val binding: ItemDishBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: ItemDishBinding = ItemDishBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding: ItemDishBinding = ItemDishBinding
+            .inflate(LayoutInflater.from(context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dish = dishesList[position]
+
         with(holder.binding){
             Glide
                 .with(context)
@@ -37,6 +39,7 @@ class AllAndFavDishesAdapter(
                 .into(ivDishImage)
             tvDishLabel.text = dish.label
 
+            //set corresponding icon to favorite state
             if (dish.isFavoriteDish){
                 ivFavoriteState.setImageResource(R.drawable.ic_favorite)
             } else{
@@ -72,6 +75,8 @@ class AllAndFavDishesAdapter(
         notifyDataSetChanged()
     }
 
+    /**Method setup menu with corresponding callbacks.
+     * Preferable anchor is icon More*/
     private fun setupPopupMenu(view: View, dish: Dish){
         val popupMenu = PopupMenu(context, view)
         popupMenu.menuInflater.inflate(R.menu.menu_adapter_dropdown, popupMenu.menu)

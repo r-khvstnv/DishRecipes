@@ -31,7 +31,6 @@ class RandomDishFragment : BaseFragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,6 +53,7 @@ class RandomDishFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun observeRandomDish(){
+        //Loading status
         viewModel.randomDishInLoading.observe(viewLifecycleOwner){
             inLoading ->
             inLoading.let {
@@ -65,8 +65,7 @@ class RandomDishFragment : BaseFragment() {
                 binding.swipeRefreshLayout.isRefreshing = it
             }
         }
-
-
+        //Dish data
         viewModel.dish.observe(viewLifecycleOwner){
                 dish ->
             dish.let {
@@ -87,7 +86,7 @@ class RandomDishFragment : BaseFragment() {
                 }
             }
         }
-
+        //Request Errors
         viewModel.randomDishLoadingError.observe(viewLifecycleOwner){
                 error ->
             showSnackBarErrorMessage(error)

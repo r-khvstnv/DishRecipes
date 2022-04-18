@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.rkhvstnv.dishrecipes.bases.BaseViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
 import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
 
@@ -14,8 +14,8 @@ class FavoriteViewModelFactory(private val repository: DishRepository): ViewMode
         return FavoriteViewModel(repository = repository) as T
     }
 }
+class FavoriteViewModel(private val repository: DishRepository):
+    BaseViewModel(repository = repository) {
 
-
-class FavoriteViewModel(private val repository: DishRepository) : BaseViewModel(repository = repository) {
     val allFavDishesList: LiveData<List<Dish>> = repository.allFavDishesList.asLiveData()
 }

@@ -21,13 +21,16 @@ class RandomDishViewModelFactory(private val repository: DishRepository): ViewMo
         return RandomDishViewModel(repository = repository) as T
     }
 }
-class RandomDishViewModel(private val repository: DishRepository) : BaseViewModel(repository = repository) {
+class RandomDishViewModel(private val repository: DishRepository):
+    BaseViewModel(repository = repository) {
+
     private val randomDishService = RandomDishService()
     private val compositeDisposable = CompositeDisposable()
 
     private val _randomDishInLoading = MutableLiveData<Boolean>()
     private val _randomDishLoadingError = MutableLiveData<String>()
     private val _dish = MutableLiveData<Dish>()
+    //Link of recipe received from Api
     private val _dishSourceUri = MutableLiveData<Uri>()
 
     val randomDishInLoading: LiveData<Boolean> get() = _randomDishInLoading
@@ -56,11 +59,11 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
                         _randomDishInLoading.value = false
                         _randomDishLoadingError.value = e.message
                     }
-
                 })
         )
     }
 
+    /**Method converts data from api to Dish Entity and saves it in db*/
     private fun fetchDish(recipes: RandomDish.Recipes){
         val recipe = recipes.recipes[0]
 
@@ -73,7 +76,8 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
             ingredients += "${i.original}\n"
         }
 
-        var steps = ""
+        //Mostly data for this field, came as Html text. For these reason, mandatory parse it
+        val steps: String
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
             steps = Html.fromHtml(recipe.instructions, Html.FROM_HTML_MODE_COMPACT).toString()
         } else{
@@ -81,6 +85,7 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
             steps = Html.fromHtml(recipe.instructions).toString()
         }
 
+        //prepare entity
         with(recipe){
             _dish.value = Dish(
                 image,
@@ -94,16 +99,17 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
             )
         }
 
+        //insert new dish
         if (dish.value != null){
-            insert(dish = dish.value!!)
+            insertDishData(dish = dish.value!!)
         }
     }
 
     fun changeFavoriteState(){
         if (_dish.value != null){
-            _dish.value = flipDishFavouriteState(_dish.value!!)
+            _dish.value = flipDishFavoriteState(_dish.value!!)
 
-            updateDishModel(dish = dish.value!!)
+            updateDishData(dish = dish.value!!)
         }
     }
 }

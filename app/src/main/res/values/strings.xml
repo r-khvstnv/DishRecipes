@@ -8,6 +8,9 @@
     <string name="st_settings">Settings</string>
     <string name="st_fill_field">Fill the field</string>
 
+    <!--Descriptions-->
+    <string name="st_dish_image">Dish image</string>
+
     <!--Types and Categories-->
     <string name="st_breakfast">Breakfast</string>
     <string name="st_dessert">Dessert</string>
@@ -27,19 +30,6 @@
         <item>@string/st_side_dish</item>
         <item>@string/st_other</item>
     </string-array>
-
-    <!--AddUpdateDish-->
-    <string name="st_label">Label</string>
-    <string name="st_type">Type</string>
-    <string name="st_category">Category</string>
-    <string name="st_ingredients">Ingredients</string>
-    <string name="st_cooking_time">Cooking Time (In Minutes)</string>
-    <string name="st_steps">Steps</string>
-    <string name="st_add_dish">Add Dish</string>
-    <string name="st_image_not_selected">Image Is Not Selected</string>
-    <string name="st_dish_saved">Dish Saved Successfully</string>
-    <string name="st_apply_changes">Apply Changes</string>
-
     <string-array name="dish_category">
         <item>Bakery</item>
         <item>BBQ</item>
@@ -56,6 +46,18 @@
         <item>Wraps</item>
         <item>Other</item>
     </string-array>
+
+    <!--AddUpdateDish-->
+    <string name="st_label">Label</string>
+    <string name="st_type">Type</string>
+    <string name="st_category">Category</string>
+    <string name="st_ingredients">Ingredients</string>
+    <string name="st_cooking_time">Cooking Time (In Minutes)</string>
+    <string name="st_steps">Steps</string>
+    <string name="st_add_dish">Add Dish</string>
+    <string name="st_image_not_selected">Image Is Not Selected</string>
+    <string name="st_dish_saved">Dish Saved Successfully</string>
+    <string name="st_apply_changes">Apply Changes</string>
 
     <!--AllDishes-->
     <string name="st_no_dishes">No Dishes Added Yet</string>

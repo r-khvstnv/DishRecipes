@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rkhvstnv.dishrecipes.databinding.ItemFilterBinding
-import com.rkhvstnv.dishrecipes.utils.ItemFilterClickListener
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterClickListener
 
 class FilterAdapter(
     private val context: Context,
@@ -14,7 +14,7 @@ class FilterAdapter(
     private val itemClickListener: ItemFilterClickListener
     ): RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
 
-        inner class ViewHolder(val binding: ItemFilterBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemFilterBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ItemFilterBinding =

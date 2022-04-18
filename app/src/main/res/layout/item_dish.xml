@@ -17,8 +17,8 @@
             android:id="@+id/iv_dish_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_item_dish_image_height"
+            android:contentDescription="@string/st_dish_image"
             android:scaleType="centerCrop"
-            tools:ignore="ContentDescription"
             tools:src="@color/primaryLightColor" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

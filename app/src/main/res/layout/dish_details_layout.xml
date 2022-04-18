@@ -8,8 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="30dp"
-        >
+        android:paddingBottom="30dp">
 
         <FrameLayout
             android:id="@+id/image_frame"
@@ -19,6 +18,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dim_details_image_height"
+                android:contentDescription="@string/st_dish_image"
+                android:scaleType="centerCrop"
+                android:src="@color/primaryColor" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_favorite"
                 android:layout_width="wrap_content"
@@ -26,16 +33,10 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginVertical="@dimen/dim_fab_margin_vertical"
                 android:layout_marginEnd="@dimen/dim_fab_margin_end"
+                android:contentDescription="@string/st_favorite"
                 android:src="@drawable/ic_favorite_border_24"
                 app:fabSize="mini"
                 app:tint="?attr/colorPrimary" />
-
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dim_details_image_height"
-                android:scaleType="centerCrop"
-                android:src="@color/primaryColor" />
         </FrameLayout>
 
         <TextView
@@ -67,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_details_type_margin_horizontal"
+            android:contentDescription="@string/st_cooking_time"
             android:scaleType="fitCenter"
             android:src="@drawable/ic__time_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_category"
@@ -86,7 +88,6 @@
             app:layout_constraintStart_toEndOf="@id/iv_time"
             app:layout_constraintTop_toTopOf="@id/iv_time"
             tools:text="00:45" />
-
 
         <TextView
             android:id="@+id/tv_label"
