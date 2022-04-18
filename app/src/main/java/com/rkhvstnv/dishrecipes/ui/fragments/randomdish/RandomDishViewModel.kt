@@ -1,20 +1,19 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.model.entities.Dish
-import com.rkhvstnv.dishrecipes.model.entities.RandomDish
-import com.rkhvstnv.dishrecipes.model.network.RandomDishService
-import com.rkhvstnv.dishrecipes.model.room.DishRepository
+import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.models.RandomDish
+import com.rkhvstnv.dishrecipes.network.RandomDishService
+import com.rkhvstnv.dishrecipes.database.DishRepository
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class RandomDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -22,7 +21,7 @@ class RandomDishViewModelFactory(private val repository: DishRepository): ViewMo
         return RandomDishViewModel(repository = repository) as T
     }
 }
-class RandomDishViewModel(repository: DishRepository) : BaseViewModel(repository = repository) {
+class RandomDishViewModel(private val repository: DishRepository) : BaseViewModel(repository = repository) {
     private val randomDishService = RandomDishService()
     private val compositeDisposable = CompositeDisposable()
 
@@ -99,4 +98,6 @@ class RandomDishViewModel(repository: DishRepository) : BaseViewModel(repository
             updateDishModel(dish = dish.value!!)
         }
     }
+
+
 }

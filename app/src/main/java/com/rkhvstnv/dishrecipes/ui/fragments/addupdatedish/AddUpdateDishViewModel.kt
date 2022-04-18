@@ -3,8 +3,9 @@ package com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish
 import android.graphics.Bitmap
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.model.entities.Dish
-import com.rkhvstnv.dishrecipes.model.room.DishRepository
+import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.database.DishRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddUpdateDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
@@ -14,7 +15,7 @@ class AddUpdateDishViewModelFactory(private val repository: DishRepository): Vie
     }
 }
 
-class AddUpdateDishViewModel(repository: DishRepository) : BaseViewModel(repository = repository) {
+class AddUpdateDishViewModel(private val repository: DishRepository) : BaseViewModel(repository = repository) {
     //Bitmap received after user add it from gallery. Should be assign to Null in onDestroyView
     var dishBitmap: Bitmap? = null
     //Value assigned only after new bitmap was saved
@@ -25,6 +26,5 @@ class AddUpdateDishViewModel(repository: DishRepository) : BaseViewModel(reposit
     fun assignTmpDish(dishId: Int){
         tmpDish = repository.getDishById(dishId).asLiveData()
     }
-
 
 }

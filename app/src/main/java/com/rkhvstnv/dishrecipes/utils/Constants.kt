@@ -16,6 +16,18 @@ object Constants {
     const val NUMBER: String  = "number"
     const val BASE_URL: String  = "https://api.spoonacular.com/"
     const val API_KEY: String  = "apiKey"
-
     const val NUMBER_VALUE: Int = 1
+
+    //room database
+    const val TN_DISHES_TABLE = "dishes_table"
+    const val CI_IMAGE: String  = "image"
+    const val CI_IMAGE_SOURCE: String  = "imageSource"
+    const val CI_LABEL: String  = "label"
+    const val CI_TYPE: String  = "type"
+    const val CI_CATEGORY: String  = "category"
+    const val CI_INGREDIENTS: String  = "ingredients"
+    const val CI_COOKING_TIME: String  = "cookingTime"
+    const val CI_STEPS: String  = "steps"
+    const val CI_IS_FAVORITE: String  = "isFavoriteDish"
+    const val CI_ID: String = "id"
 }

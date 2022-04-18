@@ -1,6 +1,6 @@
-package com.rkhvstnv.dishrecipes.model.network
+package com.rkhvstnv.dishrecipes.network
 
-import com.rkhvstnv.dishrecipes.model.entities.RandomDish
+import com.rkhvstnv.dishrecipes.models.RandomDish
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.Keys
 import io.reactivex.rxjava3.core.Single

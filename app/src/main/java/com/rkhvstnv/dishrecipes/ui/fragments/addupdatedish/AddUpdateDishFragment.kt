@@ -31,7 +31,7 @@ import com.bumptech.glide.request.target.Target
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
-import com.rkhvstnv.dishrecipes.model.entities.Dish
+import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.utils.Constants

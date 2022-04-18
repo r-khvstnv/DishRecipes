@@ -69,7 +69,7 @@ class DishDetailsFragment : BaseFragment() {
 
                     tvLabel.text = it.label
                     tvIngredients.text = it.ingredients
-                    tvSteps.text = it.ingredients
+                    tvSteps.text = it.steps
 
                     if (it.isFavoriteDish){
                         fabFavorite.setImageResource(R.drawable.ic_favorite)

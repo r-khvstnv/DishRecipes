@@ -1,6 +1,6 @@
 package com.rkhvstnv.dishrecipes.utils
 
-import com.rkhvstnv.dishrecipes.model.entities.Dish
+import com.rkhvstnv.dishrecipes.models.Dish
 
 interface ItemDishClickListener {
     fun onViewClick(itemId: Int)

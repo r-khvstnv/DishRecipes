@@ -4,21 +4,26 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
-import com.rkhvstnv.dishrecipes.model.entities.Dish
+import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
+import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.ItemDishClickListener
 import com.rkhvstnv.dishrecipes.utils.ItemFilterClickListener
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class AllDishesFragment : BaseFragment() {
@@ -43,6 +48,18 @@ class AllDishesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolBar()
+
+        setupRecyclerViewAdapter()
+
+        binding.rvDishList.adapter = allDishAdapter
+
+        observeAllDishes()
+
+
+    }
+
+    private fun setupRecyclerViewAdapter(){
         allDishAdapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener{
             override fun onViewClick(itemId: Int) {
                 navigateToDishDetails(itemId)
@@ -66,13 +83,6 @@ class AllDishesFragment : BaseFragment() {
                 showSnackBarErrorMessage(getString(R.string.st_you_are_not_owner))
             }
         })
-        binding.rvDishList.adapter = allDishAdapter
-
-
-
-        observeAllDishes()
-
-        setupToolBar()
     }
 
     private fun observeAllDishes(){
@@ -150,12 +160,11 @@ class AllDishesFragment : BaseFragment() {
 
     private fun setupFilterDialog(filter: String){
         //prepare all data for rv
-        val paramsList: List<String> =
-            if (filter == getString(R.string.st_category)){
-                resources.getStringArray(R.array.dish_category).toList()
-            } else{
-            resources.getStringArray(R.array.dish_types).toList()
-            }
+        val paramsList = if (filter == getString(R.string.st_type)){
+            viewModel.dishTypes
+        } else{
+            viewModel.dishCategories
+        }
 
         val dialog = Dialog(requireContext())
         val dBinding: FilterDialogBinding = FilterDialogBinding.inflate(LayoutInflater.from(this.context))

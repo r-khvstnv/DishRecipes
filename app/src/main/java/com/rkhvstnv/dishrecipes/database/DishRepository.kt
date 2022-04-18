@@ -1,13 +1,15 @@
-package com.rkhvstnv.dishrecipes.model.room
+package com.rkhvstnv.dishrecipes.database
 
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import com.rkhvstnv.dishrecipes.model.entities.Dish
+import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.models.DishFilters
 import kotlinx.coroutines.flow.Flow
 
 class DishRepository(private val dishDao: DishDao) {
     val allDishesList: Flow<List<Dish>> = dishDao.getAllDishList()
     val allFavDishesList: Flow<List<Dish>> = dishDao.getAllFavDishesList()
+    val dishFilters: Flow<List<DishFilters>> = dishDao.getDishFiltersList()
+
 
     fun getDishById(id: Int): Flow<Dish> = dishDao.getDishDetailsById(id)
 
