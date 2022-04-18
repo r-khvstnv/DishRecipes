@@ -1,8 +1,10 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 
 import android.net.Uri
+import android.os.Build
+import android.text.Html
 import androidx.lifecycle.*
-import com.rkhvstnv.dishrecipes.bases.BaseViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
 import com.rkhvstnv.dishrecipes.models.Dish
 import com.rkhvstnv.dishrecipes.models.RandomDish
 import com.rkhvstnv.dishrecipes.network.RandomDishService
@@ -12,8 +14,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RandomDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -73,6 +73,14 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
             ingredients += "${i.original}\n"
         }
 
+        var steps = ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            steps = Html.fromHtml(recipe.instructions, Html.FROM_HTML_MODE_COMPACT).toString()
+        } else{
+            @Suppress("DEPRECATION")
+            steps = Html.fromHtml(recipe.instructions).toString()
+        }
+
         with(recipe){
             _dish.value = Dish(
                 image,
@@ -82,7 +90,7 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
                 "Other",
                 ingredients = ingredients,
                 readyInMinutes,
-                instructions
+                steps = steps
             )
         }
 
@@ -98,6 +106,4 @@ class RandomDishViewModel(private val repository: DishRepository) : BaseViewMode
             updateDishModel(dish = dish.value!!)
         }
     }
-
-
 }

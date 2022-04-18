@@ -2,19 +2,15 @@ package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
 
 //todo implement dagger
