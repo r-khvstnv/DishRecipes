@@ -164,10 +164,11 @@ class AllDishesFragment : BaseFragment() {
      * Filter subtypes received from viewModel*/
     private fun setupFilterDialog(filter: String){
         //Choose list of subtypes
-        val paramsList = if (filter == getString(R.string.st_type)){
-            viewModel.dishTypes
-        } else{
-            viewModel.dishCategories
+        var paramsList = listOf<String>()
+        paramsList = if (filter == getString(R.string.st_type)){
+            viewModel.dishTypes.value!!
+        } else {
+            viewModel.dishCategories.value!!
         }
 
         //Setup dialog

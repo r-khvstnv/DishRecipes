@@ -1,5 +1,6 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
 import com.rkhvstnv.dishrecipes.models.Dish
@@ -7,6 +8,7 @@ import com.rkhvstnv.dishrecipes.database.DishRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -18,15 +20,15 @@ class AllDishViewModelFactory(private val repository: DishRepository): ViewModel
 class AllDishesViewModel(private val repository: DishRepository):
     BaseViewModel(repository = repository) {
 
-    private var _dishTypes = arrayListOf<String>()
-    private var _dishCategories = arrayListOf<String>()
-
-    val dishTypes get() = _dishTypes
-    val dishCategories get() = _dishCategories
+    private var _dishTypes = MutableLiveData<List<String>>()
+    private var _dishCategories = MutableLiveData<List<String>>()
+    val dishTypes: LiveData<List<String>> get() = _dishTypes
+    val dishCategories: LiveData<List<String>> get() = _dishCategories
     val allDishesList: LiveData<List<Dish>> = repository.allDishesList.asLiveData()
 
     init {
-        setFilterList()
+        setTypesList()
+        setCategoriesList()
     }
 
     fun getFilteredDishesListByType(params: String): LiveData<List<Dish>>{
@@ -39,21 +41,43 @@ class AllDishesViewModel(private val repository: DishRepository):
 
     /**Due to the inability to apply instant conversion to LiveData (asLiveData()),
      * method of receiving dishFilters implemented in this way*/
-    private fun setFilterList(){
-        viewModelScope.launch(Dispatchers.IO){
-            val list = repository.dishFilters
-            list.collect {
-                    filters ->
-                filters.let {
-                    for (item in it){
-                        if (!_dishTypes.contains(item.type)){
-                            _dishTypes.add(item.type)
-                        }
+    private fun setTypesList(){
+        val tmpTypesList = arrayListOf<String>()
 
-                        if (!_dishCategories.contains(item.category)){
-                            _dishCategories.add(item.category)
-                        }
+        viewModelScope.launch(Dispatchers.IO){
+            val typesList = repository.dishTypes
+            typesList.collect {
+                list ->
+                list.let {
+                    for (item in it){
+                        tmpTypesList.add(item.name)
                     }
+                }
+
+                withContext(Dispatchers.Main){
+                    _dishTypes.value = tmpTypesList.toList()
+                    Log.i("Test_Types", dishTypes.value.toString())
+                }
+            }
+        }
+    }
+
+    private fun setCategoriesList(){
+        val tmpCategoriesList = arrayListOf<String>()
+
+        viewModelScope.launch(Dispatchers.IO){
+            val categoriesList = repository.dishCategories
+            categoriesList.collect {
+                    list ->
+                list.let {
+                    for (item in it){
+                        tmpCategoriesList.add(item.name)
+                    }
+                }
+
+                withContext(Dispatchers.Main){
+                    _dishCategories.value = tmpCategoriesList.toList()
+                    Log.i("Test_Categories", dishCategories.value.toString())
                 }
             }
         }

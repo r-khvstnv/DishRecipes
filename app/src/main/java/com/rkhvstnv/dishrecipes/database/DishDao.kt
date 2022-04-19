@@ -2,7 +2,9 @@ package com.rkhvstnv.dishrecipes.database
 
 import androidx.room.*
 import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.models.DishCategory
 import com.rkhvstnv.dishrecipes.models.DishFilters
+import com.rkhvstnv.dishrecipes.models.DishType
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.flow.Flow
 
@@ -33,6 +35,9 @@ interface DishDao {
     @Delete
     fun deleteDishDetails(dish: Dish)
 
-    @Query("SELECT ${Constants.CI_TYPE}, ${Constants.CI_CATEGORY} FROM ${Constants.TN_DISHES_TABLE}")
-    fun getDishFiltersList(): Flow<List<DishFilters>>
+    @Query("SELECT DISTINCT ${Constants.CI_TYPE} FROM ${Constants.TN_DISHES_TABLE}")
+    fun getDishTypesList(): Flow<List<DishType>>
+
+    @Query("SELECT DISTINCT ${Constants.CI_CATEGORY} FROM ${Constants.TN_DISHES_TABLE}")
+    fun getDishCategoriesList(): Flow<List<DishCategory>>
 }
