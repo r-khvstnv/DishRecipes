@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
 
 //todo implement dagger

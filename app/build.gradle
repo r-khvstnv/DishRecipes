@@ -41,6 +41,7 @@ dependencies {
     def roomVer = "2.4.2"
     def retrofit2Ver = "2.9.0"
     def rxJava3Ver = "3.0.0"
+    def daggerVer = '2.41'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -71,5 +72,11 @@ dependencies {
     //rx
     implementation "io.reactivex.rxjava3:rxjava:$rxJava3Ver"
     implementation "io.reactivex.rxjava3:rxandroid:$rxJava3Ver"
+
+    //dagger2
+    implementation "com.google.dagger:dagger:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    kapt "com.google.dagger:dagger-compiler:$daggerVer"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVer"
 
 }

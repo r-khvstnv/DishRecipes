@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.base.BaseViewModel
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
 
 class FavoriteViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{

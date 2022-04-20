@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.models
+package com.rkhvstnv.dishrecipes.model
 
 import androidx.room.ColumnInfo
 import com.rkhvstnv.dishrecipes.utils.Constants

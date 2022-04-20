@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.utils.Constants
-import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishClickListener
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 
 class AllAndFavDishesAdapter(
     private val context: Context,
-    private val itemClickListener: ItemDishClickListener
+    private val itemCallback: ItemDishCallback
 ): RecyclerView.Adapter<AllAndFavDishesAdapter.ViewHolder>() {
 
     private var dishesList: List<Dish> = listOf()
@@ -47,7 +47,7 @@ class AllAndFavDishesAdapter(
             }
 
             ivFavoriteState.setOnClickListener {
-                itemClickListener.onFavoriteStateClick(dish = dish)
+                itemCallback.onFavoriteStateClick(dish = dish)
             }
 
             ivMore.setOnClickListener {
@@ -56,7 +56,7 @@ class AllAndFavDishesAdapter(
         }
 
         holder.itemView.setOnClickListener {
-            itemClickListener.onViewClick(dish.id)
+            itemCallback.onViewClick(dish.id)
         }
 
         holder.itemView.setOnLongClickListener {
@@ -85,14 +85,14 @@ class AllAndFavDishesAdapter(
             when(it.itemId){
                 R.id.m_edit_dish ->{
                     if (dish.imageSource != Constants.IMAGE_SOURCE_NETWORK){
-                        itemClickListener.onEditClick(dish.id)
+                        itemCallback.onEditClick(dish.id)
                     } else{
-                        itemClickListener.showOwnerError()
+                        itemCallback.showOwnerError()
                     }
                     true
                 }
                 R.id.m_delete_dish ->{
-                    itemClickListener.onDeleteClick(dish)
+                    itemCallback.onDeleteClick(dish)
                     true
                 }
                 else -> false

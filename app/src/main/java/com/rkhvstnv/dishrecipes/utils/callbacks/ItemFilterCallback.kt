@@ -4,6 +4,6 @@ package com.rkhvstnv.dishrecipes.utils.callbacks
  * filterType = type/category
  * params = subtype
  * */
-interface ItemFilterClickListener {
+interface ItemFilterCallback {
     fun onClick(filterType: String, params: String)
 }

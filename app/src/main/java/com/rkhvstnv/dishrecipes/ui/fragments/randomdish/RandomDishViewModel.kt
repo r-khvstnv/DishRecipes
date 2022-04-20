@@ -4,9 +4,9 @@ import android.net.Uri
 import android.os.Build
 import android.text.Html
 import androidx.lifecycle.*
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.models.Dish
-import com.rkhvstnv.dishrecipes.models.RandomDish
+import com.rkhvstnv.dishrecipes.base.BaseViewModel
+import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.RandomDish
 import com.rkhvstnv.dishrecipes.network.RandomDishService
 import com.rkhvstnv.dishrecipes.database.DishRepository
 import com.rkhvstnv.dishrecipes.utils.Constants

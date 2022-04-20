@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
-import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishClickListener
+import com.rkhvstnv.dishrecipes.base.BaseFragment
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 
 class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
@@ -62,7 +62,7 @@ class FavoriteFragment : BaseFragment() {
     /**Method prepare rv adapter with corresponding callbacks
      * and also observe dishesList*/
     private fun setupRecyclerViewAdapter(){
-        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishClickListener {
+        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishCallback {
             override fun onViewClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }

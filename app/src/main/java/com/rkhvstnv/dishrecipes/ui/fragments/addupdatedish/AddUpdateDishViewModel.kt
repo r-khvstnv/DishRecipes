@@ -2,8 +2,8 @@ package com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish
 
 import android.graphics.Bitmap
 import androidx.lifecycle.*
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseViewModel
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.base.BaseViewModel
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
 
 class AddUpdateDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{

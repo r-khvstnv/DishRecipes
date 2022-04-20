@@ -1,9 +1,9 @@
 package com.rkhvstnv.dishrecipes.utils.callbacks
 
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.model.Dish
 
 /**Callbacks for dishes recyclerView*/
-interface ItemDishClickListener {
+interface ItemDishCallback {
     fun onViewClick(itemId: Int)
     fun onFavoriteStateClick(dish: Dish)
     fun onEditClick(itemId: Int)

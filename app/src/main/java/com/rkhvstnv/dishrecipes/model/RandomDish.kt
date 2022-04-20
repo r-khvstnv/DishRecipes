@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.models
+package com.rkhvstnv.dishrecipes.model
 
 object RandomDish {
 data class Recipes(

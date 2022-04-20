@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.rkhvstnv.dishrecipes.databinding.ItemFilterBinding
-import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterClickListener
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterCallback
 
 class FilterAdapter(
     private val context: Context,
     private val filterType: String,
     private val paramsList: List<String>,
-    private val itemClickListener: ItemFilterClickListener
+    private val itemCallback: ItemFilterCallback
     ): RecyclerView.Adapter<FilterAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemFilterBinding): RecyclerView.ViewHolder(binding.root)
@@ -29,7 +29,7 @@ class FilterAdapter(
             tvParams.text = params
 
             tvParams.setOnClickListener {
-                itemClickListener.onClick(filterType = filterType, params = params)
+                itemCallback.onClick(filterType = filterType, params = params)
             }
         }
     }

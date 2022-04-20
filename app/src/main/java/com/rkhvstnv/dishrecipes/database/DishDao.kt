@@ -1,10 +1,9 @@
 package com.rkhvstnv.dishrecipes.database
 
 import androidx.room.*
-import com.rkhvstnv.dishrecipes.models.Dish
-import com.rkhvstnv.dishrecipes.models.DishCategory
-import com.rkhvstnv.dishrecipes.models.DishFilters
-import com.rkhvstnv.dishrecipes.models.DishType
+import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.DishCategory
+import com.rkhvstnv.dishrecipes.model.DishType
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.flow.Flow
 

@@ -1,10 +1,9 @@
 package com.rkhvstnv.dishrecipes.database
 
 import androidx.annotation.WorkerThread
-import com.rkhvstnv.dishrecipes.models.Dish
-import com.rkhvstnv.dishrecipes.models.DishCategory
-import com.rkhvstnv.dishrecipes.models.DishFilters
-import com.rkhvstnv.dishrecipes.models.DishType
+import com.rkhvstnv.dishrecipes.model.Dish
+import com.rkhvstnv.dishrecipes.model.DishCategory
+import com.rkhvstnv.dishrecipes.model.DishType
 import kotlinx.coroutines.flow.Flow
 
 class DishRepository(private val dishDao: DishDao) {

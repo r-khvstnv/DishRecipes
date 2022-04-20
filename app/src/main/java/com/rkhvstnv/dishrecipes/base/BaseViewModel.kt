@@ -1,10 +1,10 @@
-package com.rkhvstnv.dishrecipes.ui.fragments.bases
+package com.rkhvstnv.dishrecipes.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
-import com.rkhvstnv.dishrecipes.models.Dish
+import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
-import com.rkhvstnv.dishrecipes.ui.fragments.bases.BaseFragment
+import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
-import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishClickListener
-import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterClickListener
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
+import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterCallback
 
 
 class AllDishesFragment : BaseFragment() {
@@ -28,7 +28,8 @@ class AllDishesFragment : BaseFragment() {
     private lateinit var allDishAdapter: AllAndFavDishesAdapter
 
     private val viewModel: AllDishesViewModel by viewModels {
-        AllDishViewModelFactory((activity?.application as DishApplication).repository)
+        //AllDishViewModelFactory((activity?.application as DishApplication).repository)
+        TestFactory(AllDishesViewModel((activity?.application as DishApplication).repository))
     }
 
     override fun onCreateView(
@@ -82,7 +83,7 @@ class AllDishesFragment : BaseFragment() {
     /**Setup recyclerView of dishes with corresponding callbacks*/
     private fun setupRecyclerViewAdapter(){
         allDishAdapter = AllAndFavDishesAdapter(this.requireContext(), object :
-            ItemDishClickListener {
+            ItemDishCallback {
             override fun onViewClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }
@@ -185,7 +186,7 @@ class AllDishesFragment : BaseFragment() {
             requireContext(),
             filterType = filter,
             paramsList = paramsList,
-            object : ItemFilterClickListener {
+            object : ItemFilterCallback {
                 override fun onClick(filterType: String, params: String) {
 
                     dialog.dismiss()
