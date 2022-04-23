@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
@@ -28,7 +29,9 @@ class RandomDishFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var viewModel: RandomDishViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<RandomDishViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

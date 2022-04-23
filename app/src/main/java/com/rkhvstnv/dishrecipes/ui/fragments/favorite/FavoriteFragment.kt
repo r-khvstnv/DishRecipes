@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +31,9 @@ class FavoriteFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var viewModel: FavoriteViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<FavoriteViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

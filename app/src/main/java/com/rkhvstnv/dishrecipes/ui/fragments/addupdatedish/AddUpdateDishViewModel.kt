@@ -23,8 +23,15 @@ class AddUpdateDishViewModel @Inject constructor(private val repository: DishRep
     //Received using dishId from DishDetailsFragment. Should be assign to Null in onDestroyView
     var tmpDish: LiveData<Dish>? = null
 
+    private var _isNavViewShouldBeShown: MutableLiveData<Boolean> = MutableLiveData()
+    val isNavViewShouldBeShown: LiveData<Boolean> get() = _isNavViewShouldBeShown
+
     /**Method using to receive certain dish for displaying/updating*/
     fun assignTmpDish(dishId: Int){
         tmpDish = repository.getDishById(dishId).asLiveData()
+    }
+
+    fun requestNavViewHiding(){
+        _isNavViewShouldBeShown.value = false
     }
 }

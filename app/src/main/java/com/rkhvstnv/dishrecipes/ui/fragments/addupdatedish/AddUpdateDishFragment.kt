@@ -20,6 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -56,7 +58,11 @@ class AddUpdateDishFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var viewModel: AddUpdateDishViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by activityViewModels<AddUpdateDishViewModel> {
+        viewModelFactory
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -78,11 +84,11 @@ class AddUpdateDishFragment : BaseFragment() {
 
         prepareUI()
 
-        args.let {
+        /*args.let {
             if (args.dishId != Constants.DEF_ARGS_INT){
                 viewModel.assignTmpDish(it.dishId)
             }
-        }
+        }*/
 
         observeTmpDishDataIfExist()
 
@@ -285,6 +291,9 @@ class AddUpdateDishFragment : BaseFragment() {
                     //hide progress bar
                     binding.pbIndicator.visibility = View.GONE
                     showSnackBarPositiveMessage("Done")
+                    /*//todo tmp
+                    viewModel.tmpDish = null
+                    viewModel.dishBitmap = null*/
                     navigateToAllDishes(this@AddUpdateDishFragment)
                 }
             }
@@ -314,11 +323,10 @@ class AddUpdateDishFragment : BaseFragment() {
                     etSteps.setText(it.steps)
                     btnAddDish.text = getString(R.string.st_apply_changes)
                 }
-
-                /*Hiding bottomNavView prevents wrong navigation.
-                Otherwise user will see old dishData, when he want to create new dish */
-                (activity as MainActivity).hideNavView()
             }
+            /*Hiding bottomNavView prevents wrong navigation.
+                Otherwise user will see old dishData, when he want to create new dish */
+            (activity as MainActivity).hideNavView()
         }
     }
 

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
+import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelFactory
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
@@ -36,7 +38,9 @@ class AllDishesFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var viewModel: AllDishesViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by viewModels<AllDishesViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

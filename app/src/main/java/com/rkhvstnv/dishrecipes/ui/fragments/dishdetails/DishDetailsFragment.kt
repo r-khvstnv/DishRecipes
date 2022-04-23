@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -15,6 +17,7 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
+import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.Constants
@@ -35,7 +38,11 @@ class DishDetailsFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var viewModel: AddUpdateDishViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel by activityViewModels<AddUpdateDishViewModel> {
+        viewModelFactory
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -57,6 +64,7 @@ class DishDetailsFragment : BaseFragment() {
         args.let {
             if (args.dishId != Constants.DEF_ARGS_INT){
                 viewModel.assignTmpDish(it.dishId)
+                viewModel.requestNavViewHiding()
             }
         }
 
@@ -106,6 +114,15 @@ class DishDetailsFragment : BaseFragment() {
                     if (it.imageSource == Constants.IMAGE_SOURCE_NETWORK){
                         binding.fabEditDish.visibility = View.GONE
                     }
+                }
+            }
+        }
+
+        viewModel.isNavViewShouldBeShown.observe(viewLifecycleOwner){
+            isHide ->
+            isHide.let {
+                if (!it){
+                    hideNavigationView()
                 }
             }
         }
