@@ -1,7 +1,20 @@
 package com.rkhvstnv.dishrecipes.di
 
-import android.content.Context
-import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelComponent
+
+import android.app.Activity
+import android.app.Application
+import androidx.lifecycle.ViewModel
+import com.rkhvstnv.dishrecipes.base.BaseViewModel
+import com.rkhvstnv.dishrecipes.network.RandomDishService
+import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
+import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishFragment
+import com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishViewModel
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,10 +24,15 @@ import javax.inject.Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
 
-    @Component.Factory
-    interface Factory{
-        fun create(@BindsInstance appContext: Context): AppComponent
-    }
+    fun applicationContext(): Application
 
-    fun viewModelComponent(): ViewModelComponent.Factory
+    fun inject(application: Application)
+    fun inject(mainActivity: MainActivity)
+    fun inject(service: RandomDishService)
+
+    fun inject(fragment: AddUpdateDishFragment)
+    fun inject(fragment: AllDishesFragment)
+    fun inject(fragment: DishDetailsFragment)
+    fun inject(fragment: FavoriteFragment)
+    fun inject(fragment: RandomDishFragment)
 }

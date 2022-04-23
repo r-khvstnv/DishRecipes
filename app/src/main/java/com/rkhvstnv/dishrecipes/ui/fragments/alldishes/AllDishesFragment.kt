@@ -1,6 +1,7 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.alldishes
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -18,8 +19,10 @@ import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
+import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterCallback
+import javax.inject.Inject
 
 
 class AllDishesFragment : BaseFragment() {
@@ -28,8 +31,16 @@ class AllDishesFragment : BaseFragment() {
     private val binding get() = _binding!!
     private lateinit var allDishAdapter: AllAndFavDishesAdapter
 
-    private val viewModel: AllDishesViewModel by viewModels {
+    /*private val viewModel: AllDishesViewModel by viewModels {
         OldViewModelFactory(AllDishesViewModel((activity?.application as DishApplication).repository))
+    }*/
+
+    @Inject
+    lateinit var viewModel: AllDishesViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     override fun onCreateView(

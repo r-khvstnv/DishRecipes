@@ -34,21 +34,33 @@ import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.base.BaseFragment
+import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.Constants
+import com.rkhvstnv.dishrecipes.utils.appComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import javax.inject.Inject
 
 
 class AddUpdateDishFragment : BaseFragment() {
     private var _binding: FragmentAddUpdateDishBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AddUpdateDishViewModel by activityViewModels {
-        AddUpdateDishViewModelFactory((activity?.application as DishApplication).repository)
+    /*private val viewModel: AddUpdateDishViewModel by activityViewModels {
+        OldViewModelFactory(AddUpdateDishViewModel((activity?.application as DishApplication).repository))
+    }*/
+
+    @Inject
+    lateinit var viewModel: AddUpdateDishViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     private val args: AddUpdateDishFragmentArgs by navArgs()

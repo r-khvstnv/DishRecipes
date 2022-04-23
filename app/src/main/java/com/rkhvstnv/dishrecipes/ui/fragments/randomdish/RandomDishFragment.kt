@@ -1,6 +1,7 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,22 +14,28 @@ import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
+import com.rkhvstnv.dishrecipes.utils.appComponent
+import javax.inject.Inject
 
 //todo implement dagger
 class RandomDishFragment : BaseFragment() {
     private var _binding: FragmentRandomDishBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: RandomDishViewModel by viewModels{
+    /*private val viewModel: RandomDishViewModel by viewModels{
         OldViewModelFactory(RandomDishViewModel((activity?.application as DishApplication).repository))
+    }*/
+
+    @Inject
+    lateinit var viewModel: RandomDishViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null){
-            viewModel.refreshRandomDish()
-        }
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +62,8 @@ class RandomDishFragment : BaseFragment() {
         binding.fabSource.setOnClickListener {
             openDishSource()
         }
+
+        viewModel.refreshRandomDish()
 
     }
 

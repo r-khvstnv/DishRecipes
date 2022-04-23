@@ -1,6 +1,7 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,10 @@ import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.Constants
+import com.rkhvstnv.dishrecipes.utils.appComponent
+import javax.inject.Inject
 
 /**In this fragment is used AddUpdateViewModel.
  * It conditioned to minimal logic functionality of this fragment and
@@ -26,8 +30,16 @@ class DishDetailsFragment : BaseFragment() {
 
     private val args: DishDetailsFragmentArgs by navArgs()
 
-    private val viewModel: AddUpdateDishViewModel by activityViewModels {
+    /*private val viewModel: AddUpdateDishViewModel by activityViewModels {
         OldViewModelFactory(AddUpdateDishViewModel((activity?.application as DishApplication).repository))
+    }*/
+
+    @Inject
+    lateinit var viewModel: AddUpdateDishViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     override fun onCreateView(

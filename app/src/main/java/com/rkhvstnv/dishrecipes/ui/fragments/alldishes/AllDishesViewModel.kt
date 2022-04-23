@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -26,7 +27,7 @@ class TestFactory constructor(val viewModel: AllDishesViewModel): ViewModelProvi
         }
 }
 
-class AllDishesViewModel(private val repository: DishRepository):
+class AllDishesViewModel @Inject constructor(private val repository: DishRepository):
     BaseViewModel(repository = repository) {
 
     private var _dishTypes = MutableLiveData<List<String>>()

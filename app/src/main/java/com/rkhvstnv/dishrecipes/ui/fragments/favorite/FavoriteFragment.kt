@@ -1,5 +1,6 @@
 package com.rkhvstnv.dishrecipes.ui.fragments.favorite
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,14 +16,25 @@ import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
+import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
+import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
+import javax.inject.Inject
 
 class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FavoriteViewModel by viewModels{
+    /*private val viewModel: FavoriteViewModel by viewModels{
         OldViewModelFactory(FavoriteViewModel((activity?.application as DishApplication).repository))
+    }*/
+
+    @Inject
+    lateinit var viewModel: FavoriteViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.inject(this)
     }
 
     override fun onCreateView(

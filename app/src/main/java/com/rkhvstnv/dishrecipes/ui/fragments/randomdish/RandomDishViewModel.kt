@@ -3,28 +3,32 @@ package com.rkhvstnv.dishrecipes.ui.fragments.randomdish
 import android.net.Uri
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.base.BaseViewModel
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.RandomDish
 import com.rkhvstnv.dishrecipes.network.RandomDishService
 import com.rkhvstnv.dishrecipes.database.DishRepository
+import com.rkhvstnv.dishrecipes.network.RandomDishService_Factory.create
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class RandomDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
+/*class RandomDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
         return RandomDishViewModel(repository = repository) as T
     }
-}
-class RandomDishViewModel(private val repository: DishRepository):
+}*/
+class RandomDishViewModel @Inject constructor(private val repository: DishRepository, private val randomDishService: RandomDishService):
     BaseViewModel(repository = repository) {
 
-    private val randomDishService = RandomDishService()
+   /* @Inject
+    lateinit var randomDishService: RandomDishService*/
     private val compositeDisposable = CompositeDisposable()
 
     private val _randomDishInLoading = MutableLiveData<Boolean>()
@@ -37,6 +41,8 @@ class RandomDishViewModel(private val repository: DishRepository):
     val randomDishLoadingError: LiveData<String> get() = _randomDishLoadingError
     val dish: LiveData<Dish> get() = _dish
     val dishSourceUri get() = _dishSourceUri
+
+
 
     fun refreshRandomDish(){
         fetchRandomDish()
@@ -69,7 +75,7 @@ class RandomDishViewModel(private val repository: DishRepository):
 
         _dishSourceUri.value = Uri.parse(recipe.sourceUrl)
 
-        val dishType: String = recipe.dishTypes[0].replaceFirstChar { it.uppercase() }
+        val dishType: String = recipe.dishTypes[0]//.replaceFirstChar { it.uppercase() }
 
         var ingredients = ""
         for (i in recipe.extendedIngredients){

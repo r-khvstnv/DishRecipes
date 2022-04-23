@@ -11,6 +11,7 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ActivityMainBinding
 import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelFactory
+import com.rkhvstnv.dishrecipes.utils.appComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -25,11 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //todo these
-        (application as DishApplication).appComponent.viewModelComponent().create().inject(this)
         super.onCreate(savedInstanceState)
 
-
+        appComponent.inject(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

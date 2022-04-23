@@ -5,8 +5,9 @@ import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.DishCategory
 import com.rkhvstnv.dishrecipes.model.DishType
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class DishRepository(private val dishDao: DishDao) {
+class DishRepository @Inject constructor(private val dishDao: DishDao) {
     val allDishesList: Flow<List<Dish>> = dishDao.getAllDishList()
     val allFavDishesList: Flow<List<Dish>> = dishDao.getAllFavDishesList()
 

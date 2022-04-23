@@ -15,7 +15,7 @@ class FavoriteViewModelFactory(private val repository: DishRepository): ViewMode
         return FavoriteViewModel(repository = repository) as T
     }
 }
-class FavoriteViewModel(private val repository: DishRepository):
+class FavoriteViewModel @Inject constructor(private val repository: DishRepository):
     BaseViewModel(repository = repository) {
 
     val allFavDishesList: LiveData<List<Dish>> = repository.allFavDishesList.asLiveData()

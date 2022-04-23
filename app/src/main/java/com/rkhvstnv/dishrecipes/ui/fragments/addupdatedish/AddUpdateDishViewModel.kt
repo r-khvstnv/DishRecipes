@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.rkhvstnv.dishrecipes.base.BaseViewModel
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
+import javax.inject.Inject
 
 class AddUpdateDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -13,7 +14,7 @@ class AddUpdateDishViewModelFactory(private val repository: DishRepository): Vie
     }
 }
 
-class AddUpdateDishViewModel(private val repository: DishRepository):
+class AddUpdateDishViewModel @Inject constructor(private val repository: DishRepository):
     BaseViewModel(repository = repository) {
     //Bitmap received after user add it from gallery. Should be assign to Null in onDestroyView
     var dishBitmap: Bitmap? = null
