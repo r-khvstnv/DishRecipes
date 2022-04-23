@@ -14,6 +14,7 @@ import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.base.BaseFragment
+import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 
 class FavoriteFragment : BaseFragment() {
@@ -21,7 +22,7 @@ class FavoriteFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: FavoriteViewModel by viewModels{
-        FavoriteViewModelFactory((activity?.application as DishApplication).repository)
+        OldViewModelFactory(FavoriteViewModel((activity?.application as DishApplication).repository))
     }
 
     override fun onCreateView(

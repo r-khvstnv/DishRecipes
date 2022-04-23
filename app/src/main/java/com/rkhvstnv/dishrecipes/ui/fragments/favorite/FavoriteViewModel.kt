@@ -7,6 +7,7 @@ import androidx.lifecycle.asLiveData
 import com.rkhvstnv.dishrecipes.base.BaseViewModel
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.database.DishRepository
+import javax.inject.Inject
 
 class FavoriteViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

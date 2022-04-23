@@ -12,6 +12,7 @@ import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
+import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
 
 //todo implement dagger
 class RandomDishFragment : BaseFragment() {
@@ -19,7 +20,14 @@ class RandomDishFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: RandomDishViewModel by viewModels{
-        RandomDishViewModelFactory((activity?.application as DishApplication).repository)
+        OldViewModelFactory(RandomDishViewModel((activity?.application as DishApplication).repository))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState == null){
+            viewModel.refreshRandomDish()
+        }
     }
 
     override fun onCreateView(
@@ -36,8 +44,6 @@ class RandomDishFragment : BaseFragment() {
 
         observeRandomDish()
 
-        viewModel.refreshRandomDish()
-
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.refreshRandomDish()
         }
@@ -49,6 +55,7 @@ class RandomDishFragment : BaseFragment() {
         binding.fabSource.setOnClickListener {
             openDishSource()
         }
+
     }
 
     @SuppressLint("SetTextI18n")

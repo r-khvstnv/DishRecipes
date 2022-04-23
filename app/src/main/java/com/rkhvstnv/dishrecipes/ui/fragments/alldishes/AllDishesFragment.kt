@@ -16,6 +16,7 @@ import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
+import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterCallback
@@ -28,8 +29,7 @@ class AllDishesFragment : BaseFragment() {
     private lateinit var allDishAdapter: AllAndFavDishesAdapter
 
     private val viewModel: AllDishesViewModel by viewModels {
-        //AllDishViewModelFactory((activity?.application as DishApplication).repository)
-        TestFactory(AllDishesViewModel((activity?.application as DishApplication).repository))
+        OldViewModelFactory(AllDishesViewModel((activity?.application as DishApplication).repository))
     }
 
     override fun onCreateView(

@@ -1,19 +1,35 @@
 package com.rkhvstnv.dishrecipes.ui.activities.main
 
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ActivityMainBinding
+import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var vmFactory: ViewModelFactory
+
+    private val viewModel: MainViewModel by viewModels{
+        vmFactory
+    }
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //todo these
+        (application as DishApplication).appComponent.viewModelComponent().create().inject(this)
         super.onCreate(savedInstanceState)
+
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -34,6 +50,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        viewModel.test.observe(this){
+            st ->
+            st.let {
+                Toast.makeText(this, st, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun getNavController(): NavController? {
