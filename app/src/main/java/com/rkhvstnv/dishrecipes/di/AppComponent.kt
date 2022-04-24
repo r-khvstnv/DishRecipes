@@ -3,7 +3,6 @@ package com.rkhvstnv.dishrecipes.di
 
 import android.app.Application
 import com.rkhvstnv.dishrecipes.network.RandomDishService
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment
 import com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsFragment
@@ -20,7 +19,7 @@ interface AppComponent {
     fun applicationContext(): Application
 
     fun inject(application: Application)
-    fun inject(mainActivity: MainActivity)
+
     fun inject(service: RandomDishService)
 
     fun inject(fragment: AddUpdateDishFragment)

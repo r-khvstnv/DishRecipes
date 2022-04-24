@@ -2,8 +2,6 @@ package com.rkhvstnv.dishrecipes.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dagger.Binds
-import dagger.Module
 import javax.inject.Inject
 import javax.inject.Provider
 

@@ -6,7 +6,7 @@
     android:background="?attr/colorPrimary"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.activities.start.StartActivity">
+    tools:context=".ui.activities.StartActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"

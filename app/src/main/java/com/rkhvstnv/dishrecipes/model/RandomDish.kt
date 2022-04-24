@@ -1,5 +1,6 @@
 package com.rkhvstnv.dishrecipes.model
 
+/*Model for RandomDish received from Api call*/
 object RandomDish {
 data class Recipes(
     val recipes: List<Recipe>

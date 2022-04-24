@@ -10,14 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
+import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
-import com.rkhvstnv.dishrecipes.base.BaseFragment
-import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 import javax.inject.Inject
@@ -25,10 +22,6 @@ import javax.inject.Inject
 class FavoriteFragment : BaseFragment() {
     private var _binding: FragmentFavoriteBinding? = null
     private val binding get() = _binding!!
-
-    /*private val viewModel: FavoriteViewModel by viewModels{
-        OldViewModelFactory(FavoriteViewModel((activity?.application as DishApplication).repository))
-    }*/
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -78,7 +71,10 @@ class FavoriteFragment : BaseFragment() {
     /**Method prepare rv adapter with corresponding callbacks
      * and also observe dishesList*/
     private fun setupRecyclerViewAdapter(){
-        val adapter = AllAndFavDishesAdapter(this.requireContext(), object : ItemDishCallback {
+        val adapter = AllAndFavDishesAdapter(
+            this.requireContext(),
+            object : ItemDishCallback {
+
             override fun onViewClick(itemId: Int) {
                 navigateToDishDetails(itemId)
             }
@@ -95,6 +91,7 @@ class FavoriteFragment : BaseFragment() {
             override fun onDeleteClick(dish: Dish) {
                 deleteFile(dish.image, dish.imageSource)
                 viewModel.deleteDishData(dish = dish)
+                showSnackBarPositiveMessage(getString(R.string.st_successfully_deleted))
             }
 
             override fun showOwnerError() {
@@ -113,6 +110,7 @@ class FavoriteFragment : BaseFragment() {
             }
         }
     }
+
 
     /**Method set preferable style by user.
      * Also change corresponding icon on toolBar*/

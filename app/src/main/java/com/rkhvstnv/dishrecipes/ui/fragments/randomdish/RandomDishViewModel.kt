@@ -10,7 +10,6 @@ import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.model.RandomDish
 import com.rkhvstnv.dishrecipes.network.RandomDishService
 import com.rkhvstnv.dishrecipes.database.DishRepository
-import com.rkhvstnv.dishrecipes.network.RandomDishService_Factory.create
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -20,37 +19,34 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-/*class RandomDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        return RandomDishViewModel(repository = repository) as T
-    }
-}*/
-class RandomDishViewModel @Inject constructor(private val repository: DishRepository, private val randomDishService: RandomDishService):
-    BaseViewModel(repository = repository) {
+class RandomDishViewModel @Inject constructor(
+    private val repository: DishRepository,
+    private val randomDishService: RandomDishService
+    ): BaseViewModel(repository = repository) {
 
-   /* @Inject
-    lateinit var randomDishService: RandomDishService*/
     private val compositeDisposable = CompositeDisposable()
 
     private val _randomDishInLoading = MutableLiveData<Boolean>()
-    private val _randomDishLoadingError = MutableLiveData<Boolean>()
+    private val _randomDishLoadingErrorOccurred = MutableLiveData<Boolean>()
     private val _dish = MutableLiveData<Dish>()
     //Link of recipe received from Api
     private val _dishSourceUri = MutableLiveData<Uri>()
 
     val randomDishInLoading: LiveData<Boolean> get() = _randomDishInLoading
-    val randomDishLoadingError: LiveData<Boolean> get() = _randomDishLoadingError
+    val randomDishLoadingErrorOccurred: LiveData<Boolean> get() = _randomDishLoadingErrorOccurred
     val dish: LiveData<Dish> get() = _dish
     val dishSourceUri get() = _dishSourceUri
+
 
     init {
         fetchRandomDish()
     }
 
+
     fun refreshRandomDish(){
         fetchRandomDish()
     }
+
 
     private fun fetchRandomDish(){
         _randomDishInLoading.value = true
@@ -67,15 +63,16 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
 
                     override fun onError(e: Throwable) {
                         _randomDishInLoading.value = false
-                        _randomDishLoadingError.value = true
+                        _randomDishLoadingErrorOccurred.value = true
                     }
                 })
         )
 
+        //Handler for Undeliverable Exceptions
         RxJavaPlugins.setErrorHandler {
             e ->
             if (e is UndeliverableException){
-                e.message?.let { Log.e("RxJavaPlugins", it) }
+                e.message?.let { Log.e("RxJava", it) }
             }
         }
     }
@@ -93,7 +90,8 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
             ingredients += "${i.original}\n"
         }
 
-        //Mostly data for this field, came as Html text. For these reason, mandatory parse it
+        //Mostly data for this field, came as Html text.
+        // For these reason, mandatory parse it
         val steps: String
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
             steps = Html.fromHtml(recipe.instructions, Html.FROM_HTML_MODE_COMPACT).toString()
@@ -102,7 +100,7 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
             steps = Html.fromHtml(recipe.instructions).toString()
         }
 
-        //prepare entity
+        //Prepare entity
         with(recipe){
             _dish.value = Dish(
                 image,
@@ -116,7 +114,7 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
             )
         }
 
-        //insert new dish
+        //Insert new dish
         if (dish.value != null){
             insertDishData(dish = dish.value!!)
         }

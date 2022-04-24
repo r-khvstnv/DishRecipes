@@ -3,25 +3,17 @@ package com.rkhvstnv.dishrecipes.ui.fragments.dishdetails
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentDishDetailsBinding
 import com.rkhvstnv.dishrecipes.base.BaseFragment
-import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
-import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import javax.inject.Inject
@@ -31,10 +23,6 @@ class DishDetailsFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val args: DishDetailsFragmentArgs by navArgs()
-
-    /*private val viewModel: AddUpdateDishViewModel by activityViewModels {
-        OldViewModelFactory(AddUpdateDishViewModel((activity?.application as DishApplication).repository))
-    }*/
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -56,17 +44,17 @@ class DishDetailsFragment : BaseFragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         args.let {
-            if (args.dishId != Constants.DEF_ARGS_INT){
+            if (it.dishId != Constants.DEF_ARGS_INT){
                 viewModel.setDish(it.dishId)
             }
         }
 
         observeDish()
+
 
         binding.fabEditDish.setOnClickListener {
             navigateToAddUpdateFragment()
@@ -85,7 +73,6 @@ class DishDetailsFragment : BaseFragment() {
         viewModel.dish?.observe(viewLifecycleOwner){
                 dish ->
             dish?.let {
-                //viewModel.imagePath = it.image
 
                 with(binding.iDishDetails){
                     Glide
@@ -121,13 +108,17 @@ class DishDetailsFragment : BaseFragment() {
      * Additional parameters is not needed, due to This and Next Fragment use Common ViewModel*/
     private fun navigateToAddUpdateFragment(){
         findNavController().navigate(
-            DishDetailsFragmentDirections.actionNavigationDishDetailsToNavigationAddUpdateDish(viewModel.dish?.value!!.id)
+            DishDetailsFragmentDirections
+                .actionNavigationDishDetailsToNavigationAddUpdateDish(viewModel.dish?.value!!.id)
         )
     }
 
     private fun requestDishDeleting(){
         deleteFile(viewModel.dish!!.value!!.image, viewModel.dish!!.value!!.imageSource)
         viewModel.deleteDishData(viewModel.dish!!.value!!)
+
+        showSnackBarPositiveMessage(getString(R.string.st_successfully_deleted))
+
         navigateToAllDishes(this)
     }
 

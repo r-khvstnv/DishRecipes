@@ -18,12 +18,11 @@
             android:id="@+id/fl_select_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dim_image_frame_height"
-            android:background="?attr/colorSurfaceVariant"
+            android:background="@color/primaryLightColor"
             android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="PrivateResource">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_image_error"
@@ -32,9 +31,7 @@
                 android:layout_gravity="center"
                 android:text="@string/st_image_not_selected"
                 android:textAppearance="?attr/textAppearanceLabelLarge"
-                android:textColor="?attr/colorError"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:textColor="?attr/colorOnPrimary" />
 
             <ImageView
                 android:id="@+id/iv_dish_image"
@@ -51,7 +48,7 @@
                 android:scaleX="1.25"
                 android:scaleY="1.25"
                 android:src="@drawable/ic_camera_24dp"
-                app:tint="?attr/colorSecondary" />
+                app:tint="?attr/colorOnPrimary" />
         </FrameLayout>
 
 

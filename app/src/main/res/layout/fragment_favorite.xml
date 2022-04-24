@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/included_m_tool_bar"
-        layout="@layout/app_bar_layout_filters" />
+        layout="@layout/layout_app_bar_filters" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_dish_list"

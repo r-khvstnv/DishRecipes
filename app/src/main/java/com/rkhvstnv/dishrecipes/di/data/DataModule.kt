@@ -1,17 +1,11 @@
 package com.rkhvstnv.dishrecipes.di.data
 
 import android.app.Application
-import android.content.Context
-import androidx.room.Room
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.database.DishDao
 import com.rkhvstnv.dishrecipes.database.DishRepository
 import com.rkhvstnv.dishrecipes.database.DishRoomDatabase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Qualifier
-import javax.inject.Singleton
 
 
 @Module
@@ -35,14 +29,4 @@ class DataModule(private val application: Application) {
     fun provideDishRepo(dishDao: DishDao): DishRepository{
         return DishRepository(dishDao = dishDao)
     }
-
-
 }
-
-/*
-@Module
-abstract class DataBindModule{
-
-    @Binds
-    abstract fun bindDishDao(): DishDao
-}*/

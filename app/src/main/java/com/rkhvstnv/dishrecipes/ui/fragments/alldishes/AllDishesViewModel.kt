@@ -10,25 +10,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AllDishViewModelFactory(private val repository: DishRepository): ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        return AllDishesViewModel(repository = repository) as T
-    }
-}
-
-class TestFactory constructor(val viewModel: AllDishesViewModel): ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
-        if (modelClass == AllDishesViewModel::class.java){
-            @Suppress("UNCHECKED_CAST")
-            viewModel as T
-        } else{
-            throw IllegalStateException("Unknown Entity")
-        }
-}
-
-class AllDishesViewModel @Inject constructor(private val repository: DishRepository):
-    BaseViewModel(repository = repository) {
+class AllDishesViewModel @Inject constructor(
+    private val repository: DishRepository
+    ): BaseViewModel(repository = repository) {
 
     private var _dishTypes = MutableLiveData<List<String>>()
     private var _dishCategories = MutableLiveData<List<String>>()

@@ -7,7 +7,7 @@ import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishViewModel
 
-
+/*Factory is using only to trace difference in behaviour, when dagger2 is implemented*/
 @Suppress("UNCHECKED_CAST")
 class OldViewModelFactory constructor(val viewModel: ViewModel): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

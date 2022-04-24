@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.ui.activities.start
+package com.rkhvstnv.dishrecipes.ui.activities
 
 import android.content.Intent
 import android.os.Build
@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.rkhvstnv.dishrecipes.databinding.ActivityStartBinding
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 
 class StartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStartBinding

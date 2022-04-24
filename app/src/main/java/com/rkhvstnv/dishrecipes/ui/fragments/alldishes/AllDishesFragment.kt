@@ -11,15 +11,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.base.BaseFragment
-import com.rkhvstnv.dishrecipes.databinding.FilterDialogBinding
-import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
-import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelFactory
+import com.rkhvstnv.dishrecipes.databinding.DialogFilterBinding
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
@@ -28,14 +25,9 @@ import javax.inject.Inject
 
 
 class AllDishesFragment : BaseFragment() {
-
     private var _binding: FragmentAllDishesBinding? = null
     private val binding get() = _binding!!
     private lateinit var allDishAdapter: AllAndFavDishesAdapter
-
-    /*private val viewModel: AllDishesViewModel by viewModels {
-        OldViewModelFactory(AllDishesViewModel((activity?.application as DishApplication).repository))
-    }*/
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -68,7 +60,8 @@ class AllDishesFragment : BaseFragment() {
         observeAllDishes()
     }
 
-    /**Setup toolBar and corresponding actions on menus item click*/
+
+    /**Setup toolBar and corresponding actions on menu items click*/
     private fun setupToolBar(){
         binding.includedMToolBar.mToolBar.setTitle(R.string.st_all_dishes)
 
@@ -95,7 +88,7 @@ class AllDishesFragment : BaseFragment() {
         }
     }
 
-    /**Setup recyclerView of dishes with corresponding callbacks*/
+    /**Setup dishes recyclerView with corresponding callbacks*/
     private fun setupRecyclerViewAdapter(){
         allDishAdapter = AllAndFavDishesAdapter(this.requireContext(), object :
             ItemDishCallback {
@@ -115,6 +108,7 @@ class AllDishesFragment : BaseFragment() {
             override fun onDeleteClick(dish: Dish) {
                 deleteFile(dish.image, dish.imageSource)
                 viewModel.deleteDishData(dish = dish)
+                showSnackBarPositiveMessage(getString(R.string.st_successfully_deleted))
             }
 
             override fun showOwnerError() {
@@ -134,22 +128,28 @@ class AllDishesFragment : BaseFragment() {
                 //assign imageView from Top toolBar for recyclerView style
                 val stateImageView =
                     binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
+
                 //change icon and layoutManager depending on received data
                 if (isGrid){
                     binding.rvDishList.layoutManager =
-                        GridLayoutManager(this.requireContext(), 2)
+                        GridLayoutManager(
+                            this.requireContext(),
+                            2
+                        )
                     stateImageView.setIcon(R.drawable.ic_view_grid_24)
                 } else{
                     binding.rvDishList.layoutManager =
                         LinearLayoutManager(
                             this.requireContext(),
                             LinearLayoutManager.VERTICAL,
-                            false)
+                            false
+                        )
                     stateImageView.setIcon(R.drawable.ic_view_linear_24)
                 }
             }
         }
     }
+
 
     private fun observeAllDishes(){
         viewModel.allDishesList.observe(viewLifecycleOwner){
@@ -161,6 +161,7 @@ class AllDishesFragment : BaseFragment() {
             }
         }
     }
+
 
     private fun navigateToDishDetails(dishId: Int){
         findNavController().navigate(
@@ -176,12 +177,12 @@ class AllDishesFragment : BaseFragment() {
         )
     }
 
-    /**Next method prepare dialog with users filter type (input parameter)
-     * Filter subtypes received from viewModel*/
+
+    /**Next method prepares dialog with users filter type (input parameter)
+     * Filter subtypes are received from viewModel*/
     private fun setupFilterDialog(filter: String){
         //Choose list of subtypes
-        var paramsList = listOf<String>()
-        paramsList = if (filter == getString(R.string.st_type)){
+        val paramsList: List<String> = if (filter == getString(R.string.st_type)){
             viewModel.dishTypes.value!!
         } else {
             viewModel.dishCategories.value!!
@@ -189,11 +190,12 @@ class AllDishesFragment : BaseFragment() {
 
         //Setup dialog
         val dialog = Dialog(requireContext())
-        val dBinding: FilterDialogBinding =
-            FilterDialogBinding.inflate(LayoutInflater.from(this.context))
+        val dBinding: DialogFilterBinding =
+            DialogFilterBinding.inflate(LayoutInflater.from(this.context))
         dialog.setContentView(dBinding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        //Set dialog title
         dBinding.tvFilterType.text = filter
 
         //Setup inner recyclerView with corresponding callbacks
@@ -205,6 +207,9 @@ class AllDishesFragment : BaseFragment() {
                 override fun onClick(filterType: String, params: String) {
 
                     dialog.dismiss()
+
+                    //Change toolBar title
+                    binding.includedMToolBar.mToolBar.title = params
 
                     //Show filtered dishesList by chosen type
                     if (filterType == getString(R.string.st_type)){

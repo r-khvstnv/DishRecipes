@@ -1,8 +1,6 @@
 package com.rkhvstnv.dishrecipes.di.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelKey
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsViewModel
@@ -14,9 +12,6 @@ import dagger.multibindings.IntoMap
 
 @Module
 abstract class ViewModelModule {
-    @Binds
-    @[IntoMap ViewModelKey(MainViewModel::class)]
-    abstract fun provideMainViewModel(viewModel: MainViewModel): ViewModel
 
     @Binds
     @[IntoMap ViewModelKey(AddUpdateDishViewModel::class)]

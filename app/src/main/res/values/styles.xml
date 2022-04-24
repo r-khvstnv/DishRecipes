@@ -20,10 +20,4 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-
-    <style name="SnackBarError" parent="Widget.MaterialComponents.Snackbar">
-        <item name="colorPrimary">?attr/colorOnError</item>
-        <item name="colorOnSurface">?attr/colorError</item>
-    </style>
-
 </resources>

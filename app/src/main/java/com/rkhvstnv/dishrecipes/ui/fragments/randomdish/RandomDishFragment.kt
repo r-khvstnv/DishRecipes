@@ -21,21 +21,16 @@ class RandomDishFragment : BaseFragment() {
     private var _binding: FragmentRandomDishBinding? = null
     private val binding get() = _binding!!
 
-    /*private val viewModel: RandomDishViewModel by viewModels{
-        OldViewModelFactory(RandomDishViewModel((activity?.application as DishApplication).repository))
-    }*/
-
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel by viewModels<RandomDishViewModel> { viewModelFactory }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         context.appComponent.inject(this)
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,8 +57,8 @@ class RandomDishFragment : BaseFragment() {
         binding.fabSource.setOnClickListener {
             openDishSource()
         }
-
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun observeRandomDish(){
@@ -100,8 +95,8 @@ class RandomDishFragment : BaseFragment() {
                 }
             }
         }
-        //Request Errors
-        viewModel.randomDishLoadingError.observe(viewLifecycleOwner){
+        //Request Error
+        viewModel.randomDishLoadingErrorOccurred.observe(viewLifecycleOwner){
                 isErrorOccurred ->
             if (isErrorOccurred){
                 showSnackBarErrorMessage(getString(R.string.st_some_error))

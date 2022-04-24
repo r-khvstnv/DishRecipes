@@ -9,3 +9,4 @@ val Context.appComponent: AppComponent
         is DishApplication -> appComponent
         else -> this.applicationContext.appComponent
     }
+

@@ -19,11 +19,9 @@ import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -31,14 +29,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateDishBinding
 import com.rkhvstnv.dishrecipes.model.Dish
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.base.BaseFragment
-import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import kotlinx.coroutines.Dispatchers
@@ -54,9 +48,7 @@ class AddUpdateDishFragment : BaseFragment() {
     private var _binding: FragmentAddUpdateDishBinding? = null
     private val binding get() = _binding!!
 
-    /*private val viewModel: AddUpdateDishViewModel by activityViewModels {
-        OldViewModelFactory(AddUpdateDishViewModel((activity?.application as DishApplication).repository))
-    }*/
+    private val args: AddUpdateDishFragmentArgs by navArgs()
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -70,8 +62,6 @@ class AddUpdateDishFragment : BaseFragment() {
         context.appComponent.inject(this)
     }
 
-    private val args: AddUpdateDishFragmentArgs by navArgs()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,10 +73,12 @@ class AddUpdateDishFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prepareUI()
+        setDropDownMenus()
 
+        //Get Dish id for updating, if exist.
+        // Otherwise get user to create new Dish
         args.let {
-            if (args.dishId != Constants.DEF_ARGS_INT){
+            if (it.dishId != Constants.DEF_ARGS_INT){
                 viewModel.assignTmpDish(it.dishId)
             }
         }
@@ -102,7 +94,7 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
     /** Prepare adapters for dropdown menus*/
-    private fun prepareUI(){
+    private fun setDropDownMenus(){
         val dishTypes = resources.getStringArray(R.array.dish_types)
         val dtAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, dishTypes)
         binding.etType.setAdapter(dtAdapter)
@@ -189,11 +181,21 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
     /**Method checks user input and show error message to him,
-     * if some fields didn't filled*/
+     * if some fields weren't filled*/
     private fun isUserInputIsValid(): Boolean{
-        var result: Boolean
+        var result = false
         val errorMessage = resources.getString(R.string.st_fill_field)
         with(binding){
+
+            //Reset all previous shown errors
+            tilLabel.isErrorEnabled = false
+            tilType.isErrorEnabled = false
+            tilCategory.isErrorEnabled = false
+            tilIngredients.isErrorEnabled = false
+            tilCookingTime.isErrorEnabled = false
+            tilSteps.isErrorEnabled = false
+
+            //Validate inputs
             when{
                 TextUtils.isEmpty(etLabel.text) -> tilLabel.error = errorMessage
                 TextUtils.isEmpty(etType.text) -> tilType.error = errorMessage
@@ -201,15 +203,8 @@ class AddUpdateDishFragment : BaseFragment() {
                 TextUtils.isEmpty(etIngredients.text) -> tilIngredients.error = errorMessage
                 TextUtils.isEmpty(etCookingTime.text) -> tilCookingTime.error = errorMessage
                 TextUtils.isEmpty(etSteps.text) -> tilSteps.error = errorMessage
+                ivDishImage.drawable == null -> showSnackBarErrorMessage(getString(R.string.st_image_not_selected))
                 else -> result = true
-            }
-
-            if (ivDishImage.drawable == null){
-                tvImageError.visibility = View.VISIBLE
-                result = false
-            } else{
-                tvImageError.visibility = View.GONE
-                result = true
             }
         }
 
@@ -234,7 +229,7 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
     /**Returns dishEntity using user inputs.
-     * Can be called Only after Input Validation*/
+     * NOTE: Must be called Only after Input Validation*/
     private fun getDishEntity(): Dish {
         with(binding) {
             return Dish(
@@ -260,12 +255,14 @@ class AddUpdateDishFragment : BaseFragment() {
      * - insert/update dish
      * - hide UI progress and navigate to AllDishesFragment*/
     private fun saveOrUpdateDish(){
+        //Validate inputs
         if (isUserInputIsValid()){
             //show progressBar
             binding.pbIndicator.visibility = View.VISIBLE
 
             lifecycleScope.launch(Dispatchers.IO){
-                //update
+                /*Update existing
+                * tmpDish is always Null, if dish Id has not been passed from prev Fragment*/
                 if (viewModel.tmpDish != null){
 
                     /*Save new image, if user decided to change existing
@@ -281,18 +278,20 @@ class AddUpdateDishFragment : BaseFragment() {
                     dish.isFavoriteDish = viewModel.tmpDish!!.value!!.isFavoriteDish
                     viewModel.updateDishData(dish = dish)
                 }
-                //add
+                // Add new
                 else{
                     saveImageToInternalStorage(viewModel.dishBitmap!!)
                     val dish = getDishEntity()
                     viewModel.insertDishData(dish = dish)
                 }
 
+                //Final stage, where user is notified about result
                 withContext(Dispatchers.Main){
                     //hide progress bar
                     binding.pbIndicator.visibility = View.GONE
-                    //(activity as MainActivity).showNavView()
-                    showSnackBarPositiveMessage("Done")
+
+                    showSnackBarPositiveMessage(getString(R.string.st_dish_saved))
+                    //
                     navigateToAllDishes(this@AddUpdateDishFragment)
                 }
             }
@@ -300,7 +299,7 @@ class AddUpdateDishFragment : BaseFragment() {
     }
 
 
-    /** Observe dishData which was shown in dishDetails*/
+    /** Observe dishData which was shown in previous Fragment*/
     private fun observeTmpDishDataIfExist(){
         viewModel.tmpDish?.observe(viewLifecycleOwner){
             dish ->
@@ -321,10 +320,6 @@ class AddUpdateDishFragment : BaseFragment() {
                     etCookingTime.setText(it.cookingTime.toString())
                     etSteps.setText(it.steps)
                     btnAddDish.text = getString(R.string.st_apply_changes)
-
-                    /*Hiding bottomNavView prevents wrong navigation.
-                Otherwise user will see old dishData, when he want to create new dish */
-                    //(activity as MainActivity).hideNavView()
                 }
             }
         }
@@ -333,6 +328,9 @@ class AddUpdateDishFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        /**NOTE: Necessarily reset these data.
+         * Otherwise on next fragment displaying, user will see old data
+         * and this app part will not work correctly*/
         viewModel.tmpDish = null
         viewModel.dishBitmap = null
     }

@@ -45,8 +45,8 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/iv_favorite_state"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/iv_favorite_state"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:text="@string/st_community_dishes" />
 
             <com.google.android.material.imageview.ShapeableImageView

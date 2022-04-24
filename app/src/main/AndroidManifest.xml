@@ -8,13 +8,13 @@
     <application
         android:name=".DishApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_custom_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_custom_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DishRecipes">
         <activity
-            android:name=".ui.activities.start.StartActivity"
+            android:name=".ui.activities.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.main.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="true">
         </activity>
     </application>

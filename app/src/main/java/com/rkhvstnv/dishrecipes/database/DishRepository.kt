@@ -23,9 +23,6 @@ class DishRepository @Inject constructor(private val dishDao: DishDao) {
     fun getDishesListByCategory(category: String): Flow<List<Dish>> =
         dishDao.queryDishesListByCategory(category)
 
-    fun deleteDish(dish: Dish) = dishDao.deleteDishDetails(dish = dish)
-
-
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
     suspend fun insertDish(dish: Dish){
@@ -36,5 +33,10 @@ class DishRepository @Inject constructor(private val dishDao: DishDao) {
     @WorkerThread
     suspend fun updateDish(dish: Dish){
         dishDao.updateDishDetails(dish)
+    }
+
+    @WorkerThread
+    suspend fun deleteDish(dish: Dish){
+        dishDao.deleteDishDetails(mDish = dish)
     }
 }
