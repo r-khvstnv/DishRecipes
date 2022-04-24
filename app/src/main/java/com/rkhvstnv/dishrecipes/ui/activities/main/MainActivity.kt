@@ -1,10 +1,13 @@
 package com.rkhvstnv.dishrecipes.ui.activities.main
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.rkhvstnv.dishrecipes.DishApplication
@@ -33,21 +36,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = getNavController()
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navController = navHostFragment.findNavController()
 
-        if (navController != null) {
-            binding.navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener{
+            controller, destination, arguments ->
 
-            navController.addOnDestinationChangedListener{
-                _, destination, _ ->
-
-                if (destination.id == R.id.navigation_dish_details){
-                    hideNavView()
-                } else{
-                    showNavView()
-                }
+            when(destination.id){
+                R.id.navigation_dish_details -> hideNavView()
+                R.id.navigation_add_update_dish -> hideNavView()
+                else -> showNavView()
             }
         }
+
+        binding.navView.setupWithNavController(navController)
 
         viewModel.test.observe(this){
             st ->
@@ -57,21 +60,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getNavController(): NavController? {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
-        return navHostFragment?.findNavController()
-    }
-
-    private fun showNavView(){
-        binding.navView.clearAnimation()
-        binding.navView.animate().translationY(0f).duration = 300
-    }
-
-    //Must be public, due to it's used in AddUpdateDishFragment
     fun hideNavView(){
-        binding.navView.clearAnimation()
-        binding.navView.animate().translationY(binding.navView.height.toFloat()).duration = 300
+        binding.navView.visibility = View.GONE
+    }
+
+    fun showNavView(){
+        binding.navView.visibility = View.VISIBLE
     }
 
 }

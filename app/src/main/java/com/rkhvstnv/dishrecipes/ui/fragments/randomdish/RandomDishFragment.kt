@@ -10,16 +10,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
-import com.rkhvstnv.dishrecipes.DishApplication
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.base.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomDishBinding
-import com.rkhvstnv.dishrecipes.di.OldViewModelFactory
-import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import javax.inject.Inject
 
-//todo implement dagger
+
 class RandomDishFragment : BaseFragment() {
     private var _binding: FragmentRandomDishBinding? = null
     private val binding get() = _binding!!
@@ -65,8 +62,6 @@ class RandomDishFragment : BaseFragment() {
         binding.fabSource.setOnClickListener {
             openDishSource()
         }
-
-        viewModel.refreshRandomDish()
 
     }
 

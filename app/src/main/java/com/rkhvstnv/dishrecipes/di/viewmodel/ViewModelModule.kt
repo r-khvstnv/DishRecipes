@@ -5,6 +5,7 @@ import com.rkhvstnv.dishrecipes.di.viewmodel.ViewModelKey
 import com.rkhvstnv.dishrecipes.ui.activities.main.MainViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesViewModel
+import com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteViewModel
 import com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishViewModel
 import dagger.Binds
@@ -23,6 +24,9 @@ abstract class ViewModelModule {
     @Binds
     @[IntoMap ViewModelKey(AllDishesViewModel::class)]
     abstract fun provideAllDishesViewModel(viewModel: AllDishesViewModel): ViewModel
+    @Binds
+    @[IntoMap ViewModelKey(DishDetailsViewModel::class)]
+    abstract fun provideDishDetailsViewModel(viewModel: DishDetailsViewModel): ViewModel
     @Binds
     @[IntoMap ViewModelKey(FavoriteViewModel::class)]
     abstract fun provideFavoriteViewModel(viewModel: FavoriteViewModel): ViewModel

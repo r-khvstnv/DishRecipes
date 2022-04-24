@@ -8,7 +8,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.ui.activities.main.MainActivity
 import com.rkhvstnv.dishrecipes.utils.Constants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,11 +75,5 @@ open class BaseFragment: Fragment() {
                 }
             }
         }
-    }
-
-    /**Hiding bottomNavView prevents wrong navigation.
-     * Otherwise user will see old dishData, when he want to create new dish */
-    fun hideNavigationView(){
-        (activity as MainActivity).hideNavView()
     }
 }
