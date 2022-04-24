@@ -14,6 +14,7 @@ import com.rkhvstnv.dishrecipes.network.RandomDishService_Factory.create
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -33,13 +34,13 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
     private val compositeDisposable = CompositeDisposable()
 
     private val _randomDishInLoading = MutableLiveData<Boolean>()
-    private val _randomDishLoadingError = MutableLiveData<String>()
+    private val _randomDishLoadingError = MutableLiveData<Boolean>()
     private val _dish = MutableLiveData<Dish>()
     //Link of recipe received from Api
     private val _dishSourceUri = MutableLiveData<Uri>()
 
     val randomDishInLoading: LiveData<Boolean> get() = _randomDishInLoading
-    val randomDishLoadingError: LiveData<String> get() = _randomDishLoadingError
+    val randomDishLoadingError: LiveData<Boolean> get() = _randomDishLoadingError
     val dish: LiveData<Dish> get() = _dish
     val dishSourceUri get() = _dishSourceUri
 
@@ -66,10 +67,17 @@ class RandomDishViewModel @Inject constructor(private val repository: DishReposi
 
                     override fun onError(e: Throwable) {
                         _randomDishInLoading.value = false
-                        _randomDishLoadingError.value = "Error"
+                        _randomDishLoadingError.value = true
                     }
                 })
         )
+
+        RxJavaPlugins.setErrorHandler {
+            e ->
+            if (e is UndeliverableException){
+                e.message?.let { Log.e("RxJavaPlugins", it) }
+            }
+        }
     }
 
     /**Method converts data from api to Dish Entity and saves it in db*/

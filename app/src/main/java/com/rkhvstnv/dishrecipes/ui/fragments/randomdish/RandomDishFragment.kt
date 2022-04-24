@@ -102,8 +102,10 @@ class RandomDishFragment : BaseFragment() {
         }
         //Request Errors
         viewModel.randomDishLoadingError.observe(viewLifecycleOwner){
-                error ->
-            showSnackBarErrorMessage(error)
+                isErrorOccurred ->
+            if (isErrorOccurred){
+                showSnackBarErrorMessage(getString(R.string.st_some_error))
+            }
         }
 
     }
