@@ -42,6 +42,7 @@ dependencies {
     def retrofit2Ver = "2.9.0"
     def rxJava3Ver = "3.0.0"
     def daggerVer = '2.41'
+    def workVer = '2.7.1'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -78,5 +79,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
+
+    //work manager
+    implementation "androidx.work:work-runtime-ktx:$workVer"
 
 }

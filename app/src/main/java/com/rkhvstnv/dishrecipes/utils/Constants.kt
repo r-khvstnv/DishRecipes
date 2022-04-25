@@ -31,4 +31,11 @@ object Constants {
     const val CI_STEPS: String  = "steps"
     const val CI_IS_FAVORITE: String  = "isFavoriteDish"
     const val CI_ID: String = "id"
+
+    //WorkManager
+    const val NOTIFICATION_WORK = "notificationWork"
+    const val NOTIFICATION_ID = "notificationId"
+    const val NOTIFICATION_CHANNEL = "DishRecipesChannel"
+    const val NOTIFICATION_NAME = "DishRecipes"
+    const val NOTIFICATION_ID_VALUE = 101
 }

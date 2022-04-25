@@ -32,7 +32,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_community_dishes"
+        android:id="@+id/navigation_random_dish"
         android:name="com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishFragment"
         android:label="fragment_random_dish"
         tools:layout="@layout/fragment_random_dish" />

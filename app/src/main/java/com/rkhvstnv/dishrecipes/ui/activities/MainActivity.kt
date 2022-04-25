@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ActivityMainBinding
+import com.rkhvstnv.dishrecipes.utils.Constants
+import com.rkhvstnv.dishrecipes.utils.NotificationWorker
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +38,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navView.setupWithNavController(navController)
+
+        setWorkManager()
+        notificationClickHandler()
     }
 
     private fun hideNavView(){
@@ -44,4 +51,27 @@ class MainActivity : AppCompatActivity() {
         binding.navView.visibility = View.VISIBLE
     }
 
+    /**Ensure that wor is deferred until optimal conditions are met*/
+    private val constraints = Constraints.Builder()
+        .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+        .setRequiresCharging(false)
+        .setRequiresBatteryNotLow(true)
+        .build()
+    private val notificationWorkRequest: PeriodicWorkRequest =
+        PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.HOURS)
+            .setConstraints(constraints)
+            .build()
+    private fun setWorkManager(){
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            Constants.NOTIFICATION_WORK,
+            ExistingPeriodicWorkPolicy.KEEP,
+            notificationWorkRequest
+        )
+    }
+
+    private fun notificationClickHandler(){
+        if (intent.hasExtra(Constants.NOTIFICATION_ID)){
+            binding.navView.selectedItemId = R.id.navigation_random_dish
+        }
+    }
 }

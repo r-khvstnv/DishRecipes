@@ -8,6 +8,8 @@
     <string name="st_settings">Settings</string>
     <string name="st_fill_field">Fill the field</string>
     <string name="st_some_error">Some Error has Occurred</string>
+    <string name="notification_title">New Dish is Available</string>
+    <string name="notification_text">Type to more details</string>
 
     <!--Descriptions-->
     <string name="st_dish_image">Dish image</string>
