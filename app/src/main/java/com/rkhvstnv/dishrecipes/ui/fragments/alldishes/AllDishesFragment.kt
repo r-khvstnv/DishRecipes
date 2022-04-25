@@ -5,18 +5,20 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.R
+import com.rkhvstnv.dishrecipes.base.BaseFragment
+import com.rkhvstnv.dishrecipes.databinding.DialogFilterBinding
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllDishesBinding
 import com.rkhvstnv.dishrecipes.model.Dish
 import com.rkhvstnv.dishrecipes.ui.adapters.AllAndFavDishesAdapter
-import com.rkhvstnv.dishrecipes.base.BaseFragment
-import com.rkhvstnv.dishrecipes.databinding.DialogFilterBinding
 import com.rkhvstnv.dishrecipes.ui.adapters.FilterAdapter
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
@@ -152,16 +154,29 @@ class AllDishesFragment : BaseFragment() {
 
 
     private fun observeAllDishes(){
+        removeAllObservers()
+
         viewModel.allDishesList.observe(viewLifecycleOwner){
                 dishList ->
             dishList.let {
                 if (it.isNotEmpty()){
                     allDishAdapter.updateDishesList(it.reversed())
+                    binding.includedMToolBar.mToolBar.title = getString(R.string.st_all_dishes)
                 }
             }
         }
     }
 
+    /**Method prevents from data collision,
+     * due to all of them pass data to the same list.
+     * Otherwise user will see all data or filtered by some type,
+     * if previously any dish was deleted
+     * (Due to dish has type/category parameter itself, for which the observation takes place)*/
+    private fun removeAllObservers(){
+        viewModel.allDishesList.removeObservers(viewLifecycleOwner)
+        viewModel.dishListByType.removeObservers(viewLifecycleOwner)
+        viewModel.dishListByCategory.removeObservers(viewLifecycleOwner)
+    }
 
     private fun navigateToDishDetails(dishId: Int){
         findNavController().navigate(
@@ -188,6 +203,10 @@ class AllDishesFragment : BaseFragment() {
             viewModel.dishCategories.value!!
         }
 
+        if (paramsList.isNullOrEmpty()){
+            showSnackBarErrorMessage(getString(R.string.st_no_dishes))
+        }
+
         //Setup dialog
         val dialog = Dialog(requireContext())
         val dBinding: DialogFilterBinding =
@@ -208,26 +227,30 @@ class AllDishesFragment : BaseFragment() {
 
                     dialog.dismiss()
 
+                    removeAllObservers()
+
                     //Change toolBar title
                     binding.includedMToolBar.mToolBar.title = params
 
                     //Show filtered dishesList by chosen type
                     if (filterType == getString(R.string.st_type)){
                         viewModel.getFilteredDishesListByType(params = params)
-                            .observe(viewLifecycleOwner){
-                                    dishesList ->
-                                dishesList.let {
-                                    allDishAdapter.updateDishesList(dishesList.reversed())
-                                }
+
+                        viewModel.dishListByType.observe(viewLifecycleOwner){
+                                dishesList ->
+                            dishesList.let {
+                                allDishAdapter.updateDishesList(dishesList.reversed())
                             }
+                        }
                     } else{
                         viewModel.getFilteredDishesListByCategory(params = params)
-                            .observe(viewLifecycleOwner){
-                                    dishesList ->
-                                dishesList.let {
-                                    allDishAdapter.updateDishesList(dishesList.reversed())
-                                }
+
+                        viewModel.dishListByCategory.observe(viewLifecycleOwner){
+                                dishesList ->
+                            dishesList.let {
+                                allDishAdapter.updateDishesList(dishesList.reversed())
                             }
+                        }
                     }
                 }
             })
