@@ -18,7 +18,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.ui.activities.MainActivity
+import com.rkhvstnv.dishrecipes.app.presenter.MainActivity
 
 class NotificationWorker(
     appContext: Context,
