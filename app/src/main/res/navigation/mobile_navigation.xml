@@ -3,45 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_all_dishes">
+    app:startDestination="@+id/navigation_all">
 
     <fragment
-        android:id="@+id/navigation_all_dishes"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.alldishes.AllDishesFragment"
+        android:id="@+id/navigation_all"
+        android:name="com.rkhvstnv.dishrecipes.alldishes.AllFragment"
         android:label="fragment_all_dishes"
-        tools:layout="@layout/fragment_all_dishes">
+        tools:layout="@layout/fragment_all">
+
         <action
-            android:id="@+id/action_navigation_all_dishes_to_navigation_dish_details"
-            app:destination="@id/navigation_dish_details" />
+            android:id="@+id/action_navigation_all_to_navigation_details"
+            app:destination="@id/navigation_details" />
         <action
-            android:id="@+id/action_navigation_all_dishes_to_navigation_add_update_dish"
-            app:destination="@id/navigation_add_update_dish" />
+            android:id="@+id/action_navigation_all_to_navigation_add_update"
+            app:destination="@id/navigation_add_update" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_favorite"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.favorite.FavoriteFragment"
+        android:name="com.rkhvstnv.dishrecipes.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite">
+
         <action
-            android:id="@+id/action_navigation_favorite_to_navigation_dish_details"
-            app:destination="@id/navigation_dish_details" />
+            android:id="@+id/action_navigation_favorite_to_navigation_add_update"
+            app:destination="@id/navigation_add_update" />
         <action
-            android:id="@+id/action_navigation_favorite_to_navigation_add_update_dish"
-            app:destination="@id/navigation_add_update_dish" />
+            android:id="@+id/action_navigation_favorite_to_navigation_details"
+            app:destination="@id/navigation_details" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_random_dish"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.randomdish.RandomDishFragment"
+        android:id="@+id/navigation_random"
+        android:name="com.rkhvstnv.dishrecipes.random.RandomFragment"
         android:label="fragment_random_dish"
-        tools:layout="@layout/fragment_random_dish" />
+        tools:layout="@layout/fragment_random" />
 
     <fragment
-        android:id="@+id/navigation_add_update_dish"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.addupdatedish.AddUpdateDishFragment"
+        android:id="@+id/navigation_add_update"
+        android:name="com.rkhvstnv.dishrecipes.addupdate.AddUpdateFragment"
         android:label="fragment_add_update_dish"
-        tools:layout="@layout/fragment_add_update_dish">
+        tools:layout="@layout/fragment_add_update">
         <argument
             android:name="dishId"
             android:defaultValue="-5"
@@ -49,16 +51,17 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_dish_details"
-        android:name="com.rkhvstnv.dishrecipes.ui.fragments.dishdetails.DishDetailsFragment"
+        android:id="@+id/navigation_details"
+        android:name="com.rkhvstnv.dishrecipes.dishdetails.DetailsFragment"
         android:label="fragment_dish_details"
-        tools:layout="@layout/fragment_dish_details">
+        tools:layout="@layout/fragment_details">
         <argument
             android:name="dishId"
             android:defaultValue="-5"
             app:argType="integer" />
         <action
-            android:id="@+id/action_navigation_dish_details_to_navigation_add_update_dish"
-            app:destination="@id/navigation_add_update_dish" />
+            android:id="@+id/action_navigation_details_to_navigation_add_update"
+            app:destination="@id/navigation_add_update" />
+
     </fragment>
 </navigation>

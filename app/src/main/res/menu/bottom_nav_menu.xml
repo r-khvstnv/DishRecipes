@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_all_dishes"
+        android:id="@+id/navigation_all"
         android:icon="@drawable/ic_food_bank_24dp"
         android:title="@string/st_all_dishes" />
 
@@ -12,12 +12,12 @@
         android:title="@string/st_favorite" />
 
     <item
-        android:id="@+id/navigation_add_update_dish"
+        android:id="@+id/navigation_add_update"
         android:icon="@drawable/ic_add_new_border_24"
         android:title="@string/st_new" />
 
     <item
-        android:id="@+id/navigation_random_dish"
+        android:id="@+id/navigation_random"
         android:icon="@drawable/ic_tray_24dp"
         android:title="@string/st_community_dishes" />
 </menu>
