@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.app.domain
+package com.rkhvstnv.dishrecipes.app.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

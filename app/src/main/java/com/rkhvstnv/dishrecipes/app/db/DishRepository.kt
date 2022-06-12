@@ -1,9 +1,9 @@
-package com.rkhvstnv.dishrecipes.app.data
+package com.rkhvstnv.dishrecipes.app.db
 
 import androidx.annotation.WorkerThread
-import com.rkhvstnv.dishrecipes.app.domain.Dish
-import com.rkhvstnv.dishrecipes.app.domain.DishCategory
-import com.rkhvstnv.dishrecipes.app.domain.DishType
+import com.rkhvstnv.dishrecipes.app.models.Dish
+import com.rkhvstnv.dishrecipes.app.models.DishCategory
+import com.rkhvstnv.dishrecipes.app.models.DishType
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

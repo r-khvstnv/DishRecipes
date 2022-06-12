@@ -5,11 +5,10 @@ import android.os.Build
 import android.text.Html
 import android.util.Log
 import androidx.lifecycle.*
-import com.rkhvstnv.dishrecipes.app.presenter.BaseViewModel
-import com.rkhvstnv.dishrecipes.app.domain.Dish
-import com.rkhvstnv.dishrecipes.app.domain.RandomDish
+import com.rkhvstnv.dishrecipes.app.models.Dish
+import com.rkhvstnv.dishrecipes.app.models.RandomDish
 import com.rkhvstnv.dishrecipes.api.RandomDishService
-import com.rkhvstnv.dishrecipes.app.data.DishRepository
+import com.rkhvstnv.dishrecipes.app.db.DishRepository
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -17,12 +16,14 @@ import io.reactivex.rxjava3.exceptions.UndeliverableException
 import io.reactivex.rxjava3.observers.DisposableSingleObserver
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RandomViewModel @Inject constructor(
     private val repository: DishRepository,
     private val randomDishService: RandomDishService
-    ): BaseViewModel(repository = repository) {
+    ): ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -126,5 +127,17 @@ class RandomViewModel @Inject constructor(
 
             updateDishData(dish = dish.value!!)
         }
+    }
+
+    private fun flipDishFavoriteState(dish: Dish): Dish {
+        dish.isFavoriteDish = !dish.isFavoriteDish
+        return dish
+    }
+
+    private fun insertDishData(dish: Dish) = viewModelScope.launch {
+        repository.insertDish(dish = dish)
+    }
+    private fun updateDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateDish(dish = dish)
     }
 }

@@ -10,5 +10,5 @@ interface AllComponent {
         fun create(): AllComponent
     }
 
-    fun insert(allFragment: AllFragment)
+    fun inject(allFragment: AllFragment)
 }

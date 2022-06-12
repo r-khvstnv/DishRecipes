@@ -1,9 +1,9 @@
 package com.rkhvstnv.dishrecipes.app.di
 
 import android.app.Application
-import com.rkhvstnv.dishrecipes.app.data.DishDao
-import com.rkhvstnv.dishrecipes.app.data.DishRepository
-import com.rkhvstnv.dishrecipes.app.data.DishRoomDatabase
+import com.rkhvstnv.dishrecipes.app.db.DishDao
+import com.rkhvstnv.dishrecipes.app.db.DishRepository
+import com.rkhvstnv.dishrecipes.app.db.DishRoomDatabase
 import dagger.Module
 import dagger.Provides
 

@@ -10,5 +10,5 @@ interface DetailsComponent {
         fun create(): DetailsComponent
     }
 
-    fun insert(detailsFragment: DetailsFragment)
+    fun inject(detailsFragment: DetailsFragment)
 }

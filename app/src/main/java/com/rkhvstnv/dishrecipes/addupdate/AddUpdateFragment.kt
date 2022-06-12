@@ -22,6 +22,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -30,8 +31,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.app.domain.Dish
-import com.rkhvstnv.dishrecipes.app.presenter.BaseFragment
+import com.rkhvstnv.dishrecipes.app.models.Dish
+import com.rkhvstnv.dishrecipes.app.presenters.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentAddUpdateBinding
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.appComponent
@@ -52,14 +53,13 @@ class AddUpdateFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val viewModel by viewModels<AddUpdateViewModel> {
         viewModelFactory
     }
 
     override fun onAttach(context: Context) {
+        context.appComponent.addUpdateComponent().create().inject(this)
         super.onAttach(context)
-        context.appComponent.addUpdateComponent().create().insert(this)
     }
 
     override fun onCreateView(
@@ -291,8 +291,7 @@ class AddUpdateFragment : BaseFragment() {
                     binding.pbIndicator.visibility = View.GONE
 
                     showSnackBarPositiveMessage(getString(R.string.st_dish_saved))
-                    //
-                    navigateToAllDishes(this@AddUpdateFragment)
+                    findNavController().navigateUp()
                 }
             }
         }

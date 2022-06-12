@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.app.presenter
+package com.rkhvstnv.dishrecipes.app.presenters
 
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +6,6 @@ import android.provider.Settings
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.utils.Constants
@@ -17,21 +16,6 @@ import java.io.IOException
 
 
 open class BaseFragment: Fragment() {
-
-    private fun navigateToFragment(navFragmentId: Int){
-        val navHost = findNavController()
-        navHost.navigate(navFragmentId)
-    }
-
-    /**Navigate to AllFragment destroying Fragment, which made call*/
-    fun navigateToAllDishes(fragment: Fragment){
-        parentFragmentManager
-            .beginTransaction()
-            .remove(fragment)
-            .commit()
-        navigateToFragment(R.id.navigation_all)
-    }
-
     fun showSnackBarPermissionError(){
         val sb = Snackbar.make(
             activity?.findViewById(android.R.id.content)!!,

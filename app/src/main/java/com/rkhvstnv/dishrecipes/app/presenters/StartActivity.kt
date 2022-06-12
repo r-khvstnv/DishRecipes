@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.app.presenter
+package com.rkhvstnv.dishrecipes.app.presenters
 
 import android.content.Intent
 import android.os.Build

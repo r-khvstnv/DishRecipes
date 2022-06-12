@@ -13,10 +13,18 @@
 
         <action
             android:id="@+id/action_navigation_all_to_navigation_details"
-            app:destination="@id/navigation_details" />
+            app:destination="@id/navigation_details"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_all_to_navigation_add_update"
-            app:destination="@id/navigation_add_update" />
+            app:destination="@id/navigation_add_update"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -27,10 +35,18 @@
 
         <action
             android:id="@+id/action_navigation_favorite_to_navigation_add_update"
-            app:destination="@id/navigation_add_update" />
+            app:destination="@id/navigation_add_update"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_favorite_to_navigation_details"
-            app:destination="@id/navigation_details" />
+            app:destination="@id/navigation_details"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -61,7 +77,10 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_navigation_details_to_navigation_add_update"
-            app:destination="@id/navigation_add_update" />
-
+            app:destination="@id/navigation_add_update"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

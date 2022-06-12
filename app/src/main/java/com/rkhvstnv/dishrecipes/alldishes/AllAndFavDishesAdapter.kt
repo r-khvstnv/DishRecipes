@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
 import com.rkhvstnv.dishrecipes.databinding.ItemDishBinding
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import com.rkhvstnv.dishrecipes.app.models.Dish
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 

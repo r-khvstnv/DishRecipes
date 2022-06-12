@@ -1,6 +1,6 @@
 package com.rkhvstnv.dishrecipes.utils.callbacks
 
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import com.rkhvstnv.dishrecipes.app.models.Dish
 
 /**Callbacks for dishes recyclerView*/
 interface ItemDishCallback {

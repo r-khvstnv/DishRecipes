@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.app.presenter.BaseFragment
+import com.rkhvstnv.dishrecipes.app.presenters.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentFavoriteBinding
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import com.rkhvstnv.dishrecipes.app.models.Dish
 import com.rkhvstnv.dishrecipes.alldishes.AllAndFavDishesAdapter
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
@@ -26,12 +26,13 @@ class FavoriteFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val viewModel by viewModels<FavoriteViewModel> { viewModelFactory }
 
+    private lateinit var favoriteAdapter: AllAndFavDishesAdapter
+
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         context.appComponent.favoriteComponent().create().inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -50,10 +51,37 @@ class FavoriteFragment : BaseFragment() {
         binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_filter).isVisible = false
 
         setupToolBar()
-
         setupRecyclerViewAdapter()
 
-        setRecyclerViewStyle()
+        viewModel.allFavDishesList.observe(viewLifecycleOwner){
+                dishList ->
+            dishList.let {
+                if (it.isNotEmpty()){
+                    favoriteAdapter.updateDishesList(it.reversed())
+                }
+            }
+        }
+        viewModel.isGridStyle.observe(viewLifecycleOwner){
+                isGrid ->
+            isGrid.let {
+                //assign imageView from Top toolBar for recyclerView style
+                val stateImageView =
+                    binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
+                //change icon and layoutManager depending on received data
+                if (isGrid){
+                    binding.rvDishList.layoutManager =
+                        GridLayoutManager(this.requireContext(), 2)
+                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
+                } else{
+                    binding.rvDishList.layoutManager =
+                        LinearLayoutManager(
+                            this.requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false)
+                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
+                }
+            }
+        }
     }
 
     private fun setupToolBar(){
@@ -72,7 +100,7 @@ class FavoriteFragment : BaseFragment() {
     /**Method prepare rv adapter with corresponding callbacks
      * and also observe dishesList*/
     private fun setupRecyclerViewAdapter(){
-        val adapter = AllAndFavDishesAdapter(
+        favoriteAdapter = AllAndFavDishesAdapter(
             this.requireContext(),
             object : ItemDishCallback {
 
@@ -100,43 +128,7 @@ class FavoriteFragment : BaseFragment() {
             }
         })
 
-        binding.rvDishList.adapter = adapter
-
-        viewModel.allFavDishesList.observe(viewLifecycleOwner){
-                dishList ->
-            dishList.let {
-                if (it.isNotEmpty()){
-                    adapter.updateDishesList(it.reversed())
-                }
-            }
-        }
-    }
-
-
-    /**Method set preferable style by user.
-     * Also change corresponding icon on toolBar*/
-    private fun setRecyclerViewStyle(){
-        viewModel.isGridStyle.observe(viewLifecycleOwner){
-                isGrid ->
-            isGrid.let {
-                //assign imageView from Top toolBar for recyclerView style
-                val stateImageView =
-                    binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
-                //change icon and layoutManager depending on received data
-                if (isGrid){
-                    binding.rvDishList.layoutManager =
-                        GridLayoutManager(this.requireContext(), 2)
-                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
-                } else{
-                    binding.rvDishList.layoutManager =
-                        LinearLayoutManager(
-                            this.requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false)
-                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
-                }
-            }
-        }
+        binding.rvDishList.adapter = favoriteAdapter
     }
 
     //Navigation
@@ -154,7 +146,7 @@ class FavoriteFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 }

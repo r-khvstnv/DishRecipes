@@ -1,12 +1,8 @@
 package com.rkhvstnv.dishrecipes.alldishes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.rkhvstnv.dishrecipes.app.presenter.BaseViewModel
-import com.rkhvstnv.dishrecipes.app.data.DishRepository
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import androidx.lifecycle.*
+import com.rkhvstnv.dishrecipes.app.db.DishRepository
+import com.rkhvstnv.dishrecipes.app.models.Dish
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -15,7 +11,7 @@ import javax.inject.Inject
 
 class AllViewModel @Inject constructor(
     private val repository: DishRepository
-    ): BaseViewModel(repository = repository) {
+    ): ViewModel() {
 
     private var _dishTypes = MutableLiveData<List<String>>()
     private var _dishCategories = MutableLiveData<List<String>>()
@@ -27,6 +23,10 @@ class AllViewModel @Inject constructor(
     private var _dishListByCategory: MutableLiveData<List<Dish>> = MutableLiveData()
     val dishListByType: LiveData<List<Dish>> get() = _dishListByType
     val dishListByCategory: LiveData<List<Dish>> get() = _dishListByCategory
+
+    //style for recyclerView
+    private var _isGridStyle: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isGridStyle: LiveData<Boolean> get() = _isGridStyle
 
     init {
         setTypesList()
@@ -91,5 +91,24 @@ class AllViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+
+    /**Flip recyclerView style state*/
+    fun flipStyleState(){
+        _isGridStyle.value?.let {
+            _isGridStyle.value = !it
+        }
+    }
+
+    fun flipDishFavoriteState(dish: Dish): Dish {
+        dish.isFavoriteDish = !dish.isFavoriteDish
+        return dish
+    }
+    fun updateDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateDish(dish = dish)
+    }
+    fun deleteDishData(dish: Dish) = viewModelScope.launch(Dispatchers.IO){
+        repository.deleteDish(dish = dish)
     }
 }

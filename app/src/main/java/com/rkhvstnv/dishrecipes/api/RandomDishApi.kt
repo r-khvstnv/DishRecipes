@@ -1,6 +1,6 @@
 package com.rkhvstnv.dishrecipes.api
 
-import com.rkhvstnv.dishrecipes.app.domain.RandomDish
+import com.rkhvstnv.dishrecipes.app.models.RandomDish
 import com.rkhvstnv.dishrecipes.utils.Constants
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET

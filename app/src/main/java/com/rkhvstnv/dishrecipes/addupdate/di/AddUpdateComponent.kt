@@ -11,5 +11,5 @@ interface AddUpdateComponent {
         fun create(): AddUpdateComponent
     }
 
-    fun insert(addUpdateFragment: AddUpdateFragment)
+    fun inject(addUpdateFragment: AddUpdateFragment)
 }

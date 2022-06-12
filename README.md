@@ -31,7 +31,7 @@ All Dishes is a Fragment, where User can see all the recipes ever added. It mean
 <br/><br/>
 
 ### Favorite Dishes
-_(1st Sreenshot below)_ Fragment provides all favorite recipes. Like in the previous fragment, there is available selection of List displaying, Dish Editing and Deleting.
+_(1st Screenshot below)_ Fragment provides all favorite recipes. Like in the previous fragment, there is available selection of List displaying, Dish Editing and Deleting.
 <br/>
 ![image](i_previews/fav_grid.png)
 ![image](i_previews/add_update_first.png)
@@ -39,7 +39,7 @@ _(1st Sreenshot below)_ Fragment provides all favorite recipes. Like in the prev
 <br/><br/>
 
 ### Add & Update Dish
-_(2nd & 3rd Sreenshot above)_ Fragment, where User can add New Dish. In addition it's used for Editing Existed.
+_(2nd & 3rd Screenshot above)_ Fragment, where User can add New Dish. In addition it's used for Editing Existed.
 <br/><br/>
 
 ### Dish Details
@@ -53,7 +53,7 @@ __NOTE:__ Only created by User Dishes are available for Editing _(1st & 2nd Scre
 <br/><br/>
 
 ### Random Dish
-Fragment request Api call and provides received Random Recipe to User. Dish automatically saves to local repository. However, recipe Source Link is only available in this fragment and will not be saved _(3rd Sreenshot above)_
+Fragment request Api call and provides received Random Recipe to User. Dish automatically saves to local repository. However, recipe Source Link is only available in this fragment and will not be saved _(3rd Screenshot above)_
 
 ___
 

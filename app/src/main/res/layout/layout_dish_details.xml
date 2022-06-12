@@ -87,7 +87,20 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_time"
             app:layout_constraintStart_toEndOf="@id/iv_time"
             app:layout_constraintTop_toTopOf="@id/iv_time"
-            tools:text="00:45" />
+            tools:text="90" />
+        <TextView
+            android:id="@+id/_minutes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/dim_details_type_margin_vertical"
+            android:layout_marginStart="@dimen/dim_details_cooking_time_margin_start"
+            android:layout_marginEnd="@dimen/dim_details_type_margin_horizontal"
+            android:textAlignment="textEnd"
+            android:textSize="@dimen/dim_details_type_text_details_small"
+            app:layout_constraintBottom_toBottomOf="@id/tv_time"
+            app:layout_constraintStart_toEndOf="@id/tv_time"
+            app:layout_constraintTop_toTopOf="@id/tv_time"
+            android:text="@string/st_minutes" />
 
         <TextView
             android:id="@+id/tv_label"

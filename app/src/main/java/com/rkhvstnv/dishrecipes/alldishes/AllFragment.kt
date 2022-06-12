@@ -14,10 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.app.presenter.BaseFragment
+import com.rkhvstnv.dishrecipes.app.presenters.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.DialogFilterBinding
 import com.rkhvstnv.dishrecipes.databinding.FragmentAllBinding
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import com.rkhvstnv.dishrecipes.app.models.Dish
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemDishCallback
 import com.rkhvstnv.dishrecipes.utils.callbacks.ItemFilterCallback
@@ -36,7 +36,7 @@ class AllFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        context.appComponent.allComponent().create().insert(this)
+        context.appComponent.allComponent().create().inject(this)
     }
 
     override fun onCreateView(
@@ -52,12 +52,36 @@ class AllFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupToolBar()
-
         setupRecyclerViewAdapter()
 
-        setupRecyclerViewStyle()
-
         observeAllDishes()
+
+        viewModel.isGridStyle.observe(viewLifecycleOwner){
+                isGrid ->
+            isGrid.let {
+                //assign imageView from Top toolBar for recyclerView style
+                val stateImageView =
+                    binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
+
+                //change icon and layoutManager depending on received data
+                if (isGrid){
+                    binding.rvDishList.layoutManager =
+                        GridLayoutManager(
+                            this.requireContext(),
+                            2
+                        )
+                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
+                } else{
+                    binding.rvDishList.layoutManager =
+                        LinearLayoutManager(
+                            this.requireContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                        )
+                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
+                }
+            }
+        }
     }
 
 
@@ -119,37 +143,6 @@ class AllFragment : BaseFragment() {
         binding.rvDishList.adapter = allDishAdapter
     }
 
-    /**Method set preferable style by user.
-     * Also change corresponding icon on toolBar*/
-    private fun setupRecyclerViewStyle(){
-        viewModel.isGridStyle.observe(viewLifecycleOwner){
-                isGrid ->
-            isGrid.let {
-                //assign imageView from Top toolBar for recyclerView style
-                val stateImageView =
-                    binding.includedMToolBar.mToolBar.menu.findItem(R.id.m_view_style)
-
-                //change icon and layoutManager depending on received data
-                if (isGrid){
-                    binding.rvDishList.layoutManager =
-                        GridLayoutManager(
-                            this.requireContext(),
-                            2
-                        )
-                    stateImageView.setIcon(R.drawable.ic_view_grid_24)
-                } else{
-                    binding.rvDishList.layoutManager =
-                        LinearLayoutManager(
-                            this.requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                    stateImageView.setIcon(R.drawable.ic_view_linear_24)
-                }
-            }
-        }
-    }
-
 
     private fun observeAllDishes(){
         removeAllObservers()
@@ -201,7 +194,7 @@ class AllFragment : BaseFragment() {
             viewModel.dishCategories.value!!
         }
 
-        if (paramsList.isNullOrEmpty()){
+        if (paramsList.isEmpty()){
             showSnackBarErrorMessage(getString(R.string.st_no_dishes))
         }
 

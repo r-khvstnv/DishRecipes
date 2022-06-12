@@ -1,10 +1,10 @@
-package com.rkhvstnv.dishrecipes.app.data
+package com.rkhvstnv.dishrecipes.app.db
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.rkhvstnv.dishrecipes.app.domain.Dish
+import com.rkhvstnv.dishrecipes.app.models.Dish
 
 @Database(entities = [Dish::class], version = 1)
 abstract class DishRoomDatabase : RoomDatabase(){

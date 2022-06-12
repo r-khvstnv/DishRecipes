@@ -1,6 +1,5 @@
 package com.rkhvstnv.dishrecipes.random
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.app.presenter.BaseFragment
+import com.rkhvstnv.dishrecipes.app.presenters.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentRandomBinding
 import com.rkhvstnv.dishrecipes.utils.appComponent
 import javax.inject.Inject
@@ -23,13 +22,12 @@ class RandomFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val viewModel by viewModels<RandomViewModel> { viewModelFactory }
 
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         context.appComponent.randomComponent().create().inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -44,8 +42,6 @@ class RandomFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeRandomDish()
-
         binding.swipeRefreshLayout.setOnRefreshListener {
             viewModel.refreshRandomDish()
         }
@@ -57,14 +53,11 @@ class RandomFragment : BaseFragment() {
         binding.fabSource.setOnClickListener {
             openDishSource()
         }
-    }
 
 
-    @SuppressLint("SetTextI18n")
-    private fun observeRandomDish(){
         //Loading status
         viewModel.randomDishInLoading.observe(viewLifecycleOwner){
-            inLoading ->
+                inLoading ->
             inLoading.let {
                 if (it){
                     binding.flContainer.visibility = View.GONE
@@ -102,7 +95,6 @@ class RandomFragment : BaseFragment() {
                 showSnackBarErrorMessage(getString(R.string.st_some_error))
             }
         }
-
     }
 
     private fun openDishSource(){
@@ -112,7 +104,7 @@ class RandomFragment : BaseFragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 }

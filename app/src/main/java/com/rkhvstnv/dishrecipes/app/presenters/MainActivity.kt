@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.app.presenter
+package com.rkhvstnv.dishrecipes.app.presenters
 
 import android.os.Bundle
 import android.view.View
@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.findNavController()
 
-        navController.addOnDestinationChangedListener{
-                _, destination, _ ->
-
+        navController.addOnDestinationChangedListener{ _, destination, _ ->
             when(destination.id){
                 R.id.navigation_details -> hideNavView()
                 R.id.navigation_add_update -> hideNavView()

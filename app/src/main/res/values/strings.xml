@@ -71,6 +71,7 @@
     <string name="st_edit">Edit</string>
     <string name="st_delete">Delete</string>
     <string name="st_successfully_deleted">Successfully Deleted</string>
+    <string name="st_minutes">minutes</string>
 
     <!--RandomDish-->
     <string name="st_source">Source</string>

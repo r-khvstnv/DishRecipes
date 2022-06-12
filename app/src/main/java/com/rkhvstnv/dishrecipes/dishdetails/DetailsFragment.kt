@@ -1,6 +1,5 @@
 package com.rkhvstnv.dishrecipes.dishdetails
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.rkhvstnv.dishrecipes.R
-import com.rkhvstnv.dishrecipes.app.presenter.BaseFragment
+import com.rkhvstnv.dishrecipes.app.presenters.BaseFragment
 import com.rkhvstnv.dishrecipes.databinding.FragmentDetailsBinding
 import com.rkhvstnv.dishrecipes.utils.Constants
 import com.rkhvstnv.dishrecipes.utils.appComponent
@@ -26,14 +25,13 @@ class DetailsFragment : BaseFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val viewModel by viewModels<DetailsViewModel> {
         viewModelFactory
     }
 
     override fun onAttach(context: Context) {
+        context.appComponent.detailsComponent().create().inject(this)
         super.onAttach(context)
-        context.appComponent.detailsComponent().create().insert(this)
     }
 
     override fun onCreateView(
@@ -53,9 +51,6 @@ class DetailsFragment : BaseFragment() {
             }
         }
 
-        observeDish()
-
-
         binding.fabEditDish.setOnClickListener {
             navigateToAddUpdateFragment()
         }
@@ -66,10 +61,8 @@ class DetailsFragment : BaseFragment() {
         binding.fabDeleteDish.setOnClickListener {
             requestDishDeleting()
         }
-    }
 
-    @SuppressLint("SetTextI18n")
-    private fun observeDish(){
+
         viewModel.dish?.observe(viewLifecycleOwner){
                 dish ->
             dish?.let {
@@ -104,6 +97,7 @@ class DetailsFragment : BaseFragment() {
         }
     }
 
+
     /** Navigates to fragment where user can update dish data.
      * Additional parameters is not needed, due to This and Next Fragment use Common ViewModel*/
     private fun navigateToAddUpdateFragment(){
@@ -116,14 +110,12 @@ class DetailsFragment : BaseFragment() {
     private fun requestDishDeleting(){
         deleteFile(viewModel.dish!!.value!!.image, viewModel.dish!!.value!!.imageSource)
         viewModel.deleteDishData(viewModel.dish!!.value!!)
-
         showSnackBarPositiveMessage(getString(R.string.st_successfully_deleted))
-
-        navigateToAllDishes(this)
+        findNavController().navigateUp()
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
+        super.onDestroyView()
     }
 }

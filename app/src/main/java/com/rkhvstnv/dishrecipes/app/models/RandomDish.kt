@@ -1,4 +1,4 @@
-package com.rkhvstnv.dishrecipes.app.domain
+package com.rkhvstnv.dishrecipes.app.models
 
 /*Model for RandomDish received from Api call*/
 object RandomDish {

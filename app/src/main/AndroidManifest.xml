@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DishRecipes">
         <activity
-            android:name=".app.presenter.StartActivity"
+            android:name=".app.presenters.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".app.presenter.MainActivity"
+            android:name=".app.presenters.MainActivity"
             android:exported="true">
         </activity>
     </application>
