@@ -18,12 +18,12 @@
 _____
 
 ## Introductions
-Dish Recipes is application where you can store favorite recipes and find new ideas for cooking. Applications is based on modern technologies, such as: MVVM Architecture, Dependency Injection with MultiBinding, Jetpack.
+Dish Recipes is an application where you can store favourite recipes and find new ideas for cooking. Application is based on modern technologies, such as MVVM Architecture, Dependency Injection with MultiBinding, and Jetpack.
 <br/><br/>
 
 ## Overview
 ### All Dishes
-All Dishes is a Fragment, where User can see all the recipes ever added. It means that, all dishes created by User and received by Api Call, firstly get there. Furthermore, User can choose how Recipes are displayed, Edit or Delete them and Filter them by Type and Category. Filter list is dynamic, so it will be based on the existing data in Local Repository.
+All Dishes is a Fragment, where the User can see all the recipes ever added. It means that all dishes created by the User and received by API Call, firstly get there. Furthermore, Users can choose how Recipes are displayed, Edit or Delete them and Filter them by Type and Category. The filter list is dynamic, so it will be based on the existing data in the Local Repository.
 <br/>
 ![image](i_previews/all_linear_no_toolbar.png)
 ![image](i_previews/all_grid.png)
@@ -31,7 +31,7 @@ All Dishes is a Fragment, where User can see all the recipes ever added. It mean
 <br/><br/>
 
 ### Favorite Dishes
-_(1st Screenshot below)_ Fragment provides all favorite recipes. Like in the previous fragment, there is available selection of List displaying, Dish Editing and Deleting.
+_(1st Screenshot below)_ Fragment provides all favourite recipes. Like in the previous fragment, there is an available selection of List displaying, Dish Editing and Deleting.
 <br/>
 ![image](i_previews/fav_grid.png)
 ![image](i_previews/add_update_first.png)
@@ -39,11 +39,11 @@ _(1st Screenshot below)_ Fragment provides all favorite recipes. Like in the pre
 <br/><br/>
 
 ### Add & Update Dish
-_(2nd & 3rd Screenshot above)_ Fragment, where User can add New Dish. In addition it's used for Editing Existed.
+_(2nd & 3rd Screenshot above)_ Fragment, where User can add New Dish. In addition, it's used for Editing Existed.
 <br/><br/>
 
 ### Dish Details
-Fragment, provides all related information to previously chosen Recipe. There, User can add it to Favorite or Delete. 
+Fragment provides all related information to the previously chosen Recipe. There, the User can add it to Favorite or Delete. 
 <br/>
 __NOTE:__ Only created by User Dishes are available for Editing _(1st & 2nd Screenshot below)_
 <br/>
@@ -53,21 +53,22 @@ __NOTE:__ Only created by User Dishes are available for Editing _(1st & 2nd Scre
 <br/><br/>
 
 ### Random Dish
-Fragment request Api call and provides received Random Recipe to User. Dish automatically saves to local repository. However, recipe Source Link is only available in this fragment and will not be saved _(3rd Screenshot above)_
+Fragment request Api call and provides received Random Recipe to User. Dish automatically saves to the local repository. However, the recipe Source Link is only available in this fragment and will not be saved _(3rd Screenshot above)_
 
 ___
 
 ## Technology Stack
-- Kotlin
-- Jetpack
+- __Kotlin__
+- __Jetpack__
 	- Lifecycle
 	- LiveData
 	- ViewModel
 	- WorkManager
 	- Room
 	- Navigation Component & safeArgs
-- Dagger2
-	 - Multibinding
-- Retrofit2
-- RxJava3
-- Glide
+- __Dagger2__
+	- Multibinding
+- __Retrofit2__
+- __RxJava3__
+- __Glide__
+
