@@ -50,9 +50,10 @@ class RandomFragment : BaseFragment() {
             viewModel.refreshRandomDish()
         }
 
-        binding.inDishDetails.fabFavorite.setOnClickListener {
+        /*binding.inDishDetails.fabFavorite.setOnClickListener {
             viewModel.changeFavoriteState()
-        }
+        }*/
+        binding.inDishDetails.fabFavorite.visibility = View.GONE
 
         binding.fabSource.setOnClickListener {
             openDishSource()
@@ -92,6 +93,12 @@ class RandomFragment : BaseFragment() {
                     tvLabel.text = it.label
                     tvSteps.text = it.steps
                     tvIngredients.text = it.ingredients
+                }
+
+                if (it.isFavoriteDish){
+                    binding.inDishDetails.fabFavorite.setImageResource(R.drawable.ic_favorite)
+                } else{
+                    binding.inDishDetails.fabFavorite.setImageResource(R.drawable.ic_favorite_border_24)
                 }
             }
         }

@@ -57,7 +57,24 @@ class AllFragment : BaseFragment() {
 
         setupRecyclerViewStyle()
 
-        observeAllDishes()
+        viewModel.selectedDishListList.observe(viewLifecycleOwner){
+                dishList ->
+
+            dishList?.let {
+
+                if (it.isNotEmpty()){
+                    allDishAdapter.updateDishesList(it.reversed())
+                }
+            }
+        }
+
+        viewModel.filterParam.observe(viewLifecycleOwner){
+            filter ->
+            if (filter.isEmpty())
+                binding.includedMToolBar.mToolBar.title = getString(R.string.st_all_dishes)
+            else
+                binding.includedMToolBar.mToolBar.title = filter
+        }
     }
 
 
@@ -72,7 +89,7 @@ class AllFragment : BaseFragment() {
                     true
                 }
                 R.id.m_all ->{
-                    observeAllDishes()
+                    viewModel.getAllDishes()
                     true
                 }
                 R.id.m_type ->{
@@ -150,32 +167,6 @@ class AllFragment : BaseFragment() {
         }
     }
 
-
-    private fun observeAllDishes(){
-        removeAllObservers()
-
-        viewModel.allDishesList.observe(viewLifecycleOwner){
-                dishList ->
-            dishList.let {
-                if (it.isNotEmpty()){
-                    allDishAdapter.updateDishesList(it.reversed())
-                    binding.includedMToolBar.mToolBar.title = getString(R.string.st_all_dishes)
-                }
-            }
-        }
-    }
-
-    /**Method prevents from data collision,
-     * due to all of them pass data to the same list.
-     * Otherwise user will see all data or filtered by some type,
-     * if previously any dish was deleted
-     * (Due to dish has type/category parameter itself, for which the observation takes place)*/
-    private fun removeAllObservers(){
-        viewModel.allDishesList.removeObservers(viewLifecycleOwner)
-        viewModel.dishListByType.removeObservers(viewLifecycleOwner)
-        viewModel.dishListByCategory.removeObservers(viewLifecycleOwner)
-    }
-
     private fun navigateToDishDetails(dishId: Int){
         findNavController().navigate(
             AllFragmentDirections
@@ -201,7 +192,7 @@ class AllFragment : BaseFragment() {
             viewModel.dishCategories.value!!
         }
 
-        if (paramsList.isNullOrEmpty()){
+        if (paramsList.isEmpty()){
             showSnackBarErrorMessage(getString(R.string.st_no_dishes))
         }
 
@@ -225,30 +216,14 @@ class AllFragment : BaseFragment() {
 
                     dialog.dismiss()
 
-                    removeAllObservers()
-
                     //Change toolBar title
                     binding.includedMToolBar.mToolBar.title = params
 
                     //Show filtered dishesList by chosen type
                     if (filterType == getString(R.string.st_type)){
                         viewModel.getFilteredDishesListByType(params = params)
-
-                        viewModel.dishListByType.observe(viewLifecycleOwner){
-                                dishesList ->
-                            dishesList.let {
-                                allDishAdapter.updateDishesList(dishesList.reversed())
-                            }
-                        }
                     } else{
                         viewModel.getFilteredDishesListByCategory(params = params)
-
-                        viewModel.dishListByCategory.observe(viewLifecycleOwner){
-                                dishesList ->
-                            dishesList.let {
-                                allDishAdapter.updateDishesList(dishesList.reversed())
-                            }
-                        }
                     }
                 }
             })

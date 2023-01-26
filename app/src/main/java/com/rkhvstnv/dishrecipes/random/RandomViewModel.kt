@@ -102,7 +102,7 @@ class RandomViewModel @Inject constructor(
 
         //Prepare entity
         with(recipe){
-            _dish.value = Dish(
+            val dish = Dish(
                 image,
                 Constants.IMAGE_SOURCE_NETWORK,
                 title,
@@ -112,19 +112,16 @@ class RandomViewModel @Inject constructor(
                 readyInMinutes,
                 steps = steps
             )
-        }
-
-        //Insert new dish
-        if (dish.value != null){
-            insertDishData(dish = dish.value!!)
+            _dish.postValue(dish)
+            insertDishData(dish = dish)
         }
     }
 
-    fun changeFavoriteState(){
+    /*fun changeFavoriteState(){
         if (_dish.value != null){
-            _dish.value = flipDishFavoriteState(_dish.value!!)
-
-            updateDishData(dish = dish.value!!)
+            val changedDish = flipDishFavoriteState(_dish.value!!)
+            updateDishData(dish = changedDish)
+            _dish.postValue(changedDish)
         }
-    }
+    }*/
 }
